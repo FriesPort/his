@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: his_systemmanagement
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hospital
+    username: root
+    password: 060601hyz
+server:
+  port: 9000
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+hm:
+  jwt:
+    location: classpath:hmall.jks # 秘钥地址
+    alias: hmall # 秘钥别名
+    password: hmall123 # 秘钥文件密码
+    tokenTTL: 30m # 登录有效期
