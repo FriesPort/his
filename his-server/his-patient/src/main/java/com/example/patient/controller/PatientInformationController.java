@@ -6,7 +6,8 @@ import com.example.patient.service.IPatientInformationService;
 import com.example.patient.vo.PatientVo;
 import com.example.patient.vo.Result;
 import com.example.vo.JsonVO;
-import jakarta.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
 @RequestMapping("/patient")
 public class PatientInformationController {
 
-    @Resource
+    @Autowired
     private IPatientInformationService patientInformationService;
 
     @GetMapping("/query")   //查询患者

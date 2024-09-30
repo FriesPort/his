@@ -14,8 +14,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.patient.service.IRoomsService;
 import com.example.patient.vo.PatientVo;
 import com.example.patient.vo.Result;
-import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -35,10 +35,10 @@ import java.util.List;
 @Service
 public class PatientInformationServiceImpl extends ServiceImpl<PatientInformationMapper, Patient> implements IPatientInformationService {
 
-    @Resource
+    @Autowired
     IBedsService bedsService;
 
-    @Resource
+    @Autowired
     IRoomsService roomsService;
 
     @Override   //筛选患者
