@@ -1,22 +1,22 @@
 package com.example.service.impl;
 
 
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.dto.systemmanagement.users.UserDisplayDTO;
 import com.example.dto.systemmanagement.users.UserAddDTO;
 import com.example.dto.systemmanagement.users.UserDeleteDTO;
 import com.example.dto.systemmanagement.users.UserUpdateDTO;
-import com.example.entity.Campus;
 import com.example.entity.User;
 import com.example.mapper.CampusMapper;
 import com.example.mapper.UserMapper;
-import com.example.service.IUsersService;
+import com.example.service.IUserService;
 import com.example.utils.IdGenerate;
 import com.example.vo.systemmanagement.users.UsersAddVO;
 import com.example.vo.systemmanagement.users.UsersDeleteVO;
-import com.example.vo.systemmanagement.users.UsersDisplayVO;
 import com.example.vo.systemmanagement.users.UsersUpdateVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +25,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <p>
@@ -37,7 +35,7 @@ import java.util.List;
  * @since 2024-04-13
  */
 @Service
-public class UsersServiceImpl extends ServiceImpl<UserMapper, User> implements IUsersService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
     @Autowired
     private UserMapper userMapper;
@@ -79,37 +77,39 @@ public class UsersServiceImpl extends ServiceImpl<UserMapper, User> implements I
     }
 
     @Override
-    public List<UsersDisplayVO> userlist(UserDisplayDTO userDisplayDTO)throws NullPointerException {
-        List<User> userlist=new ArrayList<>();
-        List<UsersDisplayVO> displayVOList=new ArrayList<>();
-        QueryWrapper queryWrapper=new QueryWrapper();
+    public IPage<UserDisplayDTO> userlist(UserDisplayDTO userDisplayDTO, Page page){
+//        List<User> userlist=new ArrayList<>();
+//        List<UsersDisplayVO> displayVOList=new ArrayList<>();
+//        QueryWrapper queryWrapper=new QueryWrapper();
+//
+//        if(!userDisplayDTO.getCampusId().equals("all")){
+//            queryWrapper.eq("campus_id",userDisplayDTO.getCampusId());
+//        }
+//        if(!userDisplayDTO.getName().equals("all")){
+//            queryWrapper.eq("name",userDisplayDTO.getName());
+//        }
+//        if(!userDisplayDTO.getEmployeeNumber().equals("all")){
+//            queryWrapper.eq("employee_number",userDisplayDTO.getEmployeeNumber());
+//        }
+//
+//        if(userDisplayDTO.getEmployeeNumber().equals("all")&&userDisplayDTO.getName().equals("all")&&userDisplayDTO.getCampusId().equals("all")){
+//            userlist= userMapper.selectList(null);
+//
+//        }else{
+//            userlist= userMapper.selectList(queryWrapper);
+//        }
+//        for (User user : userlist) {
+//            UsersDisplayVO displayVO = new UsersDisplayVO();
+//            BeanUtils.copyProperties(user, displayVO);
+//            Campus campus=campusMapper.selectOne(new QueryWrapper<Campus>().eq("campus_id",user.getCampusId()));
+//            displayVO.setIsEnable(user.getEnable());
+//            displayVO.setCampusName(campus.getCampusName());
+//            displayVOList.add(displayVO);
+//        }
+//
+//        return displayVOList;
 
-        if(!userDisplayDTO.getCampusId().equals("all")){
-            queryWrapper.eq("campus_id",userDisplayDTO.getCampusId());
-        }
-        if(!userDisplayDTO.getName().equals("all")){
-            queryWrapper.eq("name",userDisplayDTO.getName());
-        }
-        if(!userDisplayDTO.getEmployeeNumber().equals("all")){
-            queryWrapper.eq("employee_number",userDisplayDTO.getEmployeeNumber());
-        }
-
-        if(userDisplayDTO.getEmployeeNumber().equals("all")&&userDisplayDTO.getName().equals("all")&&userDisplayDTO.getCampusId().equals("all")){
-            userlist= userMapper.selectList(null);
-
-        }else{
-            userlist= userMapper.selectList(queryWrapper);
-        }
-        for (User user : userlist) {
-            UsersDisplayVO displayVO = new UsersDisplayVO();
-            BeanUtils.copyProperties(user, displayVO);
-            Campus campus=campusMapper.selectOne(new QueryWrapper<Campus>().eq("campus_id",user.getCampusId()));
-            displayVO.setIsEnable(user.getEnable());
-            displayVO.setCampusName(campus.getCampusName());
-            displayVOList.add(displayVO);
-        }
-
-        return displayVOList;
+        return  userMapper.userList(userDisplayDTO,page);
     }
 
     @Override

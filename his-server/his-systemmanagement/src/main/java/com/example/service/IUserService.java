@@ -1,6 +1,8 @@
 package com.example.service;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.dto.systemmanagement.users.UserDisplayDTO;
 import com.example.dto.systemmanagement.users.UserAddDTO;
@@ -19,10 +21,10 @@ import java.util.List;
  * @author diandian
  * @since 2024-04-13
  */
-public interface IUsersService extends IService<User> {
+public interface IUserService extends IService<User> {
     Boolean insertUser(UserAddDTO userAddDTO);
 
-    List<UsersDisplayVO> userlist(UserDisplayDTO userDisplayDTO);
+    IPage<UserDisplayDTO> userlist(UserDisplayDTO userDisplayDTO, Page page);
 
     boolean updateUser(UserUpdateDTO userUpdateDTO);
 

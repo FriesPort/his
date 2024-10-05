@@ -4,4 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.UserMapper">
 
+    <select id="userList" resultType="com.example.dto.systemmanagement.users.UserDisplayDTO">
+        select
+        from user user
+                 left join campus camp on user.campus_id = camp.id
+        where user.is_use = 0
+        <if test="employeeName != null">
+            and user.employee_name = #{employeeName}
+        </if>
+        <if test="employeeNumber != null">
+            and user.employee_number = #{employeeNumber}
+        </if>
+    </select>
 </mapper>
