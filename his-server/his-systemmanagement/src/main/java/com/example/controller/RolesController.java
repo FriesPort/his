@@ -23,7 +23,7 @@ import java.util.List;
  * @since 2024-04-13
  */
 @RestController
-@RequestMapping("/roles")
+@RequestMapping("/system/role")
 public class RolesController{
 
     @Autowired
@@ -33,7 +33,7 @@ public class RolesController{
     IRolePermissionsService iRolePermissionsService;
 
 
-    @PostMapping("/permission/allocation")
+    @PostMapping("/register")
     @ApiOperation(value = "自定义角色")
     public JsonVO<RoleCreateVO> RoleCreate(@RequestBody RoleCreateDTO roleCreateDTO) {
         return JsonVO.success(iRolePermissionsService.definedRole(roleCreateDTO));
@@ -41,8 +41,22 @@ public class RolesController{
 
     @GetMapping("/msg/display")
     public JsonVO<List<RoleListVO>> RoleList() {
-
         return JsonVO.success(iRolesService.rolelist());
+    }
+
+    @PostMapping("/allocation")
+    public JsonVO<Object> PermissionAllocation() {
+        return null;
+    }
+
+    @GetMapping("/permissiondisplay")
+    public JsonVO<Object> Role_Permission_display() {
+        return null;
+    }
+
+    @GetMapping("/search")
+    public JsonVO<Object> RoleSearch() {
+        return null;
     }
 }
 

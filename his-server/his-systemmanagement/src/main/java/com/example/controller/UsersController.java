@@ -123,8 +123,8 @@ public class UsersController{
         }
     }
 
-    @GetMapping("/roleandpermission/search")
-    public JsonVO<List<UserRolePermissionSearchVO>> U_R_P_search(UserRolePermissionSearchDTO userRolePermissionSearchDTO) {
+    @PostMapping("/roleandpermission/search")
+    public JsonVO<List<UserRolePermissionSearchVO>> U_R_P_search(@RequestBody UserRolePermissionSearchDTO userRolePermissionSearchDTO) {
         return JsonVO.success(iUserRolesService.all_search(userRolePermissionSearchDTO));
     }
 

@@ -24,6 +24,7 @@
         <module>his-domain</module>
         <module>his-patient</module>
         <module>his-systemmanagement</module>
+        <module>his-security</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -42,6 +43,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
             <!--nacos的管理依赖-->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
@@ -93,6 +95,19 @@
                 <version>2.15.3</version>
             </dependency>
 
+            <!--fastjson依赖-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.33</version>
+            </dependency>
+            <!--序列化工具-->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.14.1</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>io.springfox</groupId>
@@ -118,6 +133,19 @@
                 <artifactId>jedis</artifactId>
                 <version>5.1.0</version>
                 <type>jar</type>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>5.8.11</version>
+            </dependency>
+
+            <!--redis依赖-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>2.5.0</version>
             </dependency>
 
             <dependency>
