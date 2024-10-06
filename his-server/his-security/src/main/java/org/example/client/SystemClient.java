@@ -12,7 +12,7 @@ import java.util.List;
 
 @FeignClient(name = "his-system-management")
 public interface SystemClient {
-    @PostMapping("/users/roleandpermission/search")
+    @PostMapping("/user/roleandpermission/search")
     JsonVO<List<UserRolePermissionSearchVO>> U_R_P_search(@RequestBody UserRolePermissionSearchDTO userRolePermissionSearchDTO);
 
 }

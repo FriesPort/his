@@ -6,7 +6,7 @@ import com.example.dto.systemmanagement.userrole.UserCreateDTO;
 import com.example.dto.systemmanagement.userrole.UserRoleDeleteDTO;
 import com.example.dto.systemmanagement.userrole.UserRolePermissionSearchDTO;
 import com.example.dto.systemmanagement.userrole.UserRoleUpdateDTO;
-import com.example.entity.UserRoles;
+import com.example.entity.UserRole;
 import com.example.vo.systemmanagement.userrole.UserCreateVO;
 import com.example.vo.systemmanagement.userrole.UserRolePermissionSearchVO;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * @author diandian
  * @since 2024-04-17
  */
-public interface IUserRolesService extends IService<UserRoles> {
+public interface IUserRolesService extends IService<UserRole> {
     UserCreateVO defineUser(UserCreateDTO userCreateDTO);
 
     Boolean userperdelete(UserRoleDeleteDTO userRoleDeleteDTO);

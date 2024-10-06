@@ -22,8 +22,9 @@ public class IdGenerate implements IdentifierGenerator {
         MetaObject metaObject = SystemMetaObject.forObject(entity);
         // 使用UUID生成唯一ID
         String uuid = UUID.randomUUID().toString();
+        String uuidStr=uuid.toString().replace("-", "");
         log.info("为{}生成主键值->:{}", bizKey, uuid);
-        return uuid;
+        return uuidStr;
     }
 
     @Override

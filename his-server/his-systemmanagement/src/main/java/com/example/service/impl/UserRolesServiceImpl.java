@@ -14,13 +14,10 @@ import com.example.service.IUserRolesService;
 import com.example.utils.IdGenerate;
 import com.example.vo.systemmanagement.userrole.UserCreateVO;
 import com.example.vo.systemmanagement.userrole.UserRolePermissionSearchVO;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.rmi.StubNotFoundException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -32,12 +29,12 @@ import java.util.List;
  * @since 2024-04-17
  */
 @Service
-public class UserRolesServiceImpl extends ServiceImpl<UserRolesMapper, UserRoles> implements IUserRolesService {
+public class UserRolesServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements IUserRolesService {
 
     @Autowired
-    UsersMapper usersMapper;
+    UserMapper userMapper;
     @Autowired
-    UserRolesMapper userRolesMapper;
+    UserRoleMapper userRoleMapper;
     @Autowired
     RolesMapper rolesMapper;
     @Autowired
@@ -47,40 +44,40 @@ public class UserRolesServiceImpl extends ServiceImpl<UserRolesMapper, UserRoles
     @Autowired
     IdGenerate idGenerate;
 
-    Users users=new Users();
+    User user =new User();
     Roles roles=new Roles();
     Permissions permissions=new Permissions();
-    UserRoles userRoles=new UserRoles();
+    UserRole userRole =new UserRole();
 
 
     @Override
     public UserCreateVO defineUser(UserCreateDTO userCreateDTO) {
-        users=usersMapper.selectOne(new QueryWrapper<Users>()
+        user = userMapper.selectOne(new QueryWrapper<User>()
                 .eq("username",userCreateDTO.getUsername()));
         List<String> rolelist=userCreateDTO.getRoles();
-        List<UserRoles> exitrole=userRolesMapper.selectList(new QueryWrapper<UserRoles>()
-                .eq("user_id",users.getUserId()));
+        List<UserRole> exitrole= userRoleMapper.selectList(new QueryWrapper<UserRole>()
+                .eq("user_id", user.getId()));
         for(String name:rolelist){
             roles=rolesMapper.selectOne(new QueryWrapper<Roles>().eq("role_name",name));
-            for(UserRoles ex:exitrole){
+            for(UserRole ex:exitrole){
                 if(ex.getRoleId().equals(roles.getRoleId())){
                     return null;
                 }
             }
-            userRoles.setRoleId(roles.getRoleId());
-            userRoles.setUrId(idGenerate.nextUUID(userCreateDTO));
-            userRoles.setUserId(users.getUserId());
-            userRolesMapper.insert(userRoles);
+            userRole.setRoleId(roles.getRoleId());
+            userRole.setUrId(idGenerate.nextUUID(userCreateDTO));
+            userRole.setUserId(user.getId());
+            userRoleMapper.insert(userRole);
         }
         UserCreateVO userCreateVO=new UserCreateVO();
         userCreateVO.setUsername(userCreateDTO.getUsername());
-        List<UserRoles> ur=userRolesMapper.selectList(new QueryWrapper<UserRoles>()
-                .eq("user_id",users.getUserId()));
+        List<UserRole> ur= userRoleMapper.selectList(new QueryWrapper<UserRole>()
+                .eq("user_id", user.getId()));
         List<String> rolename=new ArrayList<>();
-        for(UserRoles userRoles1:ur){
+        for(UserRole userRole1 :ur){
             rolename.add( rolesMapper
                     .selectOne(
-                           new QueryWrapper<Roles>().eq("role_id",userRoles1.getRoleId())
+                           new QueryWrapper<Roles>().eq("role_id", userRole1.getRoleId())
             ).getRoleName());
         }
         userCreateVO.setRolename(rolename);
@@ -94,7 +91,7 @@ public class UserRolesServiceImpl extends ServiceImpl<UserRolesMapper, UserRoles
             Roles role=rolesMapper.selectOne(new QueryWrapper<Roles>()
                     .eq("role_name",userRoleDeleteDTO.getDelete_role().get(i)));
             //执行删除操作
-            condition=userRolesMapper.delete(new QueryWrapper<UserRoles>()
+            condition= userRoleMapper.delete(new QueryWrapper<UserRole>()
                     .eq("user_id", userRoleDeleteDTO.getUser_id())
                     .eq("role_id", role.getRoleId()))>0;
             if(condition==false)
@@ -110,14 +107,14 @@ public class UserRolesServiceImpl extends ServiceImpl<UserRolesMapper, UserRoles
     public Boolean userperupdate(List<UserRoleUpdateDTO> userRoleUpdateDTO) {
         boolean condition=true;
         for(int i = 0; i< userRoleUpdateDTO.size(); i++){
-            userRolesMapper.update(new UpdateWrapper<UserRoles>()
+            userRoleMapper.update(new UpdateWrapper<UserRole>()
                     .set("role_id", userRoleUpdateDTO.get(i).getUpdate_role())
                     .eq("user_id", userRoleUpdateDTO.get(i).getUser_id())
                     .eq("role_id", userRoleUpdateDTO.get(i).getRole_id()));
-            userRoles=userRolesMapper.selectOne(new QueryWrapper<UserRoles>()
+            userRole = userRoleMapper.selectOne(new QueryWrapper<UserRole>()
                     .eq("role_id", userRoleUpdateDTO.get(i).getRole_id())
                     .eq("user_id", userRoleUpdateDTO.get(i).getUser_id()));
-            if(userRoles!=null){
+            if(userRole !=null){
                 condition=false;
                 break;
             }
@@ -133,8 +130,8 @@ public class UserRolesServiceImpl extends ServiceImpl<UserRolesMapper, UserRoles
         String userid=userRolePermissionSearchDTO.getUser_id();
         List<RolePermissions> rolePermissions=new ArrayList<>();
         List<Roles> rolesList=new ArrayList<>();
-        List<UserRoles> roleid=userRolesMapper.selectList(new QueryWrapper<UserRoles>().eq("user_id",userid));
-        for(UserRoles userRole:roleid){
+        List<UserRole> roleid= userRoleMapper.selectList(new QueryWrapper<UserRole>().eq("user_id",userid));
+        for(UserRole userRole:roleid){
             Roles role=rolesMapper.selectOne(new QueryWrapper<Roles>().eq("role_id",userRole.getRoleId()));
             if(!rolesList.contains(role)){
                 rolesList.add(role);
@@ -162,9 +159,6 @@ public class UserRolesServiceImpl extends ServiceImpl<UserRolesMapper, UserRoles
                 }
             }
                 voList.add(vo);
-
-
-
         }
         return voList;
     }

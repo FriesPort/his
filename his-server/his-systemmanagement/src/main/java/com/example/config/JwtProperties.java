@@ -1,7 +1,6 @@
 package com.example.config;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.io.Resource;
 
@@ -14,5 +13,4 @@ public class JwtProperties {
     private String password;
     private String alias;
     private Duration tokenTTL = Duration.ofMinutes(10);
-
 }

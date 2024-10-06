@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/his-server/his-bed/his-bed.iml" filepath="$PROJECT_DIR$/his-server/his-bed/his-bed.iml" />
+      <module fileurl="file://$PROJECT_DIR$/his-server/his-common/his-common.iml" filepath="$PROJECT_DIR$/his-server/his-common/his-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/his-server/his-domain/his-domain.iml" filepath="$PROJECT_DIR$/his-server/his-domain/his-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/his-server/his-gateway/his-gateway.iml" filepath="$PROJECT_DIR$/his-server/his-gateway/his-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/his-new_test.iml" filepath="$PROJECT_DIR$/.idea/his-new_test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/his-server/his-patient/his-patient.iml" filepath="$PROJECT_DIR$/his-server/his-patient/his-patient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/his-server/his-systemmanagement/his-systemmanagement.iml" filepath="$PROJECT_DIR$/his-server/his-systemmanagement/his-systemmanagement.iml" />
+      <module fileurl="file://$PROJECT_DIR$/his-server/his2.iml" filepath="$PROJECT_DIR$/his-server/his2.iml" />
+    </modules>
+  </component>
+</project>

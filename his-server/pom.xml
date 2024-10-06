@@ -26,6 +26,7 @@
         <module>his-systemmanagement</module>
         <module>his-security</module>
     </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
