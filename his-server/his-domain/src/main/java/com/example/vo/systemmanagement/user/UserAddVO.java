@@ -1,4 +1,4 @@
-package com.example.vo.systemmanagement.users;
+package com.example.vo.systemmanagement.user;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("自定义用户功能的返回信息")
-public class UsersAddVO<T> {
+public class UserAddVO<T> {
     private List<T> newUser;
 }

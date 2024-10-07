@@ -8,7 +8,7 @@ import com.example.dto.systemmanagement.userrole.UserCreateDTO;
 import com.example.dto.systemmanagement.userrole.UserRoleDeleteDTO;
 import com.example.dto.systemmanagement.userrole.UserRolePermissionSearchDTO;
 import com.example.dto.systemmanagement.userrole.UserRoleUpdateDTO;
-import com.example.dto.systemmanagement.users.*;
+import com.example.dto.systemmanagement.user.*;
 import com.example.service.IUserRolesService;
 import com.example.service.IUserService;
 import com.example.service.LoginService;
@@ -18,7 +18,7 @@ import com.example.vo.systemmanagement.userrole.UserCreateVO;
 import com.example.vo.systemmanagement.userrole.UserRoleDeleteVO;
 import com.example.vo.systemmanagement.userrole.UserRolePermissionSearchVO;
 import com.example.vo.systemmanagement.userrole.UserRoleUpdateVO;
-import com.example.vo.systemmanagement.users.UsersDisplayVO;
+import com.example.vo.systemmanagement.user.UserDisplayVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -76,7 +76,7 @@ public class UsersController{
     //todo
     @GetMapping("/msg/display")
     public JsonVO<IPage<UserDisplayDTO>> UserList(UserDisplayDTO userDisplayDTO, @RequestParam long current, @RequestParam long size) {
-        Page<UsersDisplayVO> page = new Page<>(current, size);
+        Page<UserDisplayVO> page = new Page<>(current, size);
         return JsonVO.success(iUserService.userlist(userDisplayDTO,page));
     }
 

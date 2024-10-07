@@ -1,4 +1,4 @@
-package com.example.dto.systemmanagement.users;
+package com.example.dto.systemmanagement.user;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;

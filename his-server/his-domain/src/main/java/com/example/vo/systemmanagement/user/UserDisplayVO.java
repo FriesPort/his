@@ -1,4 +1,4 @@
-package com.example.vo.systemmanagement.users;
+package com.example.vo.systemmanagement.user;
 
 
 import io.swagger.annotations.ApiModel;
@@ -6,13 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel("用户信息展示")
-public class UsersDisplayVO {
+public class UserDisplayVO {
     private String id;
 
     private String username;
@@ -25,10 +23,5 @@ public class UsersDisplayVO {
 
     private String userType;
 
-    private String status;
-
-    private int isEnable;
-    private String phone;
-
-
+    private int isUse;
 }

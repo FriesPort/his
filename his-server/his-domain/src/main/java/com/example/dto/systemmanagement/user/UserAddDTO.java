@@ -1,4 +1,4 @@
-package com.example.dto.systemmanagement.users;
+package com.example.dto.systemmanagement.user;
 
 
 import io.swagger.annotations.ApiModel;
@@ -6,14 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel("添加用户。用于用户注册")
-public class UsersAddDTO {
+public class UserAddDTO {
 
     private String username;
 

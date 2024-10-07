@@ -4,7 +4,7 @@ package com.example.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.dto.systemmanagement.users.UserDisplayDTO;
+import com.example.dto.systemmanagement.user.UserDisplayDTO;
 import com.example.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 

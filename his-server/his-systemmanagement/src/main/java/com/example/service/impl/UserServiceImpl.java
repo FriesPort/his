@@ -6,18 +6,17 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.dto.systemmanagement.users.UserDisplayDTO;
-import com.example.dto.systemmanagement.users.UserAddDTO;
-import com.example.dto.systemmanagement.users.UserDeleteDTO;
-import com.example.dto.systemmanagement.users.UserUpdateDTO;
+import com.example.dto.systemmanagement.user.UserDisplayDTO;
+import com.example.dto.systemmanagement.user.UserAddDTO;
+import com.example.dto.systemmanagement.user.UserDeleteDTO;
+import com.example.dto.systemmanagement.user.UserUpdateDTO;
 import com.example.entity.User;
 import com.example.mapper.CampusMapper;
 import com.example.mapper.UserMapper;
 import com.example.service.IUserService;
 import com.example.utils.IdGenerate;
-import com.example.vo.systemmanagement.users.UsersAddVO;
-import com.example.vo.systemmanagement.users.UsersDeleteVO;
-import com.example.vo.systemmanagement.users.UsersUpdateVO;
+import com.example.vo.systemmanagement.user.UserDeleteVO;
+import com.example.vo.systemmanagement.user.UserUpdateVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,9 +38,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     private UserMapper userMapper;
-
-    @Autowired
-    private CampusMapper campusMapper;
+    
     @Autowired
     private IdGenerate idGenerate;
 
@@ -118,9 +115,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         BeanUtils.copyProperties(userUpdateDTO,user);
         int rows = userMapper.updateById(user);
         if(rows>=1){
-            return UsersUpdateVO.success;
+            return UserUpdateVO.success;
         }
-        return UsersUpdateVO.fail;
+        return UserUpdateVO.fail;
     }
 
     @Override
@@ -131,8 +128,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 //            return UsersDeleteVO.success;
 //        }
         if(rows>=1){
-            return UsersDeleteVO.success;
+            return UserDeleteVO.success;
         }
-        return UsersDeleteVO.fail;
+        return UserDeleteVO.fail;
     }
 }
