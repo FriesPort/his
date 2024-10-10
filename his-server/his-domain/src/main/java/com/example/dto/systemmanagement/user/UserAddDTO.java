@@ -24,7 +24,6 @@ public class UserAddDTO {
 
     private String userType;
 
-    private String Enable;
-    private String phone;
+    private Integer isUse;
 
 }

@@ -15,7 +15,7 @@ import java.util.Map;
 @ApiModel("自定义用户的角色信息")
 public class UserCreateDTO {
 
-    private String username;
+    private String userId;
 
-    private List<String> roles;
+    private String roleId;
 }

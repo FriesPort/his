@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @ApiModel("用户删除")
 public class UserDeleteDTO {
-    private String user_id;
+    private String id;
 }

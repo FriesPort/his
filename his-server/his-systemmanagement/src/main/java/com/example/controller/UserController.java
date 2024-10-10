@@ -14,10 +14,7 @@ import com.example.service.IUserService;
 import com.example.service.LoginService;
 import com.example.vo.JsonVO;
 import com.example.vo.login.LoginVO;
-import com.example.vo.systemmanagement.userrole.UserCreateVO;
-import com.example.vo.systemmanagement.userrole.UserRoleDeleteVO;
-import com.example.vo.systemmanagement.userrole.UserRolePermissionSearchVO;
-import com.example.vo.systemmanagement.userrole.UserRoleUpdateVO;
+import com.example.vo.systemmanagement.userrole.*;
 import com.example.vo.systemmanagement.user.UserDisplayVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,19 +30,15 @@ import java.util.List;
  * @since 2024-04-13
  */
 @RestController
-@RequestMapping("/user")
-public class UsersController{
+@RequestMapping("system/user")
+public class UserController {
     @Autowired
     private IUserService iUserService;
 
     @Autowired
-    private IUserRolesService iUserRolesService;
-
-    @Autowired
     private LoginService loginService;
 
-
-    @PostMapping("/msg/add")
+    @PutMapping("/msg/add")
     public JsonVO<String> AddUser(@RequestBody UserAddDTO userAddDTO) {
         if(iUserService.insertUser(userAddDTO)){
             return JsonVO.success("Add User Message Successful");
@@ -54,9 +47,9 @@ public class UsersController{
         }
     }
 
-    @PostMapping("/msg/delete")
-    public JsonVO<String> DeleteUser(UserDeleteDTO userDeleteDTO) {
-        if(iUserService.deleteUser(userDeleteDTO)){
+    @DeleteMapping ("/msg/delete")
+    public JsonVO<String> DeleteUser(@RequestParam String id) {
+        if(iUserService.deleteUser(id)){
             return JsonVO.success("Delete User Message Successful");
         }else {
             return JsonVO.fail("Fail To Delete User Message");
@@ -72,50 +65,57 @@ public class UsersController{
         }
     }
 
-
-    //todo
     @GetMapping("/msg/display")
     public JsonVO<IPage<UserDisplayDTO>> UserList(UserDisplayDTO userDisplayDTO, @RequestParam long current, @RequestParam long size) {
         Page<UserDisplayVO> page = new Page<>(current, size);
-        return JsonVO.success(iUserService.userlist(userDisplayDTO,page));
+        if(page!=null){
+            return JsonVO.success(iUserService.userlist(userDisplayDTO,page));
+        }else {
+            return JsonVO.fail(null);
+        }
     }
 
-
-    @PostMapping("/role/allocation")
-    public JsonVO<Object> UserCreate(@RequestBody UserCreateDTO userCreateDTO) {
-        UserCreateVO userCreateVO=iUserRolesService.defineUser(userCreateDTO);
-        if(userCreateVO!=null){
-            return JsonVO.success(userCreateVO);
+    @PutMapping("/role/allocation")
+    public JsonVO<String> UserRoleCreate(@RequestBody UserCreateDTO userCreateDTO) {
+        if(iUserService.allocateRole(userCreateDTO)){
+            return JsonVO.success("Allocate role success");
         }else {
-            return JsonVO.fail("This role has exited!!!");
+            return JsonVO.fail("Fail to allocate role");
         }
-
     }
 
     @DeleteMapping("/role/delete")
-    public JsonVO<String> UserPermissionDelete(@ModelAttribute UserRoleDeleteDTO userRoleDeleteDTO) {
-        if(iUserRolesService.userperdelete(userRoleDeleteDTO)){
+    public JsonVO<String> UserRoleDelete(@RequestParam String userId,@RequestParam String roleId) {
+        if(iUserService.userRoleDelete(userId,roleId)){
             return JsonVO.success(UserRoleDeleteVO.success);
         }else{
             return JsonVO.fail(UserRoleDeleteVO.fail);
         }
     }
 
-
-    @PutMapping("/role/update")
-    public JsonVO<String> UserPermissionUpdate(@RequestBody List<UserRoleUpdateDTO> userRoleUpdateDTO) {
-        if ((iUserRolesService.userperupdate(userRoleUpdateDTO))){
-            return JsonVO.success(UserRoleUpdateVO.success);
+    @GetMapping("/role/get")
+    public JsonVO<List<UserRoleDisplayVo>> UserRoleDisplay(@RequestParam String userId){
+        List<UserRoleDisplayVo> userRoleDisplayVoList = iUserService.userRoleDisplay(userId);
+        if(userRoleDisplayVoList!= null){
+            return JsonVO.success(userRoleDisplayVoList);
         }else {
-            return JsonVO.fail(UserRoleUpdateVO.fail);
+            return JsonVO.fail(null);
         }
     }
 
-    @PostMapping("/roleandpermission/search")
-    public JsonVO<List<UserRolePermissionSearchVO>> U_R_P_search(UserRolePermissionSearchDTO userRolePermissionSearchDTO) {
-        return JsonVO.success(iUserRolesService.all_search(userRolePermissionSearchDTO));
-    }
+//    @PutMapping("/role/update")
+//    public JsonVO<String> UserPermissionUpdate(@RequestBody List<UserRoleUpdateDTO> userRoleUpdateDTO) {
+//        if ((iUserRolesService.userperupdate(userRoleUpdateDTO))){
+//            return JsonVO.success(UserRoleUpdateVO.success);
+//        }else {
+//            return JsonVO.fail(UserRoleUpdateVO.fail);
+//        }
+//    }
 
+//    @PostMapping("/role/permissionSearch")
+//    public JsonVO<List<UserRolePermissionSearchVO>> U_R_P_search(UserRolePermissionSearchDTO userRolePermissionSearchDTO) {
+//        return JsonVO.success(iUserRolesService.all_search(userRolePermissionSearchDTO));
+//    }
 
     @PostMapping("/login")
     public JsonVO<LoginVO> login(@RequestBody LoginDTO loginDTO) {
