@@ -24,6 +24,7 @@
         <module>his-domain</module>
         <module>his-patient</module>
         <module>his-systemmanagement</module>
+        <module>his-assignbed</module>
     </modules>
     <dependencyManagement>
         <dependencies>
