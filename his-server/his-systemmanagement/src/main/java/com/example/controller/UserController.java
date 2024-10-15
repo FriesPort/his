@@ -38,6 +38,11 @@ public class UserController {
     @Autowired
     private LoginService loginService;
 
+    /**
+     * 添加用户
+     * @param userAddDTO
+     * @return JsonVO<String>
+     */
     @PutMapping("/msg/add")
     public JsonVO<String> AddUser(@RequestBody UserAddDTO userAddDTO) {
         if(iUserService.insertUser(userAddDTO)){
@@ -47,6 +52,11 @@ public class UserController {
         }
     }
 
+    /**
+     * 删除用户
+     * @param id
+     * @return JsonVO<String>
+     */
     @DeleteMapping ("/msg/delete")
     public JsonVO<String> DeleteUser(@RequestParam String id) {
         if(iUserService.deleteUser(id)){
@@ -56,6 +66,11 @@ public class UserController {
         }
     }
 
+    /**
+     * 修改用户
+     * @param userUpdateDTO
+     * @return JsonVO<String>
+     */
     @PostMapping("/msg/update")
     public JsonVO<String> UpdateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
         if(iUserService.updateUser(userUpdateDTO)){
@@ -65,6 +80,13 @@ public class UserController {
         }
     }
 
+    /**
+     * 展示用户列表
+     * @param userDisplayDTO
+     * @param current
+     * @param size
+     * @return JsonVO<IPage<UserDisplayDTO>>
+     */
     @GetMapping("/msg/display")
     public JsonVO<IPage<UserDisplayDTO>> UserList(UserDisplayDTO userDisplayDTO, @RequestParam long current, @RequestParam long size) {
         Page<UserDisplayVO> page = new Page<>(current, size);
@@ -75,8 +97,13 @@ public class UserController {
         }
     }
 
+    /**
+     * 向用户分配角色
+     * @param userCreateDTO
+     * @return JsonVO<String>
+     */
     @PutMapping("/role/allocation")
-    public JsonVO<String> UserRoleCreate(@RequestBody UserCreateDTO userCreateDTO) {
+    public JsonVO<String> UserRoleAllocation(@RequestBody UserCreateDTO userCreateDTO) {
         if(iUserService.allocateRole(userCreateDTO)){
             return JsonVO.success("Allocate role success");
         }else {
@@ -84,6 +111,12 @@ public class UserController {
         }
     }
 
+    /**
+     * 移除用户的角色
+     * @param userId
+     * @param roleId
+     * @return JsonVO<String>
+     */
     @DeleteMapping("/role/delete")
     public JsonVO<String> UserRoleDelete(@RequestParam String userId,@RequestParam String roleId) {
         if(iUserService.userRoleDelete(userId,roleId)){
@@ -93,9 +126,29 @@ public class UserController {
         }
     }
 
-    @GetMapping("/role/get")
-    public JsonVO<List<UserRoleDisplayVo>> UserRoleDisplay(@RequestParam String userId){
+    /**
+     * 获取用户所拥有的角色
+     * @param userId
+     * @return JsonVO<List<UserRoleDisplayVo>>
+     */
+    @GetMapping("/role/getOwnedRole")
+    public JsonVO<List<UserRoleDisplayVo>> OwnedUserRoleDisplay(@RequestParam String userId){
         List<UserRoleDisplayVo> userRoleDisplayVoList = iUserService.userRoleDisplay(userId);
+        if(userRoleDisplayVoList!= null){
+            return JsonVO.success(userRoleDisplayVoList);
+        }else {
+            return JsonVO.fail(null);
+        }
+    }
+
+    /**
+     * 获取用户未拥有的角色
+     * @param userId
+     * @return JsonVO<List<UserRoleDisplayVo>>
+     */
+    @GetMapping("/role/getUnownedRole")
+    public JsonVO<List<UserRoleDisplayVo>> UnownedUserRoleDisplay(@RequestParam String userId){
+        List<UserRoleDisplayVo> userRoleDisplayVoList = iUserService.unownedUserRoleDisplay(userId);
         if(userRoleDisplayVoList!= null){
             return JsonVO.success(userRoleDisplayVoList);
         }else {

@@ -25,7 +25,15 @@
         select id role_id, name role_name
         from role
         where id in (select role_id
-                    from user_role
-                    where user_id = #{userId})
+                     from user_role
+                     where user_id = #{userId})
+    </select>
+    <select id="unownedUserRoleDisplay"
+            resultType="com.example.vo.systemmanagement.userrole.UserRoleDisplayVo">
+        select id role_id, name role_name
+        from role
+        where id not in (select role_id
+                         from user_role
+                         where user_id = #{userId})
     </select>
 </mapper>

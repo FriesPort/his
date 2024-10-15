@@ -37,4 +37,6 @@ public interface IUserService extends IService<User> {
     boolean userRoleDelete(String userId, String roleId);
 
     List<UserRoleDisplayVo> userRoleDisplay(String userId);
+
+    List<UserRoleDisplayVo> unownedUserRoleDisplay(String userId);
 }

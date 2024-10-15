@@ -26,4 +26,6 @@ public interface UserMapper extends BaseMapper<User> {
     IPage<UserDisplayDTO> userList(UserDisplayDTO userDisplayDTO, Page page);
 
     List<UserRoleDisplayVo> userRoleDisplay(String userId);
+
+    List<UserRoleDisplayVo> unownedUserRoleDisplay(String userId);
 }

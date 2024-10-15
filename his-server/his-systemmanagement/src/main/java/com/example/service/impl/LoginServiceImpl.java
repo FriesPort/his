@@ -34,7 +34,7 @@ public class LoginServiceImpl implements LoginService {
         if (user == null) {
             return new LoginVO("账号或密码错误",null,null);
         }
-        if(user.getEnable()!=1){
+        if(user.getIsUse()!=1){
             return new LoginVO("用户禁止使用",null,null);
         }
         if(!passwordEncoder.matches(password, user.getPassword())){
@@ -43,4 +43,5 @@ public class LoginServiceImpl implements LoginService {
         String token=jwtTool.createToken(user.getId(),jwtProperties.getTokenTTL());
         return new LoginVO("login successful",token, user.getId());
     }
+
 }

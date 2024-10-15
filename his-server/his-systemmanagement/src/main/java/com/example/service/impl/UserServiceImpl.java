@@ -168,4 +168,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public List<UserRoleDisplayVo> userRoleDisplay(String userId) {
         return userMapper.userRoleDisplay(userId);
     }
+
+    @Override
+    public List<UserRoleDisplayVo> unownedUserRoleDisplay(String userId) {
+        return userMapper.unownedUserRoleDisplay(userId);
+    }
 }
