@@ -3,17 +3,16 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.UserMapper">
-
     <select id="userList" resultType="com.example.dto.systemmanagement.user.UserDisplayDTO">
         select user.id,
-               user.username,
-               user.employee_number,
-               user.employee_name,
-               user.user_type,
-               user.is_use,
-               camp.name campus_name
+        user.username,
+        user.employee_number,
+        user.employee_name,
+        user.user_type,
+        user.is_use,
+        camp.name campus_name
         from user user
-                 left join campus camp on user.campus_id = camp.id
+        left join campus camp on user.campus_id = camp.id
         where user.is_use = 0
         <if test="employeeName != null">
             and user.employee_name = #{employeeName}
@@ -21,5 +20,20 @@
         <if test="employeeNumber != null">
             and user.employee_number = #{employeeNumber}
         </if>
+    </select>
+    <select id="userRoleDisplay" resultType="com.example.vo.systemmanagement.userrole.UserRoleDisplayVo">
+        select id role_id, name role_name
+        from role
+        where id in (select role_id
+                     from user_role
+                     where user_id = #{userId})
+    </select>
+    <select id="unownedUserRoleDisplay"
+            resultType="com.example.vo.systemmanagement.userrole.UserRoleDisplayVo">
+        select id role_id, name role_name
+        from role
+        where id not in (select role_id
+                         from user_role
+                         where user_id = #{userId})
     </select>
 </mapper>

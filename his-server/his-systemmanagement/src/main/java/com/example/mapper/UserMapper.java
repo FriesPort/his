@@ -5,8 +5,12 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.dto.systemmanagement.user.UserDisplayDTO;
+import com.example.dto.systemmanagement.userrole.UserCreateDTO;
 import com.example.entity.User;
+import com.example.vo.systemmanagement.userrole.UserRoleDisplayVo;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,4 +24,8 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper extends BaseMapper<User> {
 
     IPage<UserDisplayDTO> userList(UserDisplayDTO userDisplayDTO, Page page);
+
+    List<UserRoleDisplayVo> userRoleDisplay(String userId);
+
+    List<UserRoleDisplayVo> unownedUserRoleDisplay(String userId);
 }

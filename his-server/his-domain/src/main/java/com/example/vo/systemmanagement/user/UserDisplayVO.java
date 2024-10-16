@@ -23,5 +23,5 @@ public class UserDisplayVO {
 
     private String userType;
 
-    private int isUse;
+    private Integer isUse;
 }

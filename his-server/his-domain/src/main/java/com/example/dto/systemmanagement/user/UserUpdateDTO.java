@@ -13,13 +13,10 @@ import java.util.Date;
 @ApiModel("用户信息编辑")
 public class UserUpdateDTO {
     private String id;
-    private String username;
-    private String password;
+    private String name;
     private String employeeName;
     private String hospitalId;
     private String campusId;
     private String userType;
     private Integer is_use;
-    private Date updateTime;
-    private String updateBy;
 }
