@@ -1,11 +1,11 @@
 package com.example.patient.controller;
 
-import com.example.patient.dto.PatientAlterDTO;
 import com.example.patient.dto.PatientQueryDTO;
 import com.example.patient.service.IPatientInformationService;
 import com.example.patient.vo.PatientVo;
 import com.example.patient.vo.Result;
 import com.example.vo.JsonVO;
+import com.example.patient.dto.PatientAlterDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

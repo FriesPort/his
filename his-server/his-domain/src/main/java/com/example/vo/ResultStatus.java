@@ -18,7 +18,7 @@ public enum ResultStatus {
     CONTENT_TYPE_ERR("ContentType错误", 9996),
     API_UN_IMPL("功能尚未实现", 9997),
     SERVER_BUSY("服务器繁忙", 9998),
-    FAIL("操作失败", 9999),
+    FAIL("操作失败", 0),
     SUCCESS("操作成功");
 
     private final String message;
@@ -30,7 +30,7 @@ public enum ResultStatus {
     }
 
     ResultStatus(String message) {
-        this(message, 200);
+        this(message, 1);
     }
 
     public String getMessage() {

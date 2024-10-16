@@ -4,14 +4,11 @@ package com.example.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.dto.systemmanagement.users.UserDisplayDTO;
 import com.example.dto.systemmanagement.users.UserAddDTO;
 import com.example.dto.systemmanagement.users.UserDeleteDTO;
 import com.example.dto.systemmanagement.users.UserUpdateDTO;
+import com.example.dto.systemmanagement.users.UserDisplayDTO;
 import com.example.entity.User;
-import com.example.vo.systemmanagement.users.UsersDisplayVO;
-
-import java.util.List;
 
 /**
  * <p>

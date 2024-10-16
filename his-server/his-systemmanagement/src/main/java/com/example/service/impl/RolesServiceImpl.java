@@ -1,12 +1,10 @@
 package com.example.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.entity.Roles;
 import com.example.mapper.RolesMapper;
 import com.example.service.IRolesService;
 import com.example.vo.systemmanagement.roles.RoleListVO;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

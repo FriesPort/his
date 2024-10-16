@@ -8,7 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginVO {
-    private String loginstatus;
     private String token;
-    private String user_id;
 }

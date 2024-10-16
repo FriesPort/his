@@ -1,9 +1,14 @@
 spring:
+  security:
+    csrf:
+      enabled: false
+  main:
+    web-application-type: reactive
   application:
-    name: gateway
+    name: his-gateway
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/hospital
+    url: jdbc:mysql://localhost:3306/hospital2?serverTimezone=UTC
     username: root
     password: 060601hyz
   data:
@@ -12,29 +17,36 @@ spring:
       port: 6379
       password: 060601hyz
   cloud:
+    nacos:
+      discovery:
+        server-addr: 111.230.250.144:8848
     gateway:
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins: "*"
-            allowedMethods:
-              - GET
-              - HEAD
-              - POST
-              - PUT
-              - DELETE
-              - TRACE
-              - OPTIONS
-              - PATCH
-            allowedHeaders: "*"
+#      globalcors:
+#        cors-configurations:
+#          '[/**]':
+#            allowedOrigins: "*"
+#            allowedMethods:
+#              - GET
+#              - HEAD
+#              - POST
+#              - PUT
+#              - DELETE
+#              - TRACE
+#              - OPTIONS
+#              - PATCH
+#            allowedHeaders: "*"
       discovery:
         locator:
           enabled: true
       routes:
+        - id: security
+          uri: http://127.0.0.1:8888
+          predicates:
+            - Path=/security/**
         - id: systemanagement
           uri: http://127.0.0.1:9000
           predicates:
-            - Path=/users/**,/roles/**,/permissions/**
+            - Path=/user/**,/roles/**,/permissions/**
         - id: bed
           uri: http://127.0.0.1:8080
           predicates:
@@ -43,6 +55,7 @@ spring:
           uri: http://127.0.0.1:8085
           predicates:
             - Path=/patient/**
+
 
 server:
   port: 9090
@@ -55,5 +68,15 @@ hm:
     tokenTTL: 300m # 登录有效期
   auth:
     excludePaths: # 无需登录校验的路径
-      - /users/login
+      - /gateway/login
       - /users/register
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+
+secure:
+  openauthorization: true
+  white:
+    urls:
+      - "/security/**"
+#      - "/user/roleandpermission/search"

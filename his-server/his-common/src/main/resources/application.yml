@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: common
+
+hm:
+  jwt:
+    location: classpath:hmall.jks
+    alias: hmall
+    password: hmall123
+    tokenTTL: 300m

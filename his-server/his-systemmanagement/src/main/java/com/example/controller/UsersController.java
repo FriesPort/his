@@ -3,22 +3,22 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.dto.login.LoginDTO;
 import com.example.dto.systemmanagement.userrole.UserCreateDTO;
 import com.example.dto.systemmanagement.userrole.UserRoleDeleteDTO;
 import com.example.dto.systemmanagement.userrole.UserRolePermissionSearchDTO;
 import com.example.dto.systemmanagement.userrole.UserRoleUpdateDTO;
-import com.example.dto.systemmanagement.users.*;
 import com.example.service.IUserRolesService;
-import com.example.service.IUserService;
-import com.example.service.LoginService;
-import com.example.vo.JsonVO;
-import com.example.vo.login.LoginVO;
 import com.example.vo.systemmanagement.userrole.UserCreateVO;
 import com.example.vo.systemmanagement.userrole.UserRoleDeleteVO;
 import com.example.vo.systemmanagement.userrole.UserRolePermissionSearchVO;
 import com.example.vo.systemmanagement.userrole.UserRoleUpdateVO;
 import com.example.vo.systemmanagement.users.UsersDisplayVO;
+import com.example.dto.systemmanagement.users.UserAddDTO;
+import com.example.dto.systemmanagement.users.UserDeleteDTO;
+import com.example.dto.systemmanagement.users.UserDisplayDTO;
+import com.example.dto.systemmanagement.users.UserUpdateDTO;
+import com.example.service.IUserService;
+import com.example.vo.JsonVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,8 +41,7 @@ public class UsersController{
     @Autowired
     private IUserRolesService iUserRolesService;
 
-    @Autowired
-    private LoginService loginService;
+
 
 
     @PostMapping("/msg/add")
@@ -112,26 +111,10 @@ public class UsersController{
     }
 
     @PostMapping("/roleandpermission/search")
-    public JsonVO<List<UserRolePermissionSearchVO>> U_R_P_search(UserRolePermissionSearchDTO userRolePermissionSearchDTO) {
+    public JsonVO<List<UserRolePermissionSearchVO>> U_R_P_search(@RequestBody UserRolePermissionSearchDTO userRolePermissionSearchDTO) {
         return JsonVO.success(iUserRolesService.all_search(userRolePermissionSearchDTO));
     }
 
-
-    @PostMapping("/login")
-    public JsonVO<LoginVO> login(@RequestBody LoginDTO loginDTO) {
-        LoginVO vo=loginService.login(loginDTO);
-
-        try{
-            if (vo.getToken() == null) {
-                return JsonVO.fail(vo);
-            } else if (vo.getLoginstatus().equals("账号或密码错误")) {
-                return JsonVO.fail(vo);
-            }
-        }catch (Exception e){
-            return JsonVO.fail(vo);
-        }
-        return JsonVO.success(vo);
-    }
 
 
 }
