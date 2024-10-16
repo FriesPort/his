@@ -7,6 +7,7 @@
         <artifactId>his2</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+
     <groupId>com.example</groupId>
     <artifactId>his-domain</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -50,10 +51,6 @@
             <artifactId>annotations</artifactId>
             <version>24.1.0</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
         </dependency>
     </dependencies>
 

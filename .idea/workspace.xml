@@ -4,84 +4,425 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c5a71ca0-be7d-46d0-9570-3f1306539c87" name="变更" comment="无" />
+    <list default="true" id="cce31ff7-c0af-481f-90bf-014d526f6dc7" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/his-server/his-common/src/main/java/com/example/aop/TrimAspect.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-common/src/main/java/com/example/utils/TimeTrainsform.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/patient/PatientAlterDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/patient/PatientDeleteDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/patient/PatientEditDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/patient/PatientQueryDTO1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/systemmanagement/users/UserDisplayDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/systemmanagement/users/UsersAddDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/systemmanagement/users/UsersDeleteDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/systemmanagement/users/UsersSearchDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/systemmanagement/users/UsersUpdateDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/patient/PatientVO1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/patient/Result.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/users/UsersAddVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/users/UsersDeleteVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/users/UsersDisplayVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/users/UsersUpdateVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/annotation/Trim.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/controller/TestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/entity/Patient_recode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/entity/QueryPatient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/mapper/PatientMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/utils/FileUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/utils/JsonReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/resources/mapper/PatientMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/entity/Users.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/mapper/UserRolesMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/mapper/UsersMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/IUsersService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/impl/UsersServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/.env.staging" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/.vscode/extensions.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/db.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/public/vite.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/App.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/api/bedAllocation/bedAllocation.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/api/bedView/bedData.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/api/patientView/patientData.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/api/text/text.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/api/user.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/assets/Settings.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/assets/logos.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/assets/msg.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/assets/vue.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/components/Dialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/components/SysDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/hooks/useInstance.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/http/http.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/http/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/http/request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/iconfot/demo.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/iconfot/demo_index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/iconfot/iconfont.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/iconfot/iconfont.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/iconfot/iconfont.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/iconfot/iconfont.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/iconfot/iconfont.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/iconfot/iconfont.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/header/AppChange.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/header/Bred.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/header/FullScreen.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/header/Header.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/header/Message.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/header/User.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedAllocation/BedAllocation.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedAllocation/BedOverview.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedAllocation/Beds.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedAllocation/Dialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedAllocation/Patients.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedAllocation/test/BedCard.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedAllocation/test/PatientCard.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedAllocation/test/Test.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedAllocation/types/Bed.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedview/Card.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedview/List.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedview/Selection.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedview/test/Card.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedview/test/List.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedview/types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/bedview/types/Bed.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/patientView/Card.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/patientView/List.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/patientView/Selection.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/patientView/test/Card.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/patientView/types/patientViewTypes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/role/addDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/role/editDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/role/permissionDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/role/roleManagement.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/role/types/BaseEnum.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/role/types/BaseType.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/role/types/UserType.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/userManagement/UserManagement.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/userManagement/addDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/userManagement/editDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/userManagement/permissionDialog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/userManagement/types/BaseEnum.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/userManagement/types/BaseType.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/main/userManagement/types/UserType.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/menu/Collapse.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/menu/MenuBar.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/menu/MenuLogo.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/layout/menu/Sider.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/main.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/router/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/store/authStore.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/store/bedData/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/store/collapse/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/store/menuStore.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/store/token.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/store/userStore.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/store/userinfo.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/store/waitingPatients/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/utils/emitter.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/utils/request.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/utils/request0.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/utils/request2.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/view/content/BedAllocation.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/view/content/BedView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/view/content/ExtendedMsgDataDictionary.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/view/content/OperationLog.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/view/content/PatientScreening.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/view/content/Role.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/view/content/User.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/view/content/schedulingDataManagement/BedData.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/view/content/schedulingDataManagement/ExtendedDataManagement.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/view/login/Login.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/src/vite-env.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/tsconfig.node.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/前端/vite.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7189b1cb-d321-479c-a0b5-45e1efe189be.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/7189b1cb-d321-479c-a0b5-45e1efe189be.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/HisBedApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/HisBedApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/controller/BedsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/controller/BedsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/dto/BedAddDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/dto/BedAddDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/dto/BedDeleteBTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/dto/BedDeleteBTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/dto/BedDispatchDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/dto/BedDispatchDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/dto/BedSearchDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/dto/BedSearchDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/entity/Bed.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/entity/Bed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/entity/Campus.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/entity/Campus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/entity/Office.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/entity/Office.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/entity/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/entity/Patient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/entity/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/entity/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/entity/Ward.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/entity/Ward.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/mapper/BedsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/mapper/BedsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/mapper/CampusMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/mapper/CampusMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/mapper/OfficeMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/mapper/OfficeMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/mapper/PatientInformationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/mapper/PatientInformationMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/mapper/RoomsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/mapper/RoomsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/mapper/WardMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/mapper/WardMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/IBedsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/IBedsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/ICampusService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/ICampusService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/IOfficeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/IOfficeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/IPatientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/IPatientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/IRoomsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/IRoomsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/IWardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/IWardService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/impl/BedsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/impl/BedsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/impl/CampusServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/impl/CampusServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/impl/OfficeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/impl/OfficeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/impl/PatientServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/impl/PatientServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/impl/RoomsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/impl/RoomsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/impl/WardServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/service/impl/WardServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/Result.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/bedAdd/RoomVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/bedAdd/RoomVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/bedAssign/BedVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/bedAssign/BedVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/bedAssign/PatientVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/bedAssign/PatientVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/bedPage/CampusVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/bedPage/CampusVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/bedPage/OfficeVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/bedPage/OfficeVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/bedPage/WardVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/bedPage/WardVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/bedSearch/SearchVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/java/com/example/bed/vo/bedSearch/SearchVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-bed/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-bed/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-common/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-common/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-common/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-common/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-common/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-common/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-common/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-common/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-common/src/main/java/com/example/HisCommonApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-common/src/main/java/com/example/HisCommonApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-common/src/main/java/com/example/config/swagger/SwaggerCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-common/src/main/java/com/example/config/swagger/SwaggerCore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-common/src/main/java/com/example/utils/IdGenerate.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-common/src/main/java/com/example/utils/IdGenerate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-common/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-common/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-common/src/test/java/com/example/HisCommonApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-common/src/test/java/com/example/HisCommonApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/HisDomainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/HisDomainApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/login/LoginDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/login/LoginDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/patient/PatientQueryDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/patient/PatientQueryDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/patient/PatientSelectDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/patient/PatientSelectDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/patient/PatientUpdateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/patient/PatientUpdateDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/systemmanagement/roles/RoleCreateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/systemmanagement/roles/RoleCreateDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/systemmanagement/userrole/UserCreateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/systemmanagement/userrole/UserCreateDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/systemmanagement/userrole/UserRoleDeleteDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/systemmanagement/userrole/UserRoleDeleteDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/systemmanagement/userrole/UserRolePermissionSearchDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/systemmanagement/userrole/UserRolePermissionSearchDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/systemmanagement/userrole/UserRoleUpdateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/dto/systemmanagement/userrole/UserRoleUpdateDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/JsonVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/JsonVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/ResultStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/ResultStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/login/LoginVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/login/LoginVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/patient/PageVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/patient/PageVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/patient/PatientVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/patient/PatientVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/permissions/PermissionListVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/permissions/PermissionListVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/roles/RoleCreateVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/roles/RoleCreateVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/roles/RoleListVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/roles/RoleListVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/userrole/UserCreateVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/userrole/UserCreateVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/userrole/UserRoleDeleteVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/userrole/UserRoleDeleteVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/userrole/UserRolePermissionSearchVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/userrole/UserRolePermissionSearchVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/userrole/UserRoleUpdateVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/java/com/example/vo/systemmanagement/userrole/UserRoleUpdateVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-domain/src/test/java/com/example/HisDomainApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-domain/src/test/java/com/example/HisDomainApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-gateway/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-gateway/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-gateway/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-gateway/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-gateway/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-gateway/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-gateway/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-gateway/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-gateway/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-gateway/src/main/java/com/example/HisGatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-gateway/src/main/java/com/example/HisGatewayApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-gateway/src/main/java/com/example/config/AuthProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-gateway/src/main/java/com/example/config/AuthProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-gateway/src/main/java/com/example/config/JwtProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-gateway/src/main/java/com/example/config/JwtProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-gateway/src/main/java/com/example/config/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-gateway/src/main/java/com/example/config/RedisConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-gateway/src/main/java/com/example/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-gateway/src/main/java/com/example/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-gateway/src/main/java/com/example/filters/AuthGlobalFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-gateway/src/main/java/com/example/filters/AuthGlobalFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-gateway/src/main/java/com/example/utils/JwtTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-gateway/src/main/java/com/example/utils/JwtTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-gateway/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-gateway/src/test/java/com/example/HisGatewayApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-gateway/src/test/java/com/example/HisGatewayApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/HisPatientApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/HisPatientApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/controller/PatientInformationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/controller/PatientInformationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/entity/Beds.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/entity/Beds.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/entity/Campus.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/entity/Campus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/entity/Office.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/entity/Office.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/entity/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/entity/Patient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/entity/Rooms.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/entity/Rooms.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/entity/Ward.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/entity/Ward.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/mapper/BedsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/mapper/BedsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/mapper/CampusMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/mapper/CampusMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/mapper/OfficeMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/mapper/OfficeMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/mapper/PatientInformationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/mapper/PatientInformationMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/mapper/RoomsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/mapper/RoomsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/mapper/WardMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/mapper/WardMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/IBedsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/IBedsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/ICampusService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/ICampusService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/IOfficeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/IOfficeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/IPatientInformationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/IPatientInformationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/IRoomsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/IRoomsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/IWardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/IWardService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/impl/BedsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/impl/BedsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/impl/CampusServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/impl/CampusServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/impl/OfficeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/impl/OfficeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/impl/PatientInformationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/impl/PatientInformationServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/impl/RoomsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/impl/RoomsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/impl/WardServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/java/com/example/patient/service/impl/WardServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/resources/mapper/BedsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/resources/mapper/BedsMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/resources/mapper/CampusMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/resources/mapper/CampusMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/resources/mapper/OfficeMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/resources/mapper/OfficeMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/resources/mapper/PatientInformationMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/resources/mapper/PatientInformationMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/resources/mapper/RoomsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/resources/mapper/RoomsMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-patient/src/main/resources/mapper/WardMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-patient/src/main/resources/mapper/WardMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/HisSystemmanagementApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/HisSystemmanagementApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/config/JwtProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/config/JwtProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/controller/CustomersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/controller/CustomersController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/controller/HospitalsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/controller/HospitalsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/controller/PermissionsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/controller/PermissionsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/controller/RolesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/controller/RolesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/controller/UsersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/controller/UsersController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/entity/Campus.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/entity/Campus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/entity/Customers.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/entity/Customers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/entity/Hospitals.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/entity/Hospitals.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/entity/Permissions.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/entity/Permissions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/entity/RolePermissions.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/entity/RolePermissions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/entity/Roles.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/entity/Roles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/entity/UserRoles.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/entity/UserRoles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/mapper/CampusMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/mapper/CampusMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/mapper/CustomersMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/mapper/CustomersMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/mapper/HospitalsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/mapper/HospitalsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/mapper/PermissionsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/mapper/PermissionsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/mapper/RolePermissionsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/mapper/RolePermissionsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/mapper/RolesMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/mapper/RolesMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/ICustomersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/ICustomersService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/IHospitalsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/IHospitalsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/IPermissionsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/IPermissionsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/IRolePermissionsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/IRolePermissionsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/IRolesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/IRolesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/IUserRolesService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/IUserRolesService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/LoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/LoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/impl/CustomersServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/impl/CustomersServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/impl/HospitalsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/impl/HospitalsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/impl/LoginServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/impl/LoginServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/impl/PermissionsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/impl/PermissionsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/impl/RolePermissionsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/impl/RolePermissionsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/impl/RolesServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/impl/RolesServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/impl/UserRolesServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/service/impl/UserRolesServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/utils/JwtTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/java/com/example/utils/JwtTool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/his-systemmanagement/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/mvnw" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/mvnw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/mvnw.cmd" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/mvnw.cmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/his-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/环境搭建/hospital.sql" beforeDir="false" afterPath="$PROJECT_DIR$/环境搭建/hospital.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/环境搭建/hospital_new.sql" beforeDir="false" afterPath="$PROJECT_DIR$/环境搭建/hospital_new.sql" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="master" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
+  <component name="JRebelWorkspace">
+    <option name="jrebelEnabledAutocompile" value="true" />
+    <option name="hasSeenReactiveStreamsDisablingDialog" value="true" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="useMavenConfig" value="true" />
-      </MavenGeneralSettings>
-    </option>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2n9e9ECOaZhMWJwmIvavvuM2Pjq" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
-  <component name="ProjectId" id="2msStsGO8v32bWHYYTRBu3NSOwS" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/18255/Desktop/his/his-new_test/his-server&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;项目&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;f9f6b04538ba115961c51f3cc1e5028b&quot;
-  },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
-    ]
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Maven.his2 [clean,install].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.HisBedApplication.executor": "JRebel Executor",
+    "Spring Boot.HisPatientApplication.executor": "Run",
+    "git-widget-placeholder": "new__test",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/13901/Desktop/consult/refresh/his",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "项目",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
   <component name="RunManager" selected="Spring Boot.HisPatientApplication">
-    <configuration name="HisBedApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="HisBedApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="his-bed" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.HisBedApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HisGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="HisGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="his-gateway" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.HisGatewayApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HisPatientApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="HisPatientApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="his-patient" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.HisPatientApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HisSystemmanagementApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="HisSystemmanagementApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="his-systemmanagement" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.HisSystemmanagementApplication" />
       <method v="2">
@@ -89,22 +430,31 @@
       </method>
     </configuration>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
-      <changelist id="c5a71ca0-be7d-46d0-9570-3f1306539c87" name="变更" comment="" />
-      <created>1727864011848</created>
+      <changelist id="cce31ff7-c0af-481f-90bf-014d526f6dc7" name="更改" comment="" />
+      <created>1728389566060</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1727864011848</updated>
-      <workItem from="1727864014052" duration="3137000" />
-      <workItem from="1727924093648" duration="4024000" />
-      <workItem from="1728015187502" duration="2434000" />
-      <workItem from="1728017654618" duration="4185000" />
-      <workItem from="1728097292138" duration="3269000" />
-      <workItem from="1728100753818" duration="1090000" />
-      <workItem from="1728127254506" duration="10000" />
-      <workItem from="1728130245653" duration="1027000" />
+      <updated>1728389566060</updated>
+      <workItem from="1728389567153" duration="640000" />
+      <workItem from="1728390219192" duration="1265000" />
+      <workItem from="1728391512598" duration="351000" />
+      <workItem from="1728391986480" duration="773000" />
+      <workItem from="1728392785743" duration="1456000" />
+      <workItem from="1728479206976" duration="620000" />
+      <workItem from="1729083078985" duration="339000" />
+      <workItem from="1729083430207" duration="1141000" />
+      <workItem from="1729084682343" duration="487000" />
     </task>
     <servers />
   </component>
@@ -121,5 +471,12 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

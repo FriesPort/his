@@ -1,16 +1,14 @@
 package com.example.controller;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.dto.login.LoginDTO;
 import com.example.dto.systemmanagement.userrole.UserCreateDTO;
 import com.example.dto.systemmanagement.userrole.UserRoleDeleteDTO;
 import com.example.dto.systemmanagement.userrole.UserRolePermissionSearchDTO;
 import com.example.dto.systemmanagement.userrole.UserRoleUpdateDTO;
-import com.example.dto.systemmanagement.user.*;
+import com.example.dto.systemmanagement.users.*;
 import com.example.service.IUserRolesService;
-import com.example.service.IUserService;
+import com.example.service.IUsersService;
 import com.example.service.LoginService;
 import com.example.vo.JsonVO;
 import com.example.vo.login.LoginVO;
@@ -18,7 +16,8 @@ import com.example.vo.systemmanagement.userrole.UserCreateVO;
 import com.example.vo.systemmanagement.userrole.UserRoleDeleteVO;
 import com.example.vo.systemmanagement.userrole.UserRolePermissionSearchVO;
 import com.example.vo.systemmanagement.userrole.UserRoleUpdateVO;
-import com.example.vo.systemmanagement.user.UserDisplayVO;
+import com.example.vo.systemmanagement.users.UsersAddVO;
+import com.example.vo.systemmanagement.users.UsersDisplayVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,39 +32,49 @@ import java.util.List;
  * @since 2024-04-13
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UsersController{
     @Autowired
-    private IUserService iUserService;
+    IUsersService iUsersService;
 
     @Autowired
-    private IUserRolesService iUserRolesService;
-
+    IUserRolesService iUserRolesService;
     @Autowired
-    private LoginService loginService;
+    LoginService loginService;
 
+    /**
+     * 把UserCreate的功能拆分，useradd负责添加用户，usercreate负责添加用户权限
+     * @param usersAddDTO
+     * @return
+     */
 
     @PostMapping("/msg/add")
-    public JsonVO<String> AddUser(@RequestBody UserAddDTO userAddDTO) {
-        if(iUserService.insertUser(userAddDTO)){
-            return JsonVO.success("Add User Message Successful");
-        }else {
-            return JsonVO.fail("Fail to Delete User Message");
+    public JsonVO<Object> AddUser(@RequestBody UsersAddDTO usersAddDTO) {
+        UsersAddVO vo=iUsersService.insertUser(usersAddDTO);
+        if(vo!=null){
+            return JsonVO.success(vo);
+        }else{
+            return JsonVO.fail(vo);
         }
+
     }
 
-    @PostMapping("/msg/delete")
-    public JsonVO<String> DeleteUser(UserDeleteDTO userDeleteDTO) {
-        if(iUserService.deleteUser(userDeleteDTO)){
+
+
+
+    @DeleteMapping("/msg/delete")
+    public JsonVO<Object> DeleteUser(UsersDeleteDTO usersDeleteDTO) {
+        if(iUsersService.DeleteUser(usersDeleteDTO)){
             return JsonVO.success("Delete User Message Successful");
         }else {
             return JsonVO.fail("Fail To Delete User Message");
         }
     }
 
-    @PostMapping("/msg/update")
-    public JsonVO<String> UpdateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
-        if(iUserService.updateUser(userUpdateDTO)){
+
+    @PutMapping("/msg/update")
+    public JsonVO<Object> UpdateUser(@RequestBody UsersUpdateDTO usersUpdateDTO) {
+        if(iUsersService.UpdateUser(usersUpdateDTO)){
             return JsonVO.success("update success");
         }else {
             return JsonVO.fail("fail to update user");
@@ -73,11 +82,14 @@ public class UsersController{
     }
 
 
-    //todo
+    public JsonVO<Object> SearchUser(UsersSearchDTO usersSearchDTO) {
+        return null;
+    }
+
+
     @GetMapping("/msg/display")
-    public JsonVO<IPage<UserDisplayDTO>> UserList(UserDisplayDTO userDisplayDTO, @RequestParam long current, @RequestParam long size) {
-        Page<UserDisplayVO> page = new Page<>(current, size);
-        return JsonVO.success(iUserService.userlist(userDisplayDTO,page));
+    public JsonVO<List<UsersDisplayVO>> UserList(UserDisplayDTO userDisplayDTO) {
+        return JsonVO.success(iUsersService.userlist(userDisplayDTO));
     }
 
 
@@ -111,7 +123,7 @@ public class UsersController{
         }
     }
 
-    @PostMapping("/roleandpermission/search")
+    @GetMapping("/roleandpermission/search")
     public JsonVO<List<UserRolePermissionSearchVO>> U_R_P_search(UserRolePermissionSearchDTO userRolePermissionSearchDTO) {
         return JsonVO.success(iUserRolesService.all_search(userRolePermissionSearchDTO));
     }

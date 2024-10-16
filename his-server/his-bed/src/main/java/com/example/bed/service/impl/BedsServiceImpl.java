@@ -16,8 +16,8 @@ import com.example.bed.vo.bedSearch.SearchVo;
 import com.example.bed.vo.bedPage.CampusVo;
 import com.example.bed.vo.bedPage.OfficeVo;
 import com.example.bed.vo.bedPage.WardVo;
+import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -36,15 +36,15 @@ import java.util.Objects;
 @Service
 public class BedsServiceImpl extends ServiceImpl<BedsMapper, Bed> implements IBedsService {
 
-    @Autowired
+    @Resource
     private IRoomsService roomsService;
-    @Autowired
+    @Resource
     private IPatientService patientInformationService;
-    @Autowired
+    @Resource
     private ICampusService campusService;
-    @Autowired
+    @Resource
     private IOfficeService officeService;
-    @Autowired
+    @Resource
     private IWardService wardService;
 
     @Override   //页面信息提供

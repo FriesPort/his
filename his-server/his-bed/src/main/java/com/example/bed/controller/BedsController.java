@@ -14,8 +14,7 @@ import com.example.bed.vo.bedAssign.BedVo;
 import com.example.bed.vo.bedSearch.SearchVo;
 import com.example.bed.vo.bedPage.CampusVo;
 import com.example.vo.JsonVO;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,9 +30,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/beds")
 public class BedsController {
-    @Autowired
+    @Resource
     private IBedsService bedsService;
-    @Autowired
+    @Resource
     private IRoomsService roomsService;
 
     @GetMapping //进入页面时，提供区域信息

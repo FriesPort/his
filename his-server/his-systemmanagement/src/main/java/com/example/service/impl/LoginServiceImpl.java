@@ -3,8 +3,8 @@ package com.example.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.config.JwtProperties;
 import com.example.dto.login.LoginDTO;
-import com.example.entity.User;
-import com.example.mapper.UserMapper;
+import com.example.entity.Users;
+import com.example.mapper.UsersMapper;
 import com.example.service.LoginService;
 import com.example.utils.JwtTool;
 import com.example.vo.login.LoginVO;
@@ -23,24 +23,24 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     JwtProperties jwtProperties;
     @Autowired
-    UserMapper userMapper;
+    UsersMapper usersMapper;
     @Override
     public LoginVO login(LoginDTO loginDTO) {
         String username= loginDTO.getUsername();
         String password= loginDTO.getPassword();
-        User user = userMapper
-                .selectOne(new QueryWrapper<User>()
+        Users users=usersMapper
+                .selectOne(new QueryWrapper<Users>()
                         .eq("username",username));
-        if (user == null) {
+        if (users == null) {
             return new LoginVO("账号或密码错误",null,null);
         }
-        if(user.getEnable()!=1){
+        if(users.getEnable()!=1){
             return new LoginVO("用户禁止使用",null,null);
         }
-        if(!passwordEncoder.matches(password, user.getPassword())){
+        if(!passwordEncoder.matches(password,users.getPassword())){
             return new LoginVO("账号或密码错误",null,null);
         }
-        String token=jwtTool.createToken(user.getId(),jwtProperties.getTokenTTL());
-        return new LoginVO("login successful",token, user.getId());
+        String token=jwtTool.createToken(users.getUserId(),jwtProperties.getTokenTTL());
+        return new LoginVO("login successful",token,users.getUserId());
     }
 }

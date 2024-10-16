@@ -1,0 +1,52 @@
+beds[{
+        "bedId": 4,
+        "roomName": "101房",
+        "bedNumber": "01床",
+        "bedType": "正床",
+        "roomType": "常规病房",
+        "roomNumber": 6,
+        "roomGender": "男",
+        "bedStatus":"空闲",//['在床', '已预约', '已留床', '预计入院', '即将出院']
+        "patient":{}||null
+    },
+]
+patients[
+    {
+        "patientId": 1,
+        "patientName":"张三",
+        "patientGender": "男",
+        "waitDay": "5",
+        "admissionType": "门诊",
+        "bookType": "网上预约",
+        "telephoneNumber":"1111111",
+        "roomNumberRequirement": "4",
+        "roomGenderRequirement": "男",
+        "roomTypeRequirement": "常规病房",    
+        "patientStatus":"待入院",
+        "admissionNumber":"242424",
+        "diagnosisSituation":"高血压",
+        "admissionTime":"2024/04/11",
+        "dotor":"老李",
+        "emergencyAdmission": true,
+        "severeIllness": true,
+
+    }
+]
+    {
+        "patientId": 2,
+        "patientName":"张一三",
+        "patientGender": "男",
+        "areaName": "广州院区",
+        "departmentName": "内科",
+        "wardName": "内一区",
+        "createTime": "2023-09-02 12:06:59",
+        "waitDay": "5",
+        "admissionType": "门诊",
+        "bookType": "网上预约",
+        "telephoneNumber":"1111111",
+        "roomNumberRequirement": "4",
+        "roomGenderRequirement": "男",
+        "roomTypeRequirement": "常规病房",    
+        "status":"待入院"
+    }
+])

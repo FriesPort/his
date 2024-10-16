@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PatientVO {
+public class PatientVO1 {
     //患者id
     private Long patientId;
     //院区名字
