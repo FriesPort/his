@@ -1,8 +1,8 @@
 package com.example.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.entity.Roles;
-import com.example.mapper.RolesMapper;
+import com.example.entity.Role;
+import com.example.mapper.RoleMapper;
 import com.example.service.IRolesService;
 import com.example.vo.systemmanagement.roles.RoleListVO;
 import org.springframework.beans.BeanUtils;
@@ -21,16 +21,16 @@ import java.util.List;
  * @since 2024-04-13
  */
 @Service
-public class RolesServiceImpl extends ServiceImpl<RolesMapper, Roles> implements IRolesService {
+public class RolesServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRolesService {
 
 
     @Autowired
-    RolesMapper rolesMapper;
+    RoleMapper roleMapper;
     @Override
     public List<RoleListVO> rolelist() {
-        List<Roles> roles=rolesMapper.selectList(null);
+        List<Role> roles= roleMapper.selectList(null);
         List<RoleListVO> result=new ArrayList<>();
-        for(Roles role:roles){
+        for(Role role:roles){
             RoleListVO vo=new RoleListVO();
             BeanUtils.copyProperties(role,vo);
             result.add(vo);

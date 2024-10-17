@@ -1,0 +1,929 @@
+{
+  "bedsData": [
+    {
+      "id": "1",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "床旁设备分类1",
+      "admissionType": "预约入院",
+      "wardType": "隔"
+    },
+    {
+      "id": "2",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "空闲",
+      "patient": "",
+      "bd": "",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "3",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "",
+      "bd": "",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "4",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "",
+      "bd": "",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "5",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内二区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "床旁设备分类1",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "6",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内二区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "床旁设备分类1",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "7",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内二区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "床旁设备分类1",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "8",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内三区",
+      "status": "在床",
+      "patient": "",
+      "bd": "",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "9",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "床旁设备分类1",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "10",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "床旁设备分类1",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "11",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "床旁设备分类1",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "12",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "13",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "14",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "15",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "16",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "17",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "18",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "19",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "20",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "21",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "22",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "23",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "24",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "25",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "26",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "27",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "28",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "29",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "30",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "31",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "32",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "33",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "34",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "35",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "36",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "37",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "38",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "39",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "40",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "41",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "42",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "43",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "44",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "45",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "46",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "47",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "48",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "49",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "50",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "51",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "52",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "53",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "54",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "55",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "56",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "57",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "58",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "59",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "60",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "61",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "62",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "63",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "64",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "65",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    },
+    {
+      "id": "66",
+      "number": "01",
+      "bedWardNumber": "病房号",
+      "campus": "温江院区",
+      "department": "内科",
+      "ward": "内一区",
+      "status": "在床",
+      "patient": "张三",
+      "bd": "护理设备",
+      "admissionType": "预约入院"
+    }
+  ],
+  "waitingPatients": [
+    {
+      "id": "1",
+      "name": "张三",
+      "sex": "男",
+      "VIP": true
+    },
+    {
+      "id": "2",
+      "name": "李四",
+      "sex": "男",
+      "VIP": true
+    },
+    {
+      "id": "3",
+      "name": "王五",
+      "sex": "男",
+      "VIP": true
+    },
+    {
+      "id": "4",
+      "name": "赵六",
+      "sex": "男",
+      "VIP": true
+    },
+    {
+      "id": "5",
+      "name": "刘七",
+      "sex": "男",
+      "VIP": false
+    },
+    {
+      "id": "6",
+      "name": "陈八",
+      "sex": "男",
+      "VIP": false
+    },
+    {
+      "id": "7",
+      "name": "周九",
+      "sex": "男",
+      "VIP": false
+    },
+    {
+      "id": "8",
+      "name": "孙十",
+      "sex": "男",
+      "VIP": false
+    },
+    {
+      "id": "9",
+      "name": "吴十一",
+      "sex": "男",
+      "VIP": false
+    },
+    {
+      "id": "10",
+      "name": "郑十二",
+      "sex": "男",
+      "VIP": false
+    }
+  ],
+  "beds": [
+    {
+      "campusId": 1,
+      "campusName": "院本部",
+      "offices": [
+        {
+          "officeId": 1,
+          "officeName": "内科",
+          "wards": [
+            {
+              "wardId": 1,
+              "wardName": "内一区"
+            },
+            {
+              "wardId": 2,
+              "wardName": "内二区"
+            }
+          ]
+        },
+        {
+          "officeId": 2,
+          "officeName": "骨科",
+          "wards": [
+            {
+              "wardId": 3,
+              "wardName": "骨一区"
+            },
+            {
+              "wardId": 4,
+              "wardName": "骨二区"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "campusId": 2,
+      "campusName": "院分部",
+      "offices": [
+        {
+          "officeId": 3,
+          "officeName": "内科",
+          "wards": [
+            {
+              "wardId": 5,
+              "wardName": "内一区"
+            },
+            {
+              "wardId": 6,
+              "wardName": "内二区"
+            }
+          ]
+        },
+        {
+          "officeId": 4,
+          "officeName": "外科",
+          "wards": [
+            {
+              "wardId": 7,
+              "wardName": "外一区"
+            },
+            {
+              "wardId": 8,
+              "wardName": "外二区"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

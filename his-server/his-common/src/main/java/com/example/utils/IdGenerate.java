@@ -20,11 +20,10 @@ public class IdGenerate implements IdentifierGenerator {
         String bizKey = entity.getClass().getName();
         log.info("bizKey:{}", bizKey);
         MetaObject metaObject = SystemMetaObject.forObject(entity);
-        // 使用UUID生成唯一ID
-        String uuid = UUID.randomUUID().toString();
-        String uuidStr=uuid.toString().replace("-", "");
+        // 使用UUID生成唯一ID并去除连字符
+        String uuid = UUID.randomUUID().toString().replace("-", "");
         log.info("为{}生成主键值->:{}", bizKey, uuid);
-        return uuidStr;
+        return uuid;
     }
 
     @Override

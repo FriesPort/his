@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ApiModel("用户信息展示")
 public class UsersDisplayVO {
-    private String id;
+    private String userId;
 
     private String username;
 
-    private String employeeName;
+    private String name;
 
     private String employeeNumber;
 

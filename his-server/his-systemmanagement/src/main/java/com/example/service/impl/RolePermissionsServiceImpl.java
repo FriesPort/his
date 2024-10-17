@@ -6,10 +6,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.dto.systemmanagement.roles.RoleCreateDTO;
 import com.example.entity.Permissions;
 import com.example.entity.RolePermissions;
-import com.example.entity.Roles;
+import com.example.entity.Role;
 import com.example.mapper.PermissionsMapper;
 import com.example.mapper.RolePermissionsMapper;
-import com.example.mapper.RolesMapper;
+import com.example.mapper.RoleMapper;
 import com.example.service.IRolePermissionsService;
 import com.example.utils.IdGenerate;
 import com.example.vo.systemmanagement.roles.RoleCreateVO;
@@ -35,40 +35,40 @@ public class RolePermissionsServiceImpl extends ServiceImpl<RolePermissionsMappe
     PermissionsMapper permissionsMapper;
 
     @Autowired
-    RolesMapper rolesMapper;
+    RoleMapper roleMapper;
     @Autowired
     IdGenerate idGenerate;
 
-    Roles roles=new Roles();
+    Role role =new Role();
     RolePermissions rolePermissions=new RolePermissions();
 
 
 
     @Override
     public RoleCreateVO definedRole(RoleCreateDTO roleCreateDTO) {
-        roles.setRoleId(idGenerate.nextUUID(roleCreateDTO));
-        roles.setRoleName(roleCreateDTO.getRoleName());
-        roles.setDescription(roleCreateDTO.getDescription());
-        rolesMapper.insert(roles);
+        role.setId(idGenerate.nextUUID(roleCreateDTO));
+        role.setName(roleCreateDTO.getRoleName());
+        role.setDescription(roleCreateDTO.getDescription());
+        roleMapper.insert(role);
         List<String> permissions=roleCreateDTO.getPermissions();
         for(String name:permissions){
             Permissions p=permissionsMapper
                     .selectOne(new QueryWrapper<Permissions>().eq("permission_name",name));
-            rolePermissions.setRpId(idGenerate.nextUUID(roles.getRoleId()+p.getPermissionId()));
+            rolePermissions.setRpId(idGenerate.nextUUID(role.getId()+p.getPermissionId()));
             rolePermissions.setPermissionId(p.getPermissionId());
-            rolePermissions.setRoleId(roles.getRoleId());
+            rolePermissions.setPermissionId(role.getId());
             rolePermissionsMapper.insert(rolePermissions);
         }
 
         RoleCreateVO roleCreateVO=new RoleCreateVO();
-        roleCreateVO.setDescription(String.valueOf(rolesMapper
-                .selectOne(new QueryWrapper<Roles>()
-                        .eq("role_id",roles
-                                .getRoleId())).getDescription()));
-        roleCreateVO.setRoleName(String.valueOf(rolesMapper
-                .selectOne(new QueryWrapper<Roles>()
-                        .eq("role_id",roles.getRoleId())).getRoleName()));
-        roleCreateVO.setRoleId(roles.getRoleId());
+        roleCreateVO.setDescription(String.valueOf(roleMapper
+                .selectOne(new QueryWrapper<Role>()
+                        .eq("role_id", role
+                                .getId())).getDescription()));
+        roleCreateVO.setRoleName(String.valueOf(roleMapper
+                .selectOne(new QueryWrapper<Role>()
+                        .eq("role_id", role.getId())).getName()));
+//        roleCreateVO.setPermissionsName(role.getName());
         roleCreateVO.setPermissionsName(roleCreateDTO.getPermissions());
         return roleCreateVO;
     }

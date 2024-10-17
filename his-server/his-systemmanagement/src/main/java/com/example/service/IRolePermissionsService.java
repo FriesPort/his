@@ -16,6 +16,4 @@ import com.example.vo.systemmanagement.roles.RoleCreateVO;
  */
 public interface IRolePermissionsService extends IService<RolePermissions> {
     RoleCreateVO definedRole(RoleCreateDTO roleCreateDTO);
-
-
 }

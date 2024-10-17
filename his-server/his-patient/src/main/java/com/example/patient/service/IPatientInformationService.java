@@ -1,9 +1,12 @@
 package com.example.patient.service;
 
-import com.example.patient.dto.PatientQueryDTO;
+import com.example.dto.patient.PatientAlterDTO;
+import com.example.dto.patient.PatientDeleteDTO;
+import com.example.dto.patient.PatientEditDTO;
+import com.example.dto.patient.PatientQueryDTO;
 import com.example.patient.entity.Patient;
-import com.example.patient.vo.PatientVo;
-import com.example.patient.vo.Result;
+import com.example.vo.patient.PatientVo;
+import com.example.vo.patient.Result;
 import com.example.patient.dto.PatientAlterDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -27,7 +30,10 @@ public interface IPatientInformationService extends IService<Patient> {
 
     Result<String> patientAdd(PatientAlterDTO patientAlterDTO);
 
-    Result<String> patientEdit(PatientAlterDTO patientAlterDTO);
+    Result<String> patientsAdd(List<PatientAlterDTO> patientList);
 
-    Result<String> patientDelete(Long patientId);
+    Result<String> patientEdit(PatientEditDTO patientEditDTO);
+
+    Result<String> patientDelete(PatientDeleteDTO patientDeleteDTO);
+
 }

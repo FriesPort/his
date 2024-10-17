@@ -25,7 +25,4 @@ public class UserRole implements Serializable {
 
     private String roleId;
 
-    private String urId;
-
-
 }
