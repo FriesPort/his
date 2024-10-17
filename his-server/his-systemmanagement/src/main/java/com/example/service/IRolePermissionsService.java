@@ -3,7 +3,6 @@ package com.example.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.dto.systemmanagement.roles.RoleCreateDTO;
-import com.example.entity.RolePermissions;
 import com.example.vo.systemmanagement.roles.RoleCreateVO;
 
 /**
@@ -16,6 +15,4 @@ import com.example.vo.systemmanagement.roles.RoleCreateVO;
  */
 public interface IRolePermissionsService extends IService<RolePermissions> {
     RoleCreateVO definedRole(RoleCreateDTO roleCreateDTO);
-
-
 }

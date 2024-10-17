@@ -26,7 +26,6 @@
         <module>his-systemmanagement</module>
         <module>his-security</module>
     </modules>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -35,6 +34,18 @@
                 <version>1.18.30</version>
                 <optional>true</optional>
             </dependency>
+
+            <dependency>
+                <groupId>com.example</groupId>
+                <artifactId>his-common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.example</groupId>
+                <artifactId>his-patient</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
 
             <!--spring cloud-->
             <dependency>
@@ -90,24 +101,11 @@
                 <version>3.5.5</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.fasterxml.jackson.dataformat</groupId>
-                <artifactId>jackson-dataformat-xml</artifactId>
-                <version>2.15.3</version>
-            </dependency>
-
-            <!--fastjson依赖-->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>1.2.33</version>
-            </dependency>
-            <!--序列化工具-->
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>2.14.1</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.fasterxml.jackson.dataformat</groupId>-->
+<!--                <artifactId>jackson-dataformat-xml</artifactId>-->
+<!--                <version>2.15.3</version>-->
+<!--            </dependency>-->
 
 
             <dependency>
@@ -122,12 +120,12 @@
                 <version>3.0.0</version>
             </dependency>
 
-            <!--JWT的依赖-->
-            <dependency>
-                <groupId>com.auth0</groupId>
-                <artifactId>java-jwt</artifactId>
-                <version>4.1.0</version>
-            </dependency>
+<!--            &lt;!&ndash;JWT的依赖&ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>com.auth0</groupId>-->
+<!--                <artifactId>java-jwt</artifactId>-->
+<!--                <version>4.1.0</version>-->
+<!--            </dependency>-->
 
             <dependency>
                 <groupId>redis.clients</groupId>
@@ -149,10 +147,28 @@
                 <version>2.5.0</version>
             </dependency>
 
+<!--            &lt;!&ndash; 其他依赖 &ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.security</groupId>-->
+<!--                <artifactId>spring-security-web</artifactId>-->
+<!--                <version>5.7.1</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.security</groupId>-->
+<!--                <artifactId>spring-security-config</artifactId>-->
+<!--                <version>5.7.1</version>-->
+<!--            </dependency>-->
+
             <dependency>
                 <groupId>com.example</groupId>
                 <artifactId>his-domain</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-security</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>

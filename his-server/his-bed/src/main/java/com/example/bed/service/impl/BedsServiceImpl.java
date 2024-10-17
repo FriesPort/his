@@ -16,8 +16,8 @@ import com.example.bed.vo.bedSearch.SearchVo;
 import com.example.bed.vo.bedPage.CampusVo;
 import com.example.bed.vo.bedPage.OfficeVo;
 import com.example.bed.vo.bedPage.WardVo;
+import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -36,15 +36,15 @@ import java.util.Objects;
 @Service
 public class BedsServiceImpl extends ServiceImpl<BedsMapper, Bed> implements IBedsService {
 
-    @Autowired
+    @Resource
     private IRoomsService roomsService;
-    @Autowired
+    @Resource
     private IPatientService patientInformationService;
-    @Autowired
+    @Resource
     private ICampusService campusService;
-    @Autowired
+    @Resource
     private IOfficeService officeService;
-    @Autowired
+    @Resource
     private IWardService wardService;
 
     @Override   //页面信息提供
@@ -99,9 +99,9 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper, Bed> implements IBe
      * @return 床位列表
      */
     @Override
-    public List<Bed> bedList(List<com.example.bed.entity.Room> rooms, BedSearchDTO bedSearchDTO) {
+    public List<Bed> bedList(List<Room> rooms, BedSearchDTO bedSearchDTO) {
         List<Bed> beds = new ArrayList<>();
-        for (com.example.bed.entity.Room room : rooms){
+        for (Room room : rooms){
             beds.addAll(lambdaQuery().eq(bedSearchDTO.getBedType()!=null, Bed::getBedType,bedSearchDTO.getBedType())
                             .eq(Bed::getRoomId,room.getRoomId())
                     .list());
@@ -117,15 +117,15 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper, Bed> implements IBe
     @Override
     public List<SearchVo> bedPatientList(List<Bed> beds) {
         List<SearchVo> searchVos = new ArrayList<>();
-        com.example.bed.entity.Room room;
+        Room room;
         Patient patientInformation = null;
 
         SearchVo v ;
         for (Bed bed : beds){
             v = new SearchVo();
             //查询床位对应房间
-            LambdaQueryWrapper<com.example.bed.entity.Room> roomsLambdaQueryWrapper = new LambdaQueryWrapper<>();
-            roomsLambdaQueryWrapper.eq(com.example.bed.entity.Room::getRoomId,bed.getRoomId());
+            LambdaQueryWrapper<Room> roomsLambdaQueryWrapper = new LambdaQueryWrapper<>();
+            roomsLambdaQueryWrapper.eq(Room::getRoomId,bed.getRoomId());
             room = roomsService.getOne(roomsLambdaQueryWrapper);
 
             //拷贝房间信息
@@ -153,13 +153,13 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper, Bed> implements IBe
     @Override   //查看病区空闲床位
     public Result<List<BedVo>> bedAssign(Integer wardId) {
         Result<List<BedVo>> result = new Result<>();
-        LambdaQueryWrapper<com.example.bed.entity.Room> roomLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        roomLambdaQueryWrapper.eq(com.example.bed.entity.Room::getWardId,wardId);
+        LambdaQueryWrapper<Room> roomLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        roomLambdaQueryWrapper.eq(Room::getWardId,wardId);
         //查询病区的房间
-        List<com.example.bed.entity.Room> rooms = roomsService.list(roomLambdaQueryWrapper);
+        List<Room> rooms = roomsService.list(roomLambdaQueryWrapper);
         ArrayList<BedVo> bedVos = new ArrayList<>();
         //遍历房间中的空闲床位
-        for (com.example.bed.entity.Room room : rooms) {
+        for (Room room : rooms) {
             LambdaQueryWrapper<Bed> bedLambdaQueryWrapper = new LambdaQueryWrapper<>();
             bedLambdaQueryWrapper.eq(Bed::getRoomId,room.getRoomId())
                     .eq(Bed::getBedStatus,"空闲");
@@ -219,9 +219,9 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper, Bed> implements IBe
         this.update(null,bedsLambdaUpdateWrapper);
 
         //获取床位的房间区域信息
-        LambdaQueryWrapper<com.example.bed.entity.Room> roomLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        roomLambdaQueryWrapper.eq(com.example.bed.entity.Room::getRoomId,bed.getRoomId());
-        com.example.bed.entity.Room room = roomsService.getOne(roomLambdaQueryWrapper);
+        LambdaQueryWrapper<Room> roomLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        roomLambdaQueryWrapper.eq(Room::getRoomId,bed.getRoomId());
+        Room room = roomsService.getOne(roomLambdaQueryWrapper);
 
         //更新患者区域信息及修改患者状态
         LambdaUpdateWrapper<Patient> patientInformationLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
@@ -292,7 +292,7 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper, Bed> implements IBe
     public Result<String> bedAdd(BedAddDTO bedAddDTO) {
         Result<String> result = new Result<>();
         //获取新增床位的房间信息
-        com.example.bed.entity.Room room = roomsService.getById(bedAddDTO.getRoomId());
+        Room room = roomsService.getById(bedAddDTO.getRoomId());
         //检查房间
         if (room == null) {
             result.setMessage("找不到指定房间");
@@ -318,9 +318,9 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper, Bed> implements IBe
         //新增床位
         this.save(bed);
         //房间床位数量增加
-        LambdaUpdateWrapper<com.example.bed.entity.Room> roomsLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-        roomsLambdaUpdateWrapper.set(com.example.bed.entity.Room::getBedCount,room.getBedCount()+1)
-                .eq(com.example.bed.entity.Room::getRoomId,bedAddDTO.getRoomId());
+        LambdaUpdateWrapper<Room> roomsLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        roomsLambdaUpdateWrapper.set(Room::getBedCount,room.getBedCount()+1)
+                .eq(Room::getRoomId,bedAddDTO.getRoomId());
         roomsService.update(roomsLambdaUpdateWrapper);
         result.setStatus(true);
         result.setMessage("添加成功");
@@ -339,12 +339,12 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper, Bed> implements IBe
         //判断床位使用情况
         if (bed.getBedStatus().equals("空闲")) {
             //获取床位的房间信息
-            com.example.bed.entity.Room room = roomsService.getById(bed.getRoomId());
+            Room room = roomsService.getById(bed.getRoomId());
             //床位数量-1
             room.setBedCount(room.getBedCount()-1);
             //更新数据库
-            LambdaUpdateWrapper<com.example.bed.entity.Room> roomLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-            roomLambdaUpdateWrapper.eq(com.example.bed.entity.Room::getRoomId,room.getRoomId());
+            LambdaUpdateWrapper<Room> roomLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+            roomLambdaUpdateWrapper.eq(Room::getRoomId,room.getRoomId());
             roomsService.update(room,roomLambdaUpdateWrapper);
             removeById(bedId);
             result.setStatus(true);

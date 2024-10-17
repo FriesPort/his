@@ -2,7 +2,6 @@ package com.example.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.entity.Permissions;
 import com.example.vo.systemmanagement.permissions.PermissionListVO;
 
 import java.util.List;

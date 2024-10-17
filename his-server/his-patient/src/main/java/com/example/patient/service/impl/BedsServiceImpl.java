@@ -16,5 +16,4 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class BedsServiceImpl extends ServiceImpl<BedsMapper, Beds> implements IBedsService {
-
 }

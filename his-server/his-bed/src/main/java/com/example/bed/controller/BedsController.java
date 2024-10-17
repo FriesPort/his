@@ -6,16 +6,15 @@ import com.example.bed.dto.BedDispatchDTO;
 import com.example.bed.dto.BedSearchDTO;
 import com.example.bed.entity.Bed;
 import com.example.bed.entity.Room;
-import com.example.bed.vo.Result;
 import com.example.bed.service.IBedsService;
 import com.example.bed.service.IRoomsService;
+import com.example.bed.vo.Result;
 import com.example.bed.vo.bedAdd.RoomVo;
 import com.example.bed.vo.bedAssign.BedVo;
-import com.example.bed.vo.bedSearch.SearchVo;
 import com.example.bed.vo.bedPage.CampusVo;
+import com.example.bed.vo.bedSearch.SearchVo;
 import com.example.vo.JsonVO;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,9 +30,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/beds")
 public class BedsController {
-    @Autowired
+    @Resource
     private IBedsService bedsService;
-    @Autowired
+    @Resource
     private IRoomsService roomsService;
 
     @GetMapping //进入页面时，提供区域信息
@@ -56,7 +55,7 @@ public class BedsController {
         BedSearchDTO bedSearchDTO = new BedSearchDTO(wardId, officeId, campusId, bedType, roomType, bedCount, roomGender);
         System.out.println("bedSearchDTO = " + bedSearchDTO);
         //先查出符合条件的房间
-        List<com.example.bed.entity.Room> rooms = roomsService.roomList(bedSearchDTO);
+        List<Room> rooms = roomsService.roomList(bedSearchDTO);
         for (Room room : rooms) {
             System.out.println("room = " + room);
         }
