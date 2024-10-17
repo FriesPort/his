@@ -1,6 +1,7 @@
 package com.example.config.Jwt;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,12 +9,12 @@ import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 
 import java.security.KeyPair;
 
+@Slf4j
 @Configuration
 @EnableConfigurationProperties(JwtProperties.class)
 public class JwtConfig {
-    @Bean(name="keyPairJwt")
+    @Bean
     public KeyPair keyPair(JwtProperties properties){
-
         // 获取秘钥工厂
         KeyStoreKeyFactory keyStoreKeyFactory =
                 new KeyStoreKeyFactory(

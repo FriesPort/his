@@ -10,7 +10,7 @@ import java.time.Duration;
 @ConfigurationProperties(prefix = "hm.jwt")
 public class JwtProperties {
     private Resource location;
-    private String password;
+    private String password="hmall123";
     private String alias;
     private Duration tokenTTL = Duration.ofMinutes(10);
 }

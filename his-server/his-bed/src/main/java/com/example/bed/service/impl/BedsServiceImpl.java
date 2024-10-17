@@ -7,8 +7,6 @@ import com.example.bed.dto.BedDispatchDTO;
 import com.example.bed.dto.BedSearchDTO;
 import com.example.bed.entity.*;
 import com.example.bed.service.*;
-import org.example.bed.entity.*;
-import org.example.bed.service.*;
 import com.example.bed.vo.Result;
 import com.example.bed.mapper.BedsMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

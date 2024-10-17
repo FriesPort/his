@@ -29,7 +29,7 @@ public class HisSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/security/**").anonymous();
+                .antMatchers("/security/**","/user/**").anonymous();
     }
 
     @Bean

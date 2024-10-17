@@ -20,6 +20,7 @@ import com.example.dto.systemmanagement.users.UserUpdateDTO;
 import com.example.service.IUserService;
 import com.example.vo.JsonVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.List;
  * @author diandian
  * @since 2024-04-13
  */
-@RestController
+@Controller
 @RequestMapping("/user")
 public class UsersController{
     @Autowired

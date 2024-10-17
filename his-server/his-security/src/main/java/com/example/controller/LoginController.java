@@ -6,10 +6,7 @@ import com.example.vo.JsonVO;
 import com.example.vo.login.LoginVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/security")
@@ -20,5 +17,9 @@ public class LoginController {
     @PostMapping("/login")
     public JsonVO<LoginVO> login(@RequestBody LoginDTO loginDTO){
         return JsonVO.success(loginService.login(loginDTO));
+    }
+    @GetMapping("/test")
+    public JsonVO<String> test(){
+        return JsonVO.success("test");
     }
 }

@@ -24,12 +24,14 @@ his-system-management:
     NFLoadBalancerRuleClassName: com.alibaba.cloud.nacos.ribbon.NacosRule
 
 
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+
+
 hm:
   jwt:
     location: classpath:hmall.jks
     alias: hmall
     password: hmall123
     tokenTTL: 300m
-
-mybatis-plus:
-  mapper-locations: classpath*:mapper/*.xml

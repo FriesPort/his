@@ -65,7 +65,8 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
 
         //1 从Redis中获取当前路径可访问角色列表
         String path = authorizationContext.getExchange().getRequest().getURI().getPath();
-        String token = authorizationContext.getExchange().getRequest().getHeaders().getFirst("Authorization").replace("His_","");List<String> authorities = queryPermissionListByPath(path);
+        String token = authorizationContext.getExchange().getRequest().getHeaders().getFirst("Authorization").replace("His_","");
+        List<String> authorities = queryPermissionListByPath(path);
         String relToken=token.replace("Bearer ","");
         // 没有查询到结果，尝试查找通配符
         if (authorities.isEmpty()) {

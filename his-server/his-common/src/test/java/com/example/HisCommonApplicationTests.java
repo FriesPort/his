@@ -24,7 +24,7 @@ class HisCommonApplicationTests {
         List<String> permissionList = List.of("user:add", "user:update");
         String token=jwtTool.createToken("1", Duration.ofMinutes(10),permissionList);
         System.out.println("token:"+token);
-        String relToken=token.replace("His_","");
+        String relToken=token.replace("Bearer ","");
         String userId=jwtTool.parseTokenForUserId(relToken);
         System.out.println("userid"+userId);
         List<String> permissionList1=jwtTool.parseTokenForPermission(relToken);

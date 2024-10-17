@@ -46,7 +46,7 @@ spring:
         - id: systemanagement
           uri: http://127.0.0.1:9000
           predicates:
-            - Path=/user/**,/roles/**,/permissions/**
+            - Path=/users/**,/roles/**,/permissions/**
         - id: bed
           uri: http://127.0.0.1:8080
           predicates:
@@ -60,16 +60,6 @@ spring:
 server:
   port: 9090
 
-hm:
-  jwt:
-    location: classpath:hmall.jks # 秘钥地址
-    alias: hmall # 秘钥别名
-    password: hmall123 # 秘钥文件密码
-    tokenTTL: 300m # 登录有效期
-  auth:
-    excludePaths: # 无需登录校验的路径
-      - /gateway/login
-      - /users/register
 
 mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml
@@ -79,4 +69,11 @@ secure:
   white:
     urls:
       - "/security/**"
-#      - "/user/roleandpermission/search"
+      - "/user/**"
+
+hm:
+  jwt:
+    location: classpath:hmall.jks
+    alias: hmall
+    password: hmall123
+    tokenTTL: 300m

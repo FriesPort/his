@@ -1,11 +1,12 @@
-//package com.example;
-//
-//import org.springframework.boot.SpringApplication;
-//import org.springframework.boot.autoconfigure.SpringBootApplication;
-//
-//@SpringBootApplication
-//public class HisCommonApplication {
-//    public static void main(String[] args) {
-//        SpringApplication.run(HisCommonApplication.class,args);
-//    }
-//}
+package com.example;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+
+@SpringBootApplication
+public class HisCommonApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(HisCommonApplication.class,args);
+    }
+}
