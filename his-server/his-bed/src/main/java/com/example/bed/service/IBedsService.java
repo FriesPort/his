@@ -1,10 +1,11 @@
 package com.example.bed.service;
 
+import com.example.bed.entity.Bed;
+import com.example.bed.entity.Room;
 import com.example.bed.dto.BedAddDTO;
 import com.example.bed.dto.BedDispatchDTO;
 import com.example.bed.dto.BedSearchDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.bed.entity.Bed;
 import com.example.bed.vo.Result;
 import com.example.bed.vo.bedAdd.RoomVo;
 import com.example.bed.vo.bedAssign.BedVo;
@@ -25,7 +26,7 @@ public interface IBedsService extends IService<Bed> {
 
     Result<List<CampusVo>> bedPage();
 
-    List<Bed> bedList(List<com.example.bed.entity.Room> rooms, BedSearchDTO bedSearchDTO);
+    List<Bed> bedList(List<Room> rooms, BedSearchDTO bedSearchDTO);
 
     List<SearchVo> bedPatientList(List<Bed> beds);
 

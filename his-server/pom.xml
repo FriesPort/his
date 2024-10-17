@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.16</version>
+        <version>3.0.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
@@ -34,11 +34,23 @@
                 <optional>true</optional>
             </dependency>
 
+            <dependency>
+                <groupId>com.example</groupId>
+                <artifactId>his-common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.example</groupId>
+                <artifactId>his-patient</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+
             <!--spring cloud-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>2021.0.3</version>
+                <version>2022.0.3</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -46,28 +58,28 @@
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>2021.0.6.1</version>
+                <version>2022.0.0.0-RC2</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!--  nacos依赖-->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-                <version>2021.0.6.1</version>
-            </dependency>
-            <!--  nacos配置依赖-->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-                <version>2021.0.6.1</version>
-            </dependency>
-            <!--      nacos的bootstrap的yml文件依赖-->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-bootstrap</artifactId>
-                <version>3.1.3</version>
-            </dependency>
+<!--            &lt;!&ndash;  nacos依赖&ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>com.alibaba.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
+<!--                <version>2022.0.0.0-RC2</version>-->
+<!--            </dependency>-->
+<!--            &lt;!&ndash;  nacos配置依赖&ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>com.alibaba.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>-->
+<!--                <version>2022.0.0.0-RC2</version>-->
+<!--            </dependency>-->
+<!--            &lt;!&ndash;      nacos的bootstrap的yml文件依赖&ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-starter-bootstrap</artifactId>-->
+<!--                <version>3.1.3</version>-->
+<!--            </dependency>-->
             <!--      druid数据源-->
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -87,11 +99,11 @@
                 <version>3.5.5</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.fasterxml.jackson.dataformat</groupId>
-                <artifactId>jackson-dataformat-xml</artifactId>
-                <version>2.15.3</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.fasterxml.jackson.dataformat</groupId>-->
+<!--                <artifactId>jackson-dataformat-xml</artifactId>-->
+<!--                <version>2.15.3</version>-->
+<!--            </dependency>-->
 
 
             <dependency>
@@ -106,12 +118,12 @@
                 <version>3.0.0</version>
             </dependency>
 
-            <!--JWT的依赖-->
-            <dependency>
-                <groupId>com.auth0</groupId>
-                <artifactId>java-jwt</artifactId>
-                <version>4.1.0</version>
-            </dependency>
+<!--            &lt;!&ndash;JWT的依赖&ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>com.auth0</groupId>-->
+<!--                <artifactId>java-jwt</artifactId>-->
+<!--                <version>4.1.0</version>-->
+<!--            </dependency>-->
 
             <dependency>
                 <groupId>redis.clients</groupId>
@@ -121,9 +133,40 @@
             </dependency>
 
             <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>5.8.11</version>
+            </dependency>
+
+            <!--redis依赖-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>2.5.0</version>
+            </dependency>
+
+<!--            &lt;!&ndash; 其他依赖 &ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.security</groupId>-->
+<!--                <artifactId>spring-security-web</artifactId>-->
+<!--                <version>5.7.1</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.security</groupId>-->
+<!--                <artifactId>spring-security-config</artifactId>-->
+<!--                <version>5.7.1</version>-->
+<!--            </dependency>-->
+
+            <dependency>
                 <groupId>com.example</groupId>
                 <artifactId>his-domain</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-security</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>

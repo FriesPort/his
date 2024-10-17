@@ -2,8 +2,8 @@ package com.example.controller;
 
 
 import com.example.service.IPermissionsService;
-import com.example.vo.JsonVO;
 import com.example.vo.systemmanagement.permissions.PermissionListVO;
+import com.example.vo.JsonVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

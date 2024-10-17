@@ -4,12 +4,13 @@ package com.example.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.dto.systemmanagement.users.UserDisplayDTO;
-import com.example.dto.systemmanagement.users.UserAddDTO;
-import com.example.dto.systemmanagement.users.UserDeleteDTO;
-import com.example.dto.systemmanagement.users.UserUpdateDTO;
+import com.example.dto.systemmanagement.user.UserDisplayDTO;
+import com.example.dto.systemmanagement.user.UserAddDTO;
+import com.example.dto.systemmanagement.user.UserDeleteDTO;
+import com.example.dto.systemmanagement.user.UserUpdateDTO;
+import com.example.dto.systemmanagement.userrole.UserCreateDTO;
 import com.example.entity.User;
-import com.example.vo.systemmanagement.users.UsersDisplayVO;
+import com.example.vo.systemmanagement.userrole.UserRoleDisplayVo;
 
 import java.util.List;
 
@@ -28,6 +29,14 @@ public interface IUserService extends IService<User> {
 
     boolean updateUser(UserUpdateDTO userUpdateDTO);
 
-    boolean deleteUser(UserDeleteDTO userDeleteDTO);
+    boolean deleteUser(String id);
 
+    boolean allocateRole(UserCreateDTO userCreateDTO);
+
+
+    boolean userRoleDelete(String userId, String roleId);
+
+    List<UserRoleDisplayVo> userRoleDisplay(String userId);
+
+    List<UserRoleDisplayVo> unownedUserRoleDisplay(String userId);
 }

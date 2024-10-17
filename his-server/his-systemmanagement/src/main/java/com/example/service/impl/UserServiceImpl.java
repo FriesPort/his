@@ -1,23 +1,24 @@
 package com.example.service.impl;
 
 
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.dto.systemmanagement.users.UserDisplayDTO;
-import com.example.dto.systemmanagement.users.UserAddDTO;
-import com.example.dto.systemmanagement.users.UserDeleteDTO;
-import com.example.dto.systemmanagement.users.UserUpdateDTO;
+import com.example.dto.systemmanagement.user.UserDisplayDTO;
+import com.example.dto.systemmanagement.user.UserAddDTO;
+import com.example.dto.systemmanagement.user.UserUpdateDTO;
+import com.example.dto.systemmanagement.userrole.UserCreateDTO;
+import com.example.entity.Role;
 import com.example.entity.User;
-import com.example.mapper.CampusMapper;
+import com.example.entity.UserRole;
 import com.example.mapper.UserMapper;
+import com.example.mapper.UserRoleMapper;
 import com.example.service.IUserService;
 import com.example.utils.IdGenerate;
-import com.example.vo.systemmanagement.users.UsersAddVO;
-import com.example.vo.systemmanagement.users.UsersDeleteVO;
-import com.example.vo.systemmanagement.users.UsersUpdateVO;
+import com.example.vo.systemmanagement.user.UserDeleteVO;
+import com.example.vo.systemmanagement.user.UserUpdateVO;
+import com.example.vo.systemmanagement.userrole.UserRoleDisplayVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -39,11 +41,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     private UserMapper userMapper;
-
-    @Autowired
-    private CampusMapper campusMapper;
+    
     @Autowired
     private IdGenerate idGenerate;
+
+    @Autowired
+    private UserRoleMapper userRoleMapper;
 
     //添加用户的逻辑不需要返回新创建的用户信息
     @Override
@@ -71,9 +74,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 //        }
 //        return null;
         if(rows>=1){
-            return UsersAddVO.success;
+            return true;
         }
-        return UsersAddVO.fail;
+        return false;
     }
 
     @Override
@@ -118,21 +121,56 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         BeanUtils.copyProperties(userUpdateDTO,user);
         int rows = userMapper.updateById(user);
         if(rows>=1){
-            return UsersUpdateVO.success;
+            return UserUpdateVO.success;
         }
-        return UsersUpdateVO.fail;
+        return UserUpdateVO.fail;
     }
 
     @Override
-    public boolean deleteUser(UserDeleteDTO userDeleteDTO) {
-        int rows = userMapper.delete(new LambdaQueryWrapper<User>().eq(User::getId, userDeleteDTO.getUser_id()));
+    public boolean deleteUser(String id) {
+        int rows = userMapper.delete(new LambdaQueryWrapper<User>().eq(User::getId, id));
 //        if(usersMapper.selectOne(new LambdaQueryWrapper<Users>()
 //                .eq(Users::getUserId,usersDeleteDTO.getUser_id()))==null){
 //            return UsersDeleteVO.success;
 //        }
         if(rows>=1){
-            return UsersDeleteVO.success;
+            return UserDeleteVO.success;
         }
-        return UsersDeleteVO.fail;
+        return UserDeleteVO.fail;
+    }
+
+    @Override
+    public boolean allocateRole(UserCreateDTO userCreateDTO) {
+        UserRole userRole = new UserRole();
+        userRole.setUserId(userCreateDTO.getUserId());
+        userRole.setRoleId(userRole.getRoleId());
+        int rows = userRoleMapper.insert(userRole);
+        if(rows>=1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public boolean userRoleDelete(String userId, String roleId) {
+        LambdaQueryWrapper<UserRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserRole::getUserId,userId);
+        queryWrapper.eq(UserRole::getRoleId,roleId);
+        int rows = userRoleMapper.delete(queryWrapper);
+        if(rows>=1){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public List<UserRoleDisplayVo> userRoleDisplay(String userId) {
+        return userMapper.userRoleDisplay(userId);
+    }
+
+    @Override
+    public List<UserRoleDisplayVo> unownedUserRoleDisplay(String userId) {
+        return userMapper.unownedUserRoleDisplay(userId);
     }
 }

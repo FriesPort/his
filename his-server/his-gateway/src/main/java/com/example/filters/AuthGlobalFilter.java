@@ -1,71 +1,85 @@
 package com.example.filters;
 
-import cn.hutool.core.text.AntPathMatcher;
-
-import com.example.config.AuthProperties;
-import com.example.utils.JwtTool;
-import lombok.RequiredArgsConstructor;
+import cn.hutool.core.util.StrUtil;
+import com.example.constant.RedisConstant;
+import com.example.handler.CommonSender;
+import com.example.utils.RedisCache;
+import com.example.vo.ResultStatus;
+import com.example.entity.LoginUser;
+import com.example.utils.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.http.HttpStatus;
+import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
+import org.yaml.snakeyaml.util.UriEncoder;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
+@Slf4j
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class AuthGlobalFilter implements GlobalFilter, Ordered {
-    private final AuthProperties authProperties;
-    private final JwtTool jwtTool;
-    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
+    @Resource
+    private RedisCache redisCache;
+    @Resource
+    private JwtUtil jwtUtil;
+    @Resource
+    private RedisTemplate<String,Object> redisTemplate;
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        //1.获取request
-        ServerHttpRequest request = exchange.getRequest();
-        //2.判断是否需要做登录拦截
-        if(isExclude(request.getPath().toString())){
-            //放行
+        String token = exchange.getRequest().getHeaders().getFirst("Authorization");
+        if(StrUtil.isEmpty(token)){
             return chain.filter(exchange);
         }
-        //3.获取token
-        String token=null;
-        List<String> headers = request.getHeaders().get("authorization");
-        if(headers!=null&&!headers.isEmpty()){
-            token = headers.get(0);
-        }
-        //4.校验并解析token
-        String userId = null;
+
+        String relToken = token.replace("Bearer ","");
+        // 判断凭证是否注销
+//        if (Boolean.FALSE.equals(redisTemplate.hasKey(RedisConstant.USER_TOKEN+":"+relToken))){
+//            return CommonSender.sender(exchange, ResultStatus.UNAUTHORIZED,null);
+//        }
+
+        // 解析 token
+        String userid;
         try {
-             userId =  jwtTool.parseToken(token);
-        } catch (Exception e) {
-            //拦截，设置响应状态码为401
-            ServerHttpResponse response = exchange.getResponse();
-            response.setStatusCode(HttpStatus.UNAUTHORIZED);
-            return response.setComplete();
+            //从token中解析用户信息并设置到Header中去
+            List<String> permissionList = jwtUtil.parseTokenForPermission(relToken);
+            userid = jwtUtil.parseTokenForUserId(relToken);
+            log.info("当前用户权限信息:{}",permissionList.toString());
+            ServerHttpRequest request=exchange.getRequest().mutate()
+                    .header("user", UriEncoder.encode(permissionList.toString()))
+                    .build();
+            exchange=exchange.mutate().request(request).build();
+        }catch (Exception e){
+            e.printStackTrace();
+            return Mono.error(new RuntimeException("token 非法"));
         }
-        //5.传递用户信息
-        String userInfo = userId.toString();
-        ServerWebExchange swe = exchange.mutate()
-                .request(builder -> builder.header("user-info", userInfo))
-                .build();
-        //6.放行
-        return chain.filter(swe);
-    }
-
-    private boolean isExclude(String path) {
-        for (String pathPattern : authProperties.getExcludePaths()){
-            if(antPathMatcher.match(pathPattern,path)){
-                return true;
-            }
+        // 从 redis 中获取用户信息
+        String redisKey = "login:" + userid;
+        // 这里假设 LoginUser 可以转换为 User 对象
+        LoginUser loginUser = redisCache.getCacheObject(redisKey);
+        if (loginUser == null) {
+            return Mono.error(new RuntimeException("用户未登录"));
         }
-        return false;
-    }
 
+        // 存入 ReactiveSecurityContextHolder
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                loginUser, null, loginUser.getAuthorities());
+        return ReactiveSecurityContextHolder.getContext()
+                .map(context ->{
+                    context.setAuthentication(authenticationToken);
+                    return context;
+                })
+                .then(chain.filter(exchange));
+    }
 
     @Override
     public int getOrder() {

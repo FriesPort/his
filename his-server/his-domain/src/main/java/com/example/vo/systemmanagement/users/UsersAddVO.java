@@ -12,6 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 @ApiModel("自定义用户功能的返回信息")
 public class UsersAddVO<T> {
-    public static boolean success = true;
-    public static boolean fail = false;
+    private List<T> newUser;
 }

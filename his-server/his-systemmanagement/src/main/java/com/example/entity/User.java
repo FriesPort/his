@@ -2,7 +2,9 @@ package com.example.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -16,6 +18,8 @@ import java.time.LocalDateTime;
  * @since 2024-04-13
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,17 +40,15 @@ public class User implements Serializable {
 
     private String userType;
 
-    private String status="active";
-
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
+    private String createBy;
+
+    @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
 
-    @TableField("Enable")
-    private int Enable=1;
+    private String updateBy;
 
-    private String phone;
-
-
+    private int isUse;
 }

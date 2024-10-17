@@ -18,3 +18,10 @@ mybatis-plus:
       update-strategy: not_null
       insert-strategy: not_null
       id-type: auto
+
+hm:
+  jwt:
+    location: classpath:hmall.jks
+    alias: hmall
+    password: hmall123
+    tokenTTL: 300m
