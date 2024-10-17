@@ -43,7 +43,7 @@ public class UserController {
      * @param userAddDTO
      * @return JsonVO<String>
      */
-    @PutMapping("/msg/add")
+    @PostMapping("/msg/add")
     public JsonVO<String> AddUser(@RequestBody UserAddDTO userAddDTO) {
         if(iUserService.insertUser(userAddDTO)){
             return JsonVO.success("Add User Message Successful");
@@ -57,7 +57,7 @@ public class UserController {
      * @param id
      * @return JsonVO<String>
      */
-    @DeleteMapping ("/msg/delete")
+    @PostMapping("/msg/delete")
     public JsonVO<String> DeleteUser(@RequestParam String id) {
         if(iUserService.deleteUser(id)){
             return JsonVO.success("Delete User Message Successful");
@@ -102,7 +102,7 @@ public class UserController {
      * @param userCreateDTO
      * @return JsonVO<String>
      */
-    @PutMapping("/role/allocation")
+    @PostMapping("/role/allocation")
     public JsonVO<String> UserRoleAllocation(@RequestBody UserCreateDTO userCreateDTO) {
         if(iUserService.allocateRole(userCreateDTO)){
             return JsonVO.success("Allocate role success");
@@ -117,7 +117,7 @@ public class UserController {
      * @param roleId
      * @return JsonVO<String>
      */
-    @DeleteMapping("/role/delete")
+    @PostMapping("/role/delete")
     public JsonVO<String> UserRoleDelete(@RequestParam String userId,@RequestParam String roleId) {
         if(iUserService.userRoleDelete(userId,roleId)){
             return JsonVO.success(UserRoleDeleteVO.success);
