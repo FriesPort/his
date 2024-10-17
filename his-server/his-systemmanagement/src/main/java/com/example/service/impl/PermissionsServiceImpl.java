@@ -2,7 +2,6 @@ package com.example.service.impl;
 
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.entity.Permissions;
 import com.example.mapper.PermissionsMapper;
 import com.example.service.IPermissionsService;
 import com.example.vo.systemmanagement.permissions.PermissionListVO;

@@ -17,7 +17,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Role implements Serializable {
+public class Permission implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,15 +26,22 @@ public class Role implements Serializable {
      */
     private String id;
 
-    /**
-     * 角色名称
-     */
     private String name;
 
     /**
-     * 角色描述
+     * 权限名称
      */
     private String description;
+
+    /**
+     * 是否启用数据权限，0为否，1为是，默认为0
+     */
+    private Integer isDatarule;
+
+    /**
+     * 权限是否可用，0为否，1为是，默认为1
+     */
+    private Integer isUse;
 
     /**
      * 创建时间
@@ -56,6 +63,11 @@ public class Role implements Serializable {
      * 更新人
      */
     private String updateBy;
+
+    /**
+     * 权限对应的功能的路由
+     */
+    private String route;
 
 
 }

@@ -3,9 +3,9 @@ spring:
     name: his-system-management
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/hospital
+    url: jdbc:mysql://localhost:3306/hospital2
     username: root
-      password: 060601hyz
+    password: 060601hyz
   cloud:
     nacos:
       discovery:

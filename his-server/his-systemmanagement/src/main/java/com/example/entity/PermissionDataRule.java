@@ -2,6 +2,7 @@ package com.example.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -17,7 +18,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Role implements Serializable {
+@TableName("permission_data_rule")
+public class PermissionDataRule implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,14 +29,29 @@ public class Role implements Serializable {
     private String id;
 
     /**
-     * 角色名称
+     * 关联权限表中的一项-外键
      */
-    private String name;
+    private String permissionId;
 
     /**
-     * 角色描述
+     * 规则名称
      */
-    private String description;
+    private String ruleName;
+
+    /**
+     * 字段
+     */
+    private String ruleColumn;
+
+    /**
+     * 条件
+     */
+    private String ruleConditions;
+
+    /**
+     * 规则值
+     */
+    private String ruleValue;
 
     /**
      * 创建时间

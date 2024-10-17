@@ -9,7 +9,6 @@ import com.example.dto.systemmanagement.users.UsersAddDTO;
 import com.example.dto.systemmanagement.users.UsersDeleteDTO;
 import com.example.dto.systemmanagement.users.UsersUpdateDTO;
 import com.example.entity.Campus;
-import com.example.entity.Users;
 import com.example.mapper.CampusMapper;
 import com.example.mapper.UsersMapper;
 import com.example.service.IUsersService;

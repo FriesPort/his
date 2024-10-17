@@ -6,7 +6,6 @@ import com.example.dto.systemmanagement.userrole.UserCreateDTO;
 import com.example.dto.systemmanagement.userrole.UserRoleDeleteDTO;
 import com.example.dto.systemmanagement.userrole.UserRolePermissionSearchDTO;
 import com.example.dto.systemmanagement.userrole.UserRoleUpdateDTO;
-import com.example.entity.UserRoles;
 import com.example.vo.systemmanagement.userrole.UserCreateVO;
 import com.example.vo.systemmanagement.userrole.UserRolePermissionSearchVO;
 
