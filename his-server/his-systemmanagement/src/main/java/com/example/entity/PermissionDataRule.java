@@ -18,25 +18,40 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@TableName("user_role")
-public class UserRole implements Serializable {
+@TableName("permission_data_rule")
+public class PermissionDataRule implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 关联用户编号-外键
-     */
-    private String userId;
-
-    /**
-     * 关联角色编号-外键
-     */
-    private String roleId;
 
     /**
      * 主键
      */
     private String id;
+
+    /**
+     * 关联权限表中的一项-外键
+     */
+    private String permissionId;
+
+    /**
+     * 规则名称
+     */
+    private String ruleName;
+
+    /**
+     * 字段
+     */
+    private String ruleColumn;
+
+    /**
+     * 条件
+     */
+    private String ruleConditions;
+
+    /**
+     * 规则值
+     */
+    private String ruleValue;
 
     /**
      * 创建时间

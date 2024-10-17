@@ -2,7 +2,6 @@ package com.zeroone.star.his-systemmanagement.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -18,25 +17,31 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@TableName("user_role")
-public class UserRole implements Serializable {
+public class Permission implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 关联用户编号-外键
-     */
-    private String userId;
-
-    /**
-     * 关联角色编号-外键
-     */
-    private String roleId;
 
     /**
      * 主键
      */
     private String id;
+
+    private String name;
+
+    /**
+     * 权限名称
+     */
+    private String description;
+
+    /**
+     * 是否启用数据权限，0为否，1为是，默认为0
+     */
+    private Integer isDatarule;
+
+    /**
+     * 权限是否可用，0为否，1为是，默认为1
+     */
+    private Integer isUse;
 
     /**
      * 创建时间
@@ -58,6 +63,11 @@ public class UserRole implements Serializable {
      * 更新人
      */
     private String updateBy;
+
+    /**
+     * 权限对应的功能的路由
+     */
+    private String route;
 
 
 }
