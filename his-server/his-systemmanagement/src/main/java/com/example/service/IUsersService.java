@@ -7,7 +7,6 @@ import com.example.dto.systemmanagement.users.UsersDeleteDTO;
 import com.example.vo.systemmanagement.users.UsersDisplayVO;
 import com.example.dto.systemmanagement.users.UserDisplayDTO;
 import com.example.dto.systemmanagement.users.UsersUpdateDTO;
-import com.example.entity.Users;
 import com.example.vo.systemmanagement.users.UsersAddVO;
 
 import java.util.List;

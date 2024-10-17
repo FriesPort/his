@@ -11,7 +11,7 @@ import com.example.dto.systemmanagement.userrole.UserRoleUpdateDTO;
 import com.example.dto.systemmanagement.user.*;
 import com.example.service.IUserRolesService;
 import com.example.service.IUserService;
-import com.example.service.LoginService;
+
 import com.example.vo.JsonVO;
 import com.example.vo.login.LoginVO;
 import com.example.vo.systemmanagement.userrole.*;
@@ -35,15 +35,14 @@ public class UserController {
     @Autowired
     private IUserService iUserService;
 
-    @Autowired
-    private LoginService loginService;
+
 
     /**
      * 添加用户
      * @param userAddDTO
      * @return JsonVO<String>
      */
-    @PutMapping("/msg/add")
+    @PostMapping("/msg/add")
     public JsonVO<String> AddUser(@RequestBody UserAddDTO userAddDTO) {
         if(iUserService.insertUser(userAddDTO)){
             return JsonVO.success("Add User Message Successful");
@@ -57,7 +56,7 @@ public class UserController {
      * @param id
      * @return JsonVO<String>
      */
-    @DeleteMapping ("/msg/delete")
+    @PostMapping ("/msg/delete")
     public JsonVO<String> DeleteUser(@RequestParam String id) {
         if(iUserService.deleteUser(id)){
             return JsonVO.success("Delete User Message Successful");
@@ -102,7 +101,7 @@ public class UserController {
      * @param userCreateDTO
      * @return JsonVO<String>
      */
-    @PutMapping("/role/allocation")
+    @PostMapping("/role/allocation")
     public JsonVO<String> UserRoleAllocation(@RequestBody UserCreateDTO userCreateDTO) {
         if(iUserService.allocateRole(userCreateDTO)){
             return JsonVO.success("Allocate role success");
@@ -170,21 +169,7 @@ public class UserController {
 //        return JsonVO.success(iUserRolesService.all_search(userRolePermissionSearchDTO));
 //    }
 
-    @PostMapping("/login")
-    public JsonVO<LoginVO> login(@RequestBody LoginDTO loginDTO) {
-        LoginVO vo=loginService.login(loginDTO);
 
-        try{
-            if (vo.getToken() == null) {
-                return JsonVO.fail(vo);
-            } else if (vo.getLoginstatus().equals("账号或密码错误")) {
-                return JsonVO.fail(vo);
-            }
-        }catch (Exception e){
-            return JsonVO.fail(vo);
-        }
-        return JsonVO.success(vo);
-    }
 
 
 }
