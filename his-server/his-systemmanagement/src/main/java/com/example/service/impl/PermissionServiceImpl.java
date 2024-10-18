@@ -2,7 +2,7 @@ package com.example.service.impl;
 
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.mapper.PermissionsMapper;
+import com.example.mapper.PermissionMapper;
 import com.example.service.IPermissionsService;
 import com.example.vo.systemmanagement.permissions.PermissionListVO;
 import org.springframework.beans.BeanUtils;
@@ -21,13 +21,13 @@ import java.util.List;
  * @since 2024-04-13
  */
 @Service
-public class PermissionsServiceImpl extends ServiceImpl<PermissionsMapper, Permissions> implements IPermissionsService {
+public class PermissionsServiceImpl extends ServiceImpl<PermissionMapper, Permissions> implements IPermissionsService {
 
     @Autowired
-    PermissionsMapper permissionsMapper;
+    PermissionMapper permissionMapper;
     @Override
     public List<PermissionListVO> permissionList() {
-        List<Permissions> permissionsList=permissionsMapper.selectList(null);
+        List<Permissions> permissionsList= permissionMapper.selectList(null);
         if(permissionsList==null){
             return null;
         }
