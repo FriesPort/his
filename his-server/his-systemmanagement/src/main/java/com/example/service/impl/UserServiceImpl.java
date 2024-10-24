@@ -10,6 +10,7 @@ import com.example.dto.systemmanagement.user.UserAddDTO;
 import com.example.dto.systemmanagement.user.UserUpdateDTO;
 import com.example.dto.systemmanagement.userrole.UserCreateDTO;
 import com.example.entity.User;
+import com.example.entity.UserRole;
 import com.example.mapper.UserMapper;
 import com.example.mapper.UserRoleMapper;
 import com.example.service.IUserService;
