@@ -1,8 +1,8 @@
 package com.example.controller;
 
 
-import com.example.service.IRolePermissionsService;
-import com.example.service.IRolesService;
+import com.example.service.IRolePermissionService;
+import com.example.service.IRoleService;
 import com.example.vo.JsonVO;
 import com.example.vo.systemmanagement.roles.RoleCreateVO;
 import com.example.vo.systemmanagement.roles.RoleListVO;
@@ -22,26 +22,31 @@ import java.util.List;
  * @since 2024-04-13
  */
 @RestController
-@RequestMapping("/roles")
-public class RolesController{
+@RequestMapping("/system/role")
+public class RoleController {
 
     @Autowired
-    IRolesService iRolesService;
+    IRoleService iRoleService;
 
     @Autowired
-    IRolePermissionsService iRolePermissionsService;
+    IRolePermissionService iRolePermissionService;
 
 
-    @PostMapping("/permission/allocation")
+    @PostMapping("/register")
     @ApiOperation(value = "自定义角色")
     public JsonVO<RoleCreateVO> RoleCreate(@RequestBody RoleCreateDTO roleCreateDTO) {
-        return JsonVO.success(iRolePermissionsService.definedRole(roleCreateDTO));
+        return JsonVO.success(iRolePermissionService.definedRole(roleCreateDTO));
     }
 
     @GetMapping("/msg/display")
     public JsonVO<List<RoleListVO>> RoleList() {
 
-        return JsonVO.success(iRolesService.rolelist());
+        return JsonVO.success(iRoleService.rolelist());
+    }
+
+    @GetMapping("/permissiondisplay")
+    public JsonVO<List<String>> PermissionDisplay(@RequestParam String roleId) {
+        return null;
     }
 }
 

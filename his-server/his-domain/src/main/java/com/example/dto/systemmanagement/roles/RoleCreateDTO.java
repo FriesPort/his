@@ -13,10 +13,7 @@ import java.util.Map;
 @AllArgsConstructor
 @ApiModel("自定义角色的权限信息")
 public class RoleCreateDTO {
-    //private String token;
     private String roleName;
     private String description;
-
-    //private Map<String,String> role_p;
     private List<String> permissions;
 }

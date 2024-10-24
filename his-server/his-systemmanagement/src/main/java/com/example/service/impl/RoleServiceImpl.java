@@ -1,8 +1,9 @@
 package com.example.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.entity.Role;
 import com.example.mapper.RoleMapper;
-import com.example.service.IRolesService;
+import com.example.service.IRoleService;
 import com.example.vo.systemmanagement.roles.RoleListVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.util.List;
  * @since 2024-04-13
  */
 @Service
-public class RolesServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRolesService {
+public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
 
 
     @Autowired
