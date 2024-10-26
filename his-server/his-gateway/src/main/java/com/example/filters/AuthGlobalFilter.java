@@ -4,9 +4,9 @@ import cn.hutool.core.util.StrUtil;
 import com.example.constant.RedisConstant;
 import com.example.handler.CommonSender;
 import com.example.utils.RedisCache;
-import com.example.vo.ResultStatus;
 import com.example.entity.LoginUser;
 import com.example.utils.JwtUtil;
+import com.example.vo.ResultStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -43,9 +43,9 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
         String relToken = token.replace("Bearer ","");
         // 判断凭证是否注销
-//        if (Boolean.FALSE.equals(redisTemplate.hasKey(RedisConstant.USER_TOKEN+":"+relToken))){
-//            return CommonSender.sender(exchange, ResultStatus.UNAUTHORIZED,null);
-//        }
+        if (Boolean.FALSE.equals(redisTemplate.hasKey(RedisConstant.USER_TOKEN+":"+relToken))){
+            return CommonSender.sender(exchange, ResultStatus.UNAUTHORIZED,null);
+        }
 
         // 解析 token
         String userid;
@@ -55,7 +55,8 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             userid = jwtUtil.parseTokenForUserId(relToken);
             log.info("当前用户权限信息:{}",permissionList.toString());
             ServerHttpRequest request=exchange.getRequest().mutate()
-                    .header("user", UriEncoder.encode(permissionList.toString()))
+                    .header("permissions", UriEncoder.encode(permissionList.toString()))
+                    .header("userId",userid)
                     .build();
             exchange=exchange.mutate().request(request).build();
         }catch (Exception e){
@@ -69,6 +70,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         if (loginUser == null) {
             return Mono.error(new RuntimeException("用户未登录"));
         }
+
 
         // 存入 ReactiveSecurityContextHolder
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(

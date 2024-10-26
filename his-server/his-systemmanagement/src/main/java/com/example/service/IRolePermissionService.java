@@ -2,9 +2,13 @@ package com.example.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.dto.systemmanagement.rolepermission.RoleAllocationDTO;
 import com.example.dto.systemmanagement.roles.RoleCreateDTO;
 import com.example.entity.RolePermission;
-import com.example.vo.systemmanagement.roles.RoleCreateVO;
+import com.example.vo.systemmanagement.role.PermissionDisplayVO;
+import com.example.vo.systemmanagement.role.RoleCreateVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,5 +19,12 @@ import com.example.vo.systemmanagement.roles.RoleCreateVO;
  * @since 2024-04-17
  */
 public interface IRolePermissionService extends IService<RolePermission> {
+    //自定义角色
     RoleCreateVO definedRole(RoleCreateDTO roleCreateDTO);
+
+    //角色权限展示
+    List<PermissionDisplayVO> permissionDisplay(String roleId);
+
+    //角色权限分配
+    boolean roleAllocation(RoleAllocationDTO allocationDTO,String userId);
 }

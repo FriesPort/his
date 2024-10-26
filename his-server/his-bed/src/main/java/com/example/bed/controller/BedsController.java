@@ -13,7 +13,6 @@ import com.example.bed.vo.bedAdd.RoomVo;
 import com.example.bed.vo.bedAssign.BedVo;
 import com.example.bed.vo.bedPage.CampusVo;
 import com.example.bed.vo.bedSearch.SearchVo;
-import com.example.vo.JsonVO;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 

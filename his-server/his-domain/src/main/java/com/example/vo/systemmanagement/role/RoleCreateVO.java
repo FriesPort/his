@@ -1,4 +1,4 @@
-package com.example.vo.systemmanagement.roles;
+package com.example.vo.systemmanagement.role;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor

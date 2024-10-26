@@ -1,7 +1,7 @@
-package com.zeroone.star.his-domain.mapper;
+package com.example.mapper;
 
-import com.zeroone.star.his-domain.entity.PermissionDataRule;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.entity.PermissionDataRule;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

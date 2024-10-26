@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @ApiModel("权限列表")
 public class PermissionListVO {
-    private String permissionId;
+    private String id;
 
-    private String permissionName;
+    private String name;
 
-    private String permissionType;
+    private String description;
 }

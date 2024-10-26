@@ -7,8 +7,6 @@ import com.example.dto.patient.PatientQueryDTO;
 import com.example.patient.service.IPatientInformationService;
 import com.example.vo.patient.PatientVo;
 import com.example.vo.patient.Result;
-import com.example.vo.JsonVO;
-import com.example.patient.dto.PatientAlterDTO;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 import com.example.patient.utils.JsonReader;

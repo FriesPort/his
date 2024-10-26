@@ -1,4 +1,4 @@
-package com.example.vo.systemmanagement.roles;
+package com.example.vo.systemmanagement.role;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @ApiModel("角色列表")
 public class RoleListVO {
-    private String roleId;
+    private String id;
 
-    private String roleName;
+    private String name;
 
     private String description;
 }
