@@ -1,7 +1,7 @@
 package com.example.bed.mapper;
 
-import com.example.bed.entity.Campus;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.bed.entity.Campus;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
