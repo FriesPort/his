@@ -46,10 +46,14 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     @Override
     public List<PermissionListVO> permissionList(String permissionName) {
         List<Permission> permissionList=new ArrayList<>();
+        List<PermissionDataRule> dataRuleList=new ArrayList<>();
         if(StrUtil.isEmpty(permissionName)) {
             permissionList= permissionMapper.selectList(null);
+            dataRuleList=permissionDataRuleMapper.selectList(null);
         }else{
             permissionList= permissionMapper.selectList(new LambdaQueryWrapper<Permission>().eq(Permission::getName,permissionName));
+            String id=permissionList.get(0).getId();
+            dataRuleList=permissionDataRuleMapper.selectList(new LambdaQueryWrapper<PermissionDataRule>().eq(PermissionDataRule::getPermissionId,id));
         }
 
         if(permissionList==null){
@@ -58,7 +62,14 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         List<PermissionListVO> permissionListVOList=new ArrayList<>();
         for(Permission permission:permissionList){
             PermissionListVO permissionListVO=new PermissionListVO();
+            List<Object> rule=new ArrayList<>();
             BeanUtils.copyProperties(permission,permissionListVO);
+            for(PermissionDataRule dataRule:dataRuleList){
+                if(permission.getId().equals(dataRule.getPermissionId())){
+                    rule.add(dataRule);
+                }
+            }
+            permissionListVO.setDataRuleList(rule);
             permissionListVOList.add(permissionListVO);
         }
         return permissionListVOList;
