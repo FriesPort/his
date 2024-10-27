@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.AssignBedMapper">
+
+    <!--获取空床位-->
+    <select id="selectOutBed" resultMap="getOutBed">
+        select bed.number as bed_number,bed.type as bed_type,room.number,room.type,room.gender,room.bed_count
+        from bed join room on bed.room_id = room.id where bed.is_null=0
+    </select>
+    <!--  手动将数据映射到自定义的类中  -->
+    <resultMap id="getOutBed" type="com.example.vo.getOutBed.getOutBedVo">
+        <result column="bed_number" property="bedNumber"/>
+        <result column="number" property="roomNumber"/>
+        <result column="type" property="roomType"/>
+        <result column="gender" property="roomGender"/>
+        <result column="bed_count" property="bedCount"/>
+        <result column="bed_type" property="bedType"/>
+    </resultMap>
+
+    <!--获取占用床位-->
+    <select id="selectOnBed" resultMap="getOnBed">
+        select bed.number as bed_number
+             , bed.type as bed_type
+             , patient_information.name
+             , patient_information.gender
+             , patient_information.age
+             , room.number
+             , room.type
+             , room.gender as room_gender
+             , room.bed_count
+        from bed
+                 join room on bed.room_id = room.id
+                 join patient_information on
+            bed.patient_id = patient_information.id
+        where bed.is_null = 1;
+    </select>
+    <resultMap id="getOnBed" type="com.example.vo.getOnBed.getOnBedVo">
+        <result column="bed_number" property="bedNumber"/>
+        <result column="bed_type" property="bedType"/>
+        <result column="name" property="patientName"/>
+        <result column="gender" property="patientGender"/>
+        <result column="age" property="patientAge"/>
+        <result column="number" property="roomNumber"/>
+        <result column="type" property="roomType"/>
+        <result column="room_gender" property="roomGender"/>
+        <result column="bed_count" property="bedCount"/>
+    </resultMap>
+
+    <!--更改床位——更改床位表-->
+    <update id="changeBed" >
+        update bed as b1 join bed as b2 on
+            b1.id = (select bed_id from patient_information where id = #{patientId1}) and
+            b2.id = (select bed_id from patient_information where id = #{patientId2})
+            set b1.patient_id = b2.patient_id, b2.patient_id = b1.patient_id;
+    </update>
+    <!--更改床位——更改患者表-->
+    <update id="changePatient">
+        update patient_information as p1 join patient_information as p2 on p1.id= #{patientId1} and p2.id = #{patientId2}
+            set p1.bed_id = p2.bed_id , p2.bed_id = p1.bed_id;
+    </update>
+</mapper>
