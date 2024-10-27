@@ -1,4 +1,4 @@
-package com.example.bed.dto;
+package com.example.bed.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,16 +7,15 @@ import lombok.NoArgsConstructor;
 /**
  * @ProjectName: his
  * @Author: HBTTAY
- * @Date: 2024/4/28 15:43
+ * @Date: 2024/5/2 23:00
  * @Version: 1.0-SNAPSHOT
  */
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BedDispatchDTO {
-    //床位ID
-    Integer bedId;
-    //患者ID
-    Integer patientId;
+public class Result<T> {
+    private boolean status = false;
+    private T message;
 }
+

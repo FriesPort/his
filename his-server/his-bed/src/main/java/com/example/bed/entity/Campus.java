@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author xw
@@ -24,10 +24,8 @@ import lombok.experimental.Accessors;
 @TableName("campus")
 public class Campus implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    @TableId(value = "campus_id", type = IdType.AUTO)
-    private Long campusId;
+    @TableId(value="id" ,type = IdType.INPUT)
+    private String campusId;
 
     private String hospitalId;
 
@@ -37,6 +35,6 @@ public class Campus implements Serializable {
     private Blob mapPackage;
 
     private Blob themePackage;
-
+    @TableField("is_authorization")
     private Boolean authorizationStatus;
 }

@@ -1,7 +1,10 @@
 package com.example.bed.mapper;
 
-import com.example.bed.entity.Patient;
+import com.example.bed.entity.PatientInformation;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+
+import javax.annotation.ManagedBean;
 
 /**
  * <p>
@@ -11,6 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author xw
  * @since 2024-04-27
  */
-public interface PatientInformationMapper extends BaseMapper<Patient> {
+@Mapper
+public interface PatientInformationMapper extends BaseMapper<PatientInformation> {
 
 }

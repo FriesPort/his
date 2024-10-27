@@ -1,4 +1,4 @@
-package com.example.bed.dto;
+package com.example.dto.bed;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +15,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BedAddDTO {
-    private Long roomId;
-    private String bedNumber;
-    private String bedType;
+    private String patientInfomationId;//病人id
+    private String roomId;//病房id
+    private String bednumber;//病床号
+    private String bedType;//病床类型
+    private Integer bedStatus;//病床状态
 }
