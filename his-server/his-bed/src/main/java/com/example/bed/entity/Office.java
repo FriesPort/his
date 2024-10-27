@@ -1,17 +1,18 @@
 package com.example.bed.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author xw
@@ -25,11 +26,9 @@ public class Office implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "office_id", type = IdType.AUTO)
-    private Long officeId;
+    @TableId(value="id" ,type = IdType.INPUT)
+    private String officeId;
 
     @TableField("name")
     private String officeName;
-
-    private Long campusId;
 }

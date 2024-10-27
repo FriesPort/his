@@ -70,10 +70,12 @@ public class LoginServiceImpl implements LoginService {
                 .collect(Collectors.groupingBy(PermissionPathMap::getPath
                         ,Collectors.mapping(PermissionPathMap::getPermissionName,Collectors.toList())));
         String jwt=jwtUtil.createToken(userid,jwtProperties.getTokenTTL(),permission.stream().distinct().collect(Collectors.toList()));
+        String reljwt=jwt.replace("Bearer ","");
         //Map<String,String> map = new HashMap<>();
         //map.put("token",jwt);
         //把完整的token和用户信息存入redis
         redisCache.setCacheObject("login:"+userid,loginUser);
+        redisTemplate.opsForValue().set(RedisConstant.USER_TOKEN+":"+reljwt,reljwt);
         redisTemplate.opsForHash().putAll(RedisConstant.PERMISSION_ROUTE,permissionMap);
         log.info("成功刷新-权限映射hash");
         return new LoginVO(jwt);

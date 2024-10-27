@@ -23,15 +23,15 @@ import java.util.List;
  * @since 2024-04-13
  */
 public interface IUserService extends IService<User> {
-    Boolean insertUser(UserAddDTO userAddDTO);
+    Boolean insertUser(UserAddDTO userAddDTO,String userId);
 
     IPage<UserDisplayDTO> userlist(UserDisplayDTO userDisplayDTO, Page page);
 
-    boolean updateUser(UserUpdateDTO userUpdateDTO);
+    boolean updateUser(UserUpdateDTO userUpdateDTO,String userId);
 
     boolean deleteUser(String id);
 
-    boolean allocateRole(UserCreateDTO userCreateDTO);
+    boolean allocateRole(UserCreateDTO userCreateDTO,String userId);
 
 
     boolean userRoleDelete(String userId, String roleId);

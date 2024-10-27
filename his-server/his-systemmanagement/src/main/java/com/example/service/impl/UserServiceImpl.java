@@ -10,6 +10,7 @@ import com.example.dto.systemmanagement.user.UserAddDTO;
 import com.example.dto.systemmanagement.user.UserUpdateDTO;
 import com.example.dto.systemmanagement.userrole.UserCreateDTO;
 import com.example.entity.User;
+import com.example.entity.UserRole;
 import com.example.mapper.UserMapper;
 import com.example.mapper.UserRoleMapper;
 import com.example.service.IUserService;
@@ -48,7 +49,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     //添加用户的逻辑不需要返回新创建的用户信息
     @Override
-    public Boolean insertUser(UserAddDTO userAddDTO) {
+    public Boolean insertUser(UserAddDTO userAddDTO,String userId) {
         User user =new User();
         try{
             BeanUtils.copyProperties(userAddDTO, user);
@@ -60,6 +61,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setPassword(passwordEncoder.encode(userAddDTO.getPassword()));
         user.setCreateTime(LocalDateTime.now());
         user.setEmployeeNumber(idGenerate.nextEmployeeNumber());
+        user.setCreateBy(userId);
         int rows = userMapper.insert(user);
 //        Users result=usersMapper.selectOne(new QueryWrapper<Users>().eq("user_id",users.getUserId()));
 //        if(result!=null){
@@ -114,9 +116,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public boolean updateUser(UserUpdateDTO userUpdateDTO) {
+    public boolean updateUser(UserUpdateDTO userUpdateDTO,String userId) {
         User user = new User();
         BeanUtils.copyProperties(userUpdateDTO,user);
+        user.setCreateBy(userId);
         int rows = userMapper.updateById(user);
         if(rows>=1){
             return UserUpdateVO.success;
@@ -138,10 +141,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public boolean allocateRole(UserCreateDTO userCreateDTO) {
+    public boolean allocateRole(UserCreateDTO userCreateDTO,String userId) {
         UserRole userRole = new UserRole();
         userRole.setUserId(userCreateDTO.getUserId());
         userRole.setRoleId(userRole.getRoleId());
+        userRole.setCreateBy(userId);
         int rows = userRoleMapper.insert(userRole);
         if(rows>=1){
             return true;

@@ -3,7 +3,7 @@ package com.example.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.entity.Role;
-import com.example.vo.systemmanagement.roles.RoleListVO;
+import com.example.vo.systemmanagement.role.RoleListVO;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ import java.util.List;
  * @since 2024-04-13
  */
 public interface IRoleService extends IService<Role> {
-    public List<RoleListVO> rolelist();
+    public List<RoleListVO> rolelist(String role_name);
 }

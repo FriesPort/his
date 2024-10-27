@@ -46,7 +46,7 @@ spring:
         - id: systemanagement
           uri: http://127.0.0.1:9000
           predicates:
-            - Path=/user/**,/roles/**,/permissions/**
+            - Path=/users/**,/system/**
         - id: bed
           uri: http://127.0.0.1:8080
           predicates:

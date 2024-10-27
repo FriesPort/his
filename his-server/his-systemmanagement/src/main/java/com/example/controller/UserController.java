@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.dto.systemmanagement.userrole.UserCreateDTO;
 import com.example.dto.systemmanagement.user.*;
 import com.example.service.IUserService;
+import com.example.utils.JwtUtil;
 
 import com.example.vo.JsonVO;
 import com.example.vo.systemmanagement.userrole.*;
@@ -13,6 +14,7 @@ import com.example.vo.systemmanagement.user.UserDisplayVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -29,7 +31,8 @@ public class UserController {
     @Autowired
     private IUserService iUserService;
 
-
+    @Autowired
+    private JwtUtil jwtUtil;
 
     /**
      * 添加用户
@@ -37,8 +40,10 @@ public class UserController {
      * @return JsonVO<String>
      */
     @PostMapping("/msg/add")
-    public JsonVO<String> AddUser(@RequestBody UserAddDTO userAddDTO) {
-        if(iUserService.insertUser(userAddDTO)){
+    public JsonVO<String> AddUser(@RequestBody UserAddDTO userAddDTO,HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader("Authorization").replace("Bearer ","");
+        String userId = jwtUtil.parseTokenForUserId(token);
+        if(iUserService.insertUser(userAddDTO,userId)){
             return JsonVO.success("Add User Message Successful");
         }else {
             return JsonVO.fail("Fail to Delete User Message");
@@ -65,8 +70,10 @@ public class UserController {
      * @return JsonVO<String>
      */
     @PostMapping("/msg/update")
-    public JsonVO<String> UpdateUser(@RequestBody UserUpdateDTO userUpdateDTO) {
-        if(iUserService.updateUser(userUpdateDTO)){
+    public JsonVO<String> UpdateUser(@RequestBody UserUpdateDTO userUpdateDTO,HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader("Authorization").replace("Bearer ","");
+        String userId = jwtUtil.parseTokenForUserId(token);
+        if(iUserService.updateUser(userUpdateDTO,userId)){
             return JsonVO.success("update success");
         }else {
             return JsonVO.fail("fail to update user");
@@ -96,8 +103,10 @@ public class UserController {
      * @return JsonVO<String>
      */
     @PostMapping("/role/allocation")
-    public JsonVO<String> UserRoleAllocation(@RequestBody UserCreateDTO userCreateDTO) {
-        if(iUserService.allocateRole(userCreateDTO)){
+    public JsonVO<String> UserRoleAllocation(@RequestBody UserCreateDTO userCreateDTO,HttpServletRequest httpServletRequest) {
+        String token = httpServletRequest.getHeader("Authorization").replace("Bearer ","");
+        String userId = jwtUtil.parseTokenForUserId(token);
+        if(iUserService.allocateRole(userCreateDTO,userId)){
             return JsonVO.success("Allocate role success");
         }else {
             return JsonVO.fail("Fail to allocate role");

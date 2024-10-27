@@ -1,71 +1,34 @@
 package com.example.bed.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author xw
- * @since 2024-04-29
- */
+import java.time.LocalDateTime;
+
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@TableName("rooms")
-public class Room implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @TableId(value = "room_id", type = IdType.AUTO)
-    private Long roomId;
-
-    /**
-     * 病房编号
-     */
-    private String roomNumber;
-
-    /**
-     * 病房类型
-     */
-    private String roomType;
-
-    /**
-     * 病房性别
-     */
-    private String roomGender;
-
-    /**
-     * 床位数量
-     */
-    private Integer bedCount;
-
-    /**
-     * 病区id
-     */
-    private Long wardId;
-
-    /**
-     * 科室id
-     */
-    private Long officeId;
-
-    /**
-     * 院区id
-     */
-    private Long campusId;
-
-    /**
-     * 楼层id
-     */
-    private Long floorsId;
-
-
+@TableName("room")
+public class Room {
+    @TableId(value="id" ,type = IdType.INPUT)
+    private String id;//主键
+    @TableField("number")
+    private String number;//房号
+    @TableField("type")
+    private String type;//房间类型
+    @TableField("gender")
+    private String gender;//房间性别
+    @TableField("bed_count")
+    private Integer bedCount;//病床数量
+    @TableField("foreign_id")
+    private String foreignId;//外键
+    @TableField("create_time")
+    private LocalDateTime createTime;//创建时间
+    @TableField("create_by")
+    private String createBy;//创建人
+    @TableField("update_time")
+    private LocalDateTime updateTime;//修改时间
+    @TableField("update_by")
+    private String updateBy;//修改人
 }

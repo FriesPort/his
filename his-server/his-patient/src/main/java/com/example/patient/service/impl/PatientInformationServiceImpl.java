@@ -53,14 +53,14 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
     @Autowired
     private IdGenerate idGenerate;
 
-   @Autowired
-   private TimeTrainsform timeTrainsform;
+    @Autowired
+    private TimeTrainsform timeTrainsform;
 
-   @Autowired
-   private BedServiceImpl bedService;
+    @Autowired
+    private BedServiceImpl bedService;
 
-   @Autowired
-   private RoomuserServiceImpl roomuserService;
+    @Autowired
+    private RoomuserServiceImpl roomuserService;
 
     private static Logger logger = LoggerFactory.getLogger(PatientInformationServiceImpl.class);
 
@@ -188,11 +188,11 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
         }
 
         if(patientAlterDTO.getIdentity()!=null){
-        patientInformationLambdaQueryWrapper.eq(Patient::getIdentity,patientAlterDTO.getIdentity());
-        if(getOne(patientInformationLambdaQueryWrapper)!=null){
-            result.setMessage("患者(身份证号码为" + patientAlterDTO.getIdentity() + "）已被创建");
-    return result;
-}
+            patientInformationLambdaQueryWrapper.eq(Patient::getIdentity,patientAlterDTO.getIdentity());
+            if(getOne(patientInformationLambdaQueryWrapper)!=null){
+                result.setMessage("患者(身份证号码为" + patientAlterDTO.getIdentity() + "）已被创建");
+                return result;
+            }
         }
 
         // 使用 IdGenerate 生成 UUID 作为主键
@@ -273,7 +273,7 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
         if(patientEditDTO.getIdentity()!=null) {
             LambdaQueryWrapper<Patient> patientLambdaQueryWrapper = new LambdaQueryWrapper<>();
             patientLambdaQueryWrapper.eq(Patient::getIdentity, patientEditDTO.getIdentity())
-                                     .ne(Patient::getId, patient.getId());
+                    .ne(Patient::getId, patient.getId());
             if (getOne(patientLambdaQueryWrapper) != null) {
                 result.setMessage("该患者已被创建");
                 return result;
@@ -334,15 +334,15 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
 
 
         if (patient.getIsInhospital() != 0) { // 判断是否在住院
-        // 判断患者是否住院
+            // 判断患者是否住院
             // 创建 Patientrecode 对象并复制患者信息
             Patientrecode patientrecode = new Patientrecode();
-        patientrecode.setTotalCost(new BigDecimal("0.00"));
-             // 设置默认的BedId
-        patientrecode.setBedId("无");
-        LocalDateTime minDate=LocalDateTime.of(1000,1,1,0,0);
-        patientrecode.setAdmissionTime(minDate);
-        String generatedId = idGenerate.nextUUID(patient);
+            patientrecode.setTotalCost(new BigDecimal("0.00"));
+            // 设置默认的BedId
+            patientrecode.setBedId("无");
+            LocalDateTime minDate=LocalDateTime.of(1000,1,1,0,0);
+            patientrecode.setAdmissionTime(minDate);
+            String generatedId = idGenerate.nextUUID(patient);
             patientrecode.setId(generatedId);
 
             patientrecode.setPatientId(patient.getId());

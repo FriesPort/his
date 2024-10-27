@@ -5,14 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.Map;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel("权限列表")
 public class PermissionListVO {
-    private String permissionId;
+    private String id;
 
-    private String permissionName;
+    private String name;
 
-    private String permissionType;
+    private String description;
+
+    private List<Object> dataRuleList;
 }
