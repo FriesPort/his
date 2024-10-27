@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAspectJAutoProxy
 @SpringBootApplication
 @MapperScan("com.example.patient.mapper")
-@ComponentScan(basePackages = {"com.example.patient", "com.example.aop","com.example.utils"})  // 扫描多个组件包
+@ComponentScan(basePackages = {"com.example.patient", "com.example.aop", "com.example.utils"})
+// 扫描多个组件包
 public class HisPatientApplication {
 
     public static void main(String[] args) {

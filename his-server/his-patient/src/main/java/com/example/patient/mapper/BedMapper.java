@@ -1,6 +1,6 @@
 package com.example.patient.mapper;
 
-import com.example.patient.entity.Beds;
+import com.example.patient.entity.Bed;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author xw
  * @since 2024-05-09
  */
-public interface BedsMapper extends BaseMapper<Beds> {
+public interface BedMapper extends BaseMapper<Bed> {
 
 }

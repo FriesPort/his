@@ -1,8 +1,8 @@
 package com.example.patient.service.impl;
 
-import com.example.patient.entity.Beds;
-import com.example.patient.mapper.BedsMapper;
-import com.example.patient.service.IBedsService;
+import com.example.patient.entity.Bed;
+import com.example.patient.mapper.BedMapper;
+import com.example.patient.service.IBedService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +15,5 @@ import org.springframework.stereotype.Service;
  * @since 2024-05-09
  */
 @Service
-public class BedsServiceImpl extends ServiceImpl<BedsMapper, Beds> implements IBedsService {
+public class BedServiceImpl extends ServiceImpl<BedMapper, Bed> implements IBedService {
 }

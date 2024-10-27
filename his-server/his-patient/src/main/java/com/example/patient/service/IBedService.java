@@ -1,6 +1,6 @@
 package com.example.patient.service;
 
-import com.example.patient.entity.Beds;
+import com.example.patient.entity.Bed;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author xw
  * @since 2024-05-09
  */
-public interface IBedsService extends IService<Beds> {
+public interface IBedService extends IService<Bed> {
 
 }

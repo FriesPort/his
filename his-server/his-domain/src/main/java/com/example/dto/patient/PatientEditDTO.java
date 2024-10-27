@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 /**
  * @ProjectName: hospital_
  * @Author:
@@ -33,7 +31,6 @@ public class PatientEditDTO {
     private Integer isvip;                // 是否 VIP（0 否, 1 是）
     private Integer isacute;              // 是否重症
     private String illness;               // 疾病类型
-    private String create_by;              // 创建人
 
 }
 

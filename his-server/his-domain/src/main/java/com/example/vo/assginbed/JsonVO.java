@@ -1,5 +1,6 @@
-package com.example.vo;
+package com.example.vo.assginbed;
 
+import com.example.vo.ResultStatus;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
