@@ -106,7 +106,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     public Boolean RegisterPermission(PermissionRegisterDTO registerDTO,String userId) {
         Permission permission=new Permission();
         BeanUtils.copyProperties(registerDTO,permission);
-        permission.setId("idGenerate.nextUUID(registerDTO)");
+        permission.setId(idGenerate.nextUUID(registerDTO));
         permission.setCreateTime(LocalDateTime.now());
         permission.setCreateBy(userId);
         int i=permissionMapper.insert(permission);
