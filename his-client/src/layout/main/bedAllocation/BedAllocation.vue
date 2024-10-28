@@ -10,7 +10,7 @@
           <h2>院区</h2>
           <select v-model="selectedOption1">
             <option disabled value="">请选择院区</option>
-            <option>广州院区</option>
+            <option>广州医院区</option>
             <option>珠海院区</option>
             <option>深圳院区</option>
           </select>
