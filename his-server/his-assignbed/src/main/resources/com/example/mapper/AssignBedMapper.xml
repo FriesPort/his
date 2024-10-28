@@ -10,7 +10,7 @@
         from bed join room on bed.room_id = room.id where bed.is_null=0
     </select>
     <!--  手动将数据映射到自定义的类中  -->
-    <resultMap id="getOutBed" type="com.example.vo.getOutBed.getOutBedVo">
+    <resultMap id="getOutBed" type="com.example.vo.assginbed.getOutBed.getOutBedVo">
         <result column="bed_number" property="bedNumber"/>
         <result column="number" property="roomNumber"/>
         <result column="type" property="roomType"/>
@@ -36,7 +36,7 @@
             bed.patient_id = patient_information.id
         where bed.is_null = 1;
     </select>
-    <resultMap id="getOnBed" type="com.example.vo.getOnBed.getOnBedVo">
+    <resultMap id="getOnBed" type="com.example.vo.assginbed.getOnBed.getOnBedVo">
         <result column="bed_number" property="bedNumber"/>
         <result column="bed_type" property="bedType"/>
         <result column="name" property="patientName"/>
