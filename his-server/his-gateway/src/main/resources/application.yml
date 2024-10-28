@@ -46,7 +46,7 @@ spring:
         - id: systemanagement
           uri: http://127.0.0.1:9000
           predicates:
-            - Path=/users/**,/system/**
+            - Path=/system/**
         - id: bed
           uri: http://127.0.0.1:8080
           predicates:
@@ -68,7 +68,7 @@ secure:
   openauthorization: true
   white:
     urls:
-      - "/security/**"
+      - "/security/login"
 #      - "/user/**"
 
 hm:

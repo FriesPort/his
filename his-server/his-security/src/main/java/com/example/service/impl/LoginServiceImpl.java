@@ -18,6 +18,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -79,5 +80,11 @@ public class LoginServiceImpl implements LoginService {
         redisTemplate.opsForHash().putAll(RedisConstant.PERMISSION_ROUTE,permissionMap);
         log.info("成功刷新-权限映射hash");
         return new LoginVO(jwt);
+    }
+
+    @Override
+    public String logout(String userId) {
+        redisCache.deleteObject("login:"+userId);
+        return "logout";
     }
 }
