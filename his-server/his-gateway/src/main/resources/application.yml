@@ -48,7 +48,7 @@ spring:
           predicates:
             - Path=/system/**
         - id: bed
-          uri: http://127.0.0.1:8080
+          uri: http://127.0.0.1:8087
           predicates:
             - Path=/beds/**
         - id: patient
@@ -69,7 +69,7 @@ secure:
   white:
     urls:
       - "/security/login"
-#      - "/user/**"
+
 
 hm:
   jwt:

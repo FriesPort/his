@@ -400,22 +400,45 @@ CREATE TABLE IF NOT EXISTS `permission` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 正在导出表  hospital2.permission 的数据：~14 rows (大约)
+-- 正在导出表  hospital2.permission 的数据：~13 rows (大约)
 REPLACE INTO `permission` (`id`, `name`, `description`, `is_datarule`, `is_use`, `create_time`, `create_by`, `update_time`, `update_by`, `route`) VALUES
-	('a2eac019a18c45cc9c06df37623df5f0', 'permissionName1', 'This is a description', 1, 1, '2024-10-21 18:13:50', 'u1', NULL, NULL, '/dpdp'),
-	('perm1', 'patient:search', '查看患者信息', 0, 1, '2024-09-26 13:10:00', '管理员', NULL, NULL, '/patient/findPatient'),
-	('perm10', 'bed:list', '查看床位列表', 0, 1, '2024-10-09 10:04:00', '管理员', NULL, NULL, '/beds/specificDisplay'),
-	('perm11', 'bed:allocation', '分配床位', 0, 1, '2024-10-09 10:05:00', '管理员', NULL, NULL, '/assign/preassign'),
-	('perm12', 'bed:release-exchange', '释放床位（床位交换）', 0, 1, '2024-10-09 10:06:00', '管理员', NULL, NULL, '/assign/changeBeds'),
-	('perm15', 'bed:release-leave', '释放床位（出院或未入院）', 0, 1, '2024-10-09 10:09:00', '管理员', NULL, NULL, '/assign/releaseBeds'),
-	('perm2', 'patient:update', '修改患者信息', 0, 1, '2024-09-26 13:11:00', '管理员', NULL, NULL, '/patient/revisePatient'),
+	('2ebdc3b294d811efa2e3b40ede391d71', 'assign:inHospital', 'Patient admission related permission', 1, 1, '2024-10-28 10:56:08', 'admin', NULL, NULL, '/assign/inHospital'),
+	('2ec0e1df94d811efa2e3b40ede391d71', 'assign:discharge', 'Patient discharge related permission', 1, 1, '2024-10-28 10:56:09', 'admin', NULL, NULL, '/assign/discharge'),
+	('2ec58c7194d811efa2e3b40ede391d71', 'assign:preassign', 'Preassign bed related permission', 1, 1, '2024-10-28 10:56:09', 'admin', NULL, NULL, '/assign/preassign'),
+	('2ecadf3494d811efa2e3b40ede391d71', 'assign:getOutBed', 'Get empty bed related permission', 1, 1, '2024-10-28 10:56:09', 'admin', NULL, NULL, '/assign/getOutBed'),
+	('2ed10ed194d811efa2e3b40ede391d71', 'assign:getOnBed', 'Get occupied bed related permission', 1, 1, '2024-10-28 10:56:09', 'admin', NULL, NULL, '/assign/getOnBed'),
+	('2ed807ed94d811efa2e3b40ede391d71', 'assign:changeBed', 'Patient change bed related permission', 1, 1, '2024-10-28 10:56:09', 'admin', NULL, NULL, '/assign/changeBed'),
+	('72fc1a9194d811efa2e3b40ede391d71', 'beds:add', 'Add bed related permission', 1, 1, '2024-10-28 10:58:03', 'admin', NULL, NULL, '/beds/add'),
+	('73017e7894d811efa2e3b40ede391d71', 'beds:update', 'Update bed related permission', 1, 1, '2024-10-28 10:58:03', 'admin', NULL, NULL, '/beds/update'),
+	('7307873494d811efa2e3b40ede391d71', 'beds:list', 'List beds related permission', 1, 1, '2024-10-28 10:58:03', 'admin', NULL, NULL, '/beds/list'),
+	('730df60394d811efa2e3b40ede391d71', 'beds:addBatch', 'Add batch of beds related permission', 1, 1, '2024-10-28 10:58:03', 'admin', NULL, NULL, '/beds/addBatch'),
+	('79ac6a9294d911efa2e3b40ede391d71', 'system:user:msg:add', 'Add system user message related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/msg/add'),
+	('79ae593494d911efa2e3b40ede391d71', 'system:user:msg:delete', 'Delete system user message related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/msg/delete'),
+	('79af4f1e94d911efa2e3b40ede391d71', 'system:user:msg:update', 'Update system user message related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/msg/update'),
+	('79b6173894d911efa2e3b40ede391d71', 'system:user:msg:display', 'Display system user message related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/msg/display'),
+	('79be01d394d911efa2e3b40ede391d71', 'system:user:role:allocation', 'Allocation of system user role related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/role/allocation'),
+	('79c691be94d911efa2e3b40ede391d71', 'system:user:role:delete', 'Delete system user role related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/role/delete'),
+	('79cfe52b94d911efa2e3b40ede391d71', 'system:user:role:getOwnedRole', 'Get owned role of system user related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/role/getOwnedRole'),
+	('79d99ac994d911efa2e3b40ede391d71', 'system:user:role:getUnownedRole', 'Get unowned role of system user related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/role/qetUnownedRole'),
+	('84d5d11394da11efa2e3b40ede391d71', 'role:register', 'System role register related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/role/register'),
+	('84d7725a94da11efa2e3b40ede391d71', 'role:allocation', 'System role allocation related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/role/allocation'),
+	('84d9008594da11efa2e3b40ede391d71', 'role:permissiondisplay', 'System role permission display related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/role/permissiondisplay'),
+	('84e0095d94da11efa2e3b40ede391d71', 'role:search', 'System role search related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/role/search'),
+	('84e7877694da11efa2e3b40ede391d71', 'permission:register', 'System permission register related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/register'),
+	('84ef35eb94da11efa2e3b40ede391d71', 'permission:delete', 'System permission delete related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/delete'),
+	('84f0075794da11efa2e3b40ede391d71', 'permission:update', 'System permission update related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/update'),
+	('84f0f37f94da11efa2e3b40ede391d71', 'permission:search', 'System permission search related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/search'),
+	('84fa95bf94da11efa2e3b40ede391d71', 'datarule:update', 'System permission datarule update related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/datarule/update'),
+	('84fbaaf994da11efa2e3b40ede391d71', 'datarule:insert', 'System permission datarule insert related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/datarule/insert'),
+	('84fc738494da11efa2e3b40ede391d71', 'datarule:delete', 'System permission datarule delete related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/datarule/delete'),
+	('e06e56a894d811efa2e3b40ede391d71', 'patient:add', 'Add patient information related permission', 1, 1, '2024-10-28 11:01:07', 'admin', NULL, NULL, '/patient/add'),
+	('e06f8f2794d811efa2e3b40ede391d71', 'patient:add_batch', 'Batch add patient information related permission', 1, 1, '2024-10-28 11:01:07', 'admin', NULL, NULL, '/patient/adds'),
+	('e071013b94d811efa2e3b40ede391d71', 'patient:delete', 'Delete patient information related permission', 1, 1, '2024-10-28 11:01:07', 'admin', NULL, NULL, '/patient/delete'),
+	('e0783dc094d811efa2e3b40ede391d71', 'patient:edit', 'Edit patient information related permission', 1, 1, '2024-10-28 11:01:07', 'admin', NULL, NULL, '/patient/edit'),
+	('e0793ce294d811efa2e3b40ede391d71', 'patient:view', 'View patient information related permission', 1, 1, '2024-10-28 11:01:07', 'admin', NULL, NULL, '/patient/query'),
 	('perm3', 'admin', NULL, 0, 1, '2024-10-15 09:57:58', '管理员', NULL, NULL, '/**'),
-	('perm5', 'user:search', '用户信息查询', 0, 1, '2024-09-26 13:14:00', '管理员', NULL, NULL, '/system/docter/delete'),
-	('perm6', 'patient:insert', '新增患者信息', 0, 1, '2024-10-09 11:02:43', '管理员', NULL, NULL, '/patient/addPatient'),
-	('perm9', 'NewName', 'New description', 0, 1, '2024-10-09 10:03:00', '管理员', '2024-10-22 16:48:26', 'u1', '/patient/deletePatient'),
 	('perm999', 'user-role-permission:search', NULL, 0, 1, '2024-10-15 09:46:47', '管理员', NULL, NULL, '/users/roleandpermission/search'),
-	('pppee', 'everyone', NULL, 1, 1, '2024-10-28 10:40:19', 'u1', NULL, NULL, '/security/logout'),
-	('pppp', 'permission:allocation', '角色权限分配', 0, 1, '2024-10-19 16:15:11', 'admin', NULL, NULL, '/system/role/allocation');
+	('pppee', 'everyone', NULL, 1, 1, '2024-10-28 10:40:19', 'u1', NULL, NULL, '/security/logout');
 
 -- 导出  表 hospital2.permission_data_rule 结构
 CREATE TABLE IF NOT EXISTS `permission_data_rule` (
@@ -453,10 +476,12 @@ CREATE TABLE IF NOT EXISTS `role` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 正在导出表  hospital2.role 的数据：~3 rows (大约)
+-- 正在导出表  hospital2.role 的数据：~5 rows (大约)
 REPLACE INTO `role` (`id`, `name`, `description`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-	('role1', 'doctor', '负责诊断和治疗患者', '2024-09-26 13:20:00', '管理员', NULL, NULL),
-	('role2', 'nurse', '协助医生进行护理工作', '2024-09-26 13:21:00', '管理员', NULL, NULL),
+	('c4e9101694f911efa2e3b40ede391d71', 'doctor', '负责查看自己负责的患者信息，了解床位的占用和空出情况，以便合理安排患者的治疗计划。', '2024-10-28 14:56:34', 'admin', NULL, NULL),
+	('c4efea4694f911efa2e3b40ede391d71', 'nurse', '负责新入院患者信息的初步录入工作，在患者入院和出院时进行床位的安排和整理，确保患者的顺利入住和出院。', '2024-10-28 14:56:34', 'admin', NULL, NULL),
+	('c4f11aac94f911efa2e3b40ede391d71', 'chief_physician', '除了拥有普通医生查看患者信息和了解床位情况的权限外，还能对患者治疗方案等信息进行调整以及根据患者病情提前规划床位，为患者提供更优质的医疗服务。', '2024-10-28 14:56:34', 'admin', NULL, NULL),
+	('c4f2d9c194f911efa2e3b40ede391d71', 'head_nurse', '负责科室内部的信息传达和管理，通过系统用户消息的操作确保科室人员之间的沟通顺畅。同时，对床位状态进行整体掌握，通过更新和列出床位权限进行合理分配，提高床位的利用率。', '2024-10-28 14:56:34', 'admin', NULL, NULL),
 	('role3', 'admin', '管理医院系统和资源', '2024-09-26 13:22:00', '管理员', NULL, NULL);
 
 -- 导出  表 hospital2.role_permission 结构
@@ -471,13 +496,8 @@ CREATE TABLE IF NOT EXISTS `role_permission` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 正在导出表  hospital2.role_permission 的数据：~6 rows (大约)
+-- 正在导出表  hospital2.role_permission 的数据：~1 rows (大约)
 REPLACE INTO `role_permission` (`id`, `role_id`, `permission_id`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-	('5849a0c980a245b4a46c9d719f8c2320', 'role1', 'perm9', '2024-10-19 17:00:22', 'u1', NULL, NULL),
-	('ebb11931b1324b09832cbd2c6bf1b80f', 'role1', 'perm6', '2024-10-19 17:00:22', 'u1', NULL, NULL),
-	('rp1', 'role1', 'perm1', '2024-09-26 13:23:00', '管理员', NULL, NULL),
-	('rp3', 'role1', 'perm4', '2024-09-26 13:25:00', '管理员', NULL, NULL),
-	('rp4', 'role2', 'perm1', '2024-09-26 13:26:00', '管理员', NULL, NULL),
 	('rp5', 'role3', 'perm3', '2024-09-26 13:27:00', '管理员', NULL, NULL);
 
 -- 导出  表 hospital2.room 结构
@@ -586,7 +606,7 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 正在导出表  hospital2.user_role 的数据：~6 rows (大约)
+-- 正在导出表  hospital2.user_role 的数据：~5 rows (大约)
 REPLACE INTO `user_role` (`user_id`, `role_id`, `id`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
 	('u1', 'role1', 'ur1', '2024-09-26 13:48:00', '管理员', NULL, NULL),
 	('u2', 'role1', 'ur2', '2024-09-26 13:49:00', '管理员', NULL, NULL),
