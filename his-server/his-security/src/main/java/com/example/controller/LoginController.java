@@ -15,11 +15,13 @@ public class LoginController {
     @Autowired
     LoginService loginService;
     @PostMapping("/login")
-    public JsonVO<LoginVO> login(@RequestBody LoginDTO loginDTO){
+    public JsonVO<LoginVO> login(LoginDTO loginDTO){
         return JsonVO.success(loginService.login(loginDTO));
     }
-    @GetMapping("/test")
-    public JsonVO<String> test(){
-        return JsonVO.success("test");
+
+    @PostMapping("/logout")
+    public JsonVO<String> logout(@RequestHeader("userId") String userId){
+        return JsonVO.success(loginService.logout(userId));
     }
+
 }
