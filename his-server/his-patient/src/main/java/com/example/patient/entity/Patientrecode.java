@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("patient_hospitalization_record") // 表名改为与实际表名匹配
-public class Patient_recode implements Serializable {
+public class Patientrecode implements Serializable {
 
     @TableId(value = "id", type = IdType.INPUT)
     private String id;  // 主键

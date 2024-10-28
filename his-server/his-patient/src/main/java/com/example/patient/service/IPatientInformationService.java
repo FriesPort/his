@@ -7,7 +7,6 @@ import com.example.dto.patient.PatientQueryDTO;
 import com.example.patient.entity.Patient;
 import com.example.vo.patient.PatientVo;
 import com.example.vo.patient.Result;
-import com.example.patient.dto.PatientAlterDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -28,11 +27,11 @@ public interface IPatientInformationService extends IService<Patient> {
     //患者查看
     Result<List<PatientVo>> patientQuery(PatientQueryDTO patientQueryDTO);
 
-    Result<String> patientAdd(PatientAlterDTO patientAlterDTO);
+    Result<String> patientAdd(String userId,PatientAlterDTO patientAlterDTO);
 
-    Result<String> patientsAdd(List<PatientAlterDTO> patientList);
+    Result<String> patientsAdd(String userId,List<PatientAlterDTO> patientList);
 
-    Result<String> patientEdit(PatientEditDTO patientEditDTO);
+    Result<String> patientEdit(String userId,PatientEditDTO patientEditDTO);
 
     Result<String> patientDelete(PatientDeleteDTO patientDeleteDTO);
 
