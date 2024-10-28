@@ -8,8 +8,7 @@ import com.example.patient.service.IPatientInformationService;
 import com.example.vo.patient.PatientVo;
 import com.example.vo.patient.Result;
 import com.example.vo.JsonVO;
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
