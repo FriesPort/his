@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -36,11 +37,11 @@ public class PatientInformationController {
 
 
     @PostMapping("/query")
-    public JsonVO<List<List<PatientVo>>> query(
+    public JsonVO<Map<String, List<PatientVo>>> query(
             @RequestBody PatientQueryDTO patientQueryDTO) {
 
         // 调用服务查询逻辑
-        Result<List<List<PatientVo>>> result = patientInformationService.patientQuery(patientQueryDTO);
+        Result<Map<String, List<PatientVo>>> result = patientInformationService.patientQuery(patientQueryDTO);
 
         if (result.isStatus()) {
             return JsonVO.success(result.getMessage());
