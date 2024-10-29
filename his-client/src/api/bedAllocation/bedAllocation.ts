@@ -54,3 +54,8 @@ export const outHospitalRequest=(parames:any)=>{
 export const informRequest=(parames:any)=>{
   return request.get(`/assign/inform`,parames)
 }
+
+//查找患者信息（导入患者）
+export const getpatientsRequest=(parames:any)=>{
+  return request.get(`/patient/query`,parames)
+}
