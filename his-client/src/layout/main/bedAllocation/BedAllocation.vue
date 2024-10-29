@@ -158,9 +158,9 @@ export default {
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
-  width: 80.54%;
+  width: 80%;
   /* 可以根据需要调整宽度 */
-  background-color: rgba(0, 51, 255, 0.759);
+  background-color: rgb(237 237 237 / 76%);
 }
 
 .header {
@@ -216,13 +216,17 @@ export default {
   height: 100%;
   border: 1px solid #dad2d2;
   box-shadow: 0.25rem 0.25rem 0.625rem rgba(0, 0, 0, 0.5); /* 添加阴影 */
+  padding: 10px;
   /* padding: 15px; */
   /* 选择框之间的间距 */
 }
 
+.right-section h2 {
+  margin: 0;
+}
 select {
   margin: 5px 0;
-  width: 20%;
+  width: 15%;
 }
 .operate-area {
   top: 24%;
@@ -239,27 +243,33 @@ select {
   /* 垂直居中对齐 */
   flex-direction: column;
   border-radius: 5px;
+  padding: 10px;
 }
 .shang {
-  border: 5px solid rgba(34, 72, 222, 0.759);
+  background-color: #eeeeeec2;
+  border: 1px solid #8e8b8b;
   width: 100%;
   height: 60%;
   display: flex;
   justify-content: space-around;
   border-radius: 5px;
+  align-items: center;
 }
 .bedarea {
-  border: 5px solid rgba(34, 72, 222, 0.759);
-  width: 90%;
-  height: 100%;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #ccc;
+  width: 85%;
+  height: 95%;
   display: flex;
   flex-wrap: wrap;
   padding: 10px;
 }
 .bedoperate {
-  border: 5px solid rgba(34, 72, 222, 0.759);
+  border: 5px solid rgb(237 237 237 / 76%);
+  box-shadow: 0.25rem 0.25rem 0.625rem rgba(43, 43, 43, 0.5); /* 添加阴影 */
+
   width: 11%;
-  height: 100%;
+  height: 95%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -285,7 +295,7 @@ select {
 .xia {
   width: 100%;
   height: 35%;
-  border: 5px solid rgba(34, 72, 222, 0.759);
+  border: 5px solid rgb(237 237 237 / 76%);
   border-radius: 5px;
 
   display: flex;
@@ -294,7 +304,7 @@ select {
 .selectarea {
   width: 90%;
   height: 100%;
-  border: 5px solid rgba(34, 72, 222, 0.759);
+  border: 5px solid rgb(237 237 237 / 76%);
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -316,7 +326,7 @@ select {
   cursor: grabbing; /* 拖拽状态 */
 }
 .selectoperate {
-  border: 5px solid rgba(34, 72, 222, 0.759);
+  border: 5px solid rgb(237 237 237 / 76%);
   width: 11%;
   height: 100%;
 }

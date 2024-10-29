@@ -7,7 +7,7 @@
           <div class="lg">
             <img :src="image3" alt="描述图片3" />
             <input
-              style="width: 10vw"
+              style="width: 8vw"
               type="text"
               v-model="searchQuery"
               placeholder="请输入患者姓名"
@@ -15,7 +15,7 @@
             />
           </div>
 
-          <button class="sou" @click="Search">搜索患者</button>
+          <button class="sou" @click="Search">搜索</button>
         </div>
       </div>
       <div class="patients">
@@ -33,7 +33,13 @@
           <tbody>
             <!-- 创建11行空数据 -->
             <tr v-for="(row, index) in currentPatientData" :key="index">
-              <td style="cursor: pointer"></td>
+              <td
+                style="cursor: pointer"
+                @click="addNumber(index)"
+                @dblclick="removeNumber(index)"
+              >
+                {{ row.number !== undefined ? row.number : "" }}
+              </td>
               <td class="pname" v-if="row">{{ row.name }}</td>
               <td>
                 <button
@@ -109,11 +115,11 @@
               </tr>
             </tbody>
           </table>
-          <button class="add">添加</button>
+          <button @click="addPatients" class="add">添加</button>
           <button @click="dialogVisible = false" class="close">关闭</button>
         </div>
       </div>
-      <!-- <button class="change" @click="handleButton2Click">修改患者名单</button> -->
+      <button class="allinf" @click="handleButton2Click">分配信息</button>
     </div>
   </div>
 </template>
@@ -125,7 +131,11 @@ export default {
   name: "PatientList",
   data() {
     return {
+      numbers: [], // 用于存储序号
+      count: 1, // 当前序号计数
+
       dialogVisible: false,
+      // ipatients是待入院患者数组
       ipatients: [
         {
           id: "102",
@@ -175,6 +185,7 @@ export default {
       showModal: false,
       selectedPatient: {},
       // 初始化10行空数据
+      //已分配床位的患者数组
       allocatedPatientData: Array(10)
         .fill()
         .map(() => ({
@@ -220,6 +231,64 @@ export default {
     this.startCountdown();
   },
   methods: {
+    addNumber(index) {
+      // 给当前行添加序号
+      if (this.currentPatientData[index].number === undefined) {
+        this.currentPatientData[index].number = this.getNextNumber();
+      }
+    },
+    removeNumber(index) {
+      // 移除当前行的序号
+      if (this.currentPatientData[index].number !== undefined) {
+        delete this.currentPatientData[index].number;
+
+        // 更新后续的序号
+        this.updateNumbers(index);
+      }
+    },
+    getNextNumber() {
+      // 获取下一个可用的序号
+      const numbers = this.currentPatientData
+        .filter((row) => row.number !== undefined)
+        .map((row) => row.number);
+      return numbers.length > 0 ? Math.max(...numbers) + 1 : 1;
+    },
+    updateNumbers(startIndex) {
+      // 更新被删除序号之后的序号
+      let currentNumber = 1;
+      for (let i = startIndex + 1; i < this.currentPatientData.length; i++) {
+        if (this.currentPatientData[i].number !== undefined) {
+          this.currentPatientData[i].number = currentNumber++;
+        }
+      }
+    },
+
+    addPatients() {
+      const selectedPatients = this.ipatients.filter(
+        (patient) => patient.selected
+      );
+
+      // 遍历选中的患者
+      for (const patient of selectedPatients) {
+        // 查找第一个 name 为空的索引
+        const firstEmptyIndex = this.patientdata.findIndex(
+          (patient) => patient.name === ""
+        );
+
+        // 如果有空位，则添加患者
+        if (firstEmptyIndex !== -1) {
+          this.patientdata[firstEmptyIndex] = { ...patient };
+        } else {
+          // 如果没有空位，停止添加
+          console.warn("没有空位可以添加患者");
+          break;
+        }
+      }
+
+      // 移除已添加的患者
+      this.ipatients = this.ipatients.filter((patient) => !patient.selected);
+    },
+
     viewPatientInfo(patient) {
       // alert(`查看患者信息: ${patient.name}`);
       alert(
@@ -319,7 +388,7 @@ export default {
 }
 
 .group {
-  width: 55%;
+  width: 65%;
   display: flex;
   justify-content: space-between;
 }
@@ -343,14 +412,15 @@ export default {
 
 .lg {
   display: flex;
-  width: 50%;
-  font-size: 5vw;
+  width: 40%;
+  font-size: 15px;
 }
 .sou {
   cursor: pointer;
-  width: 20%;
-  font-size: 0.8vw;
+  width: 24%;
+  font-size: 10px;
   text-align: center;
+  border: 1px solid #a2a7b0;
 }
 .list {
   width: 100%;
@@ -389,7 +459,7 @@ export default {
   box-shadow: 0.25rem 0.25rem 0.625rem rgba(0, 0, 0, 0.5); /* 添加阴影 */
 }
 .import {
-  width: 30%;
+  width: 35%;
   border-radius: 20px;
   background-color: #fff;
   border: 0.0625rem solid #ccc;
@@ -398,8 +468,8 @@ export default {
   box-shadow: 0.25rem 0.25rem 0.625rem rgba(0, 0, 0, 0.5); /* 添加阴影 */
 }
 
-.change {
-  width: 30%;
+.allinf {
+  width: 35%;
   border-radius: 20px;
   background-color: #fff;
   cursor: pointer;
@@ -436,8 +506,13 @@ th {
 }
 .check {
   max-height: 34.75px;
-  font-size: 1vw;
-  width: 4vw;
+  height: 30px;
+  font-size: 12px;
+  width: 40px;
+  padding: 0; /* 去掉内边距 */
+  border: 1px solid #a2a7b0;
+  font-weight: bold;
+  background-color: hsl(0, 18%, 96%);
 }
 .pname {
   font-size: 1vw;
