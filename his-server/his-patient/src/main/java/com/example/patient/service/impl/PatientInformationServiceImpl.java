@@ -31,9 +31,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
@@ -126,13 +124,13 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
 
 
     @Override   // 查看患者
-    public Result<List<PatientVo>> patientQuery(PatientQueryDTO patientQueryDTO) {
-        Result<List<PatientVo>> result = new Result<>();
+    public Result<List<List<PatientVo>>> patientQuery(PatientQueryDTO patientQueryDTO) {
+        Result<List<List<PatientVo>>> result = new Result<>();
         List<Patient> patients = patientList(patientQueryDTO);
-        List<PatientVo> patientVos = new ArrayList<>();
+        List<PatientVo> inpatientVos = new ArrayList<>();   // 存储住院
+        List<PatientVo> outpatientVos = new ArrayList<>();  // 存储不住院
 
-
-        // 处理，拷贝患者信息
+        // 处理并拷贝患者信息
         for (Patient patient : patients) {
             PatientVo patientVo = new PatientVo();
             BeanUtils.copyProperties(patient, patientVo);
@@ -150,28 +148,36 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
             if (patient.getIsInhospital() == 0) { // 判断是否在住院
                 long day = ChronoUnit.DAYS.between(patient.getCreateTime(), LocalDateTime.now());
                 patientVo.setWaitDay((int) day);
+                outpatientVos.add(patientVo);
             } else {
                 patientVo.setWaitDay(0); // 非待入院患者等待天数设置为0
+                inpatientVos.add(patientVo);
             }
-
-            patientVos.add(patientVo);
         }
 
-        // 排序逻辑：先按是否住院排序，再按急重症和等待时间排序
-        patientVos.sort(Comparator
-                .comparing(PatientVo::getIsInhospital)  // 按是否在住院排序
-                .thenComparing((PatientVo p) -> {
+        // 排序逻辑：先按急重症和等待时间排序
+        Comparator<PatientVo> comparator = Comparator
+                .comparing((PatientVo p) -> {
                     if (p.getIsemergency() == 1) return 1;  // 急诊优先
                     if (p.getIsacute() == 1) return 2;      // 重症其次
                     return 3;                               // 其他排最后
                 })
-                .thenComparing(PatientVo::getWaitDay, Comparator.reverseOrder())  // 按等待时间降序
-        );
+                .thenComparing(PatientVo::getWaitDay, Comparator.reverseOrder());  // 按等待时间降序
 
-        result.setMessage(patientVos);
+        inpatientVos.sort(comparator);
+        outpatientVos.sort(comparator);
+
+        // 将住院和不住院的患者列表添加到嵌套列表
+        List<List<PatientVo>> patientList = new ArrayList<>();
+        patientList.add(inpatientVos);
+        patientList.add(outpatientVos);
+
         result.setStatus(true);
+        result.setMessage(patientList);
+
         return result;
     }
+
 
     @Override
     public Result<String> patientAdd(String userId,PatientAlterDTO patientAlterDTO) {

@@ -25,7 +25,7 @@ public interface IPatientInformationService extends IService<Patient> {
     List<Patient> patientList(PatientQueryDTO patientQueryDTO);
 
     //患者查看
-    Result<List<PatientVo>> patientQuery(PatientQueryDTO patientQueryDTO);
+    Result<List<List<PatientVo>>> patientQuery(PatientQueryDTO patientQueryDTO);
 
     Result<String> patientAdd(String userId,PatientAlterDTO patientAlterDTO);
 

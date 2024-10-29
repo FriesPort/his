@@ -36,11 +36,11 @@ public class PatientInformationController {
 
 
     @PostMapping("/query")
-    public JsonVO<List<PatientVo>> query(
+    public JsonVO<List<List<PatientVo>>> query(
             @RequestBody PatientQueryDTO patientQueryDTO) {
 
         // 调用服务查询逻辑
-        Result<List<PatientVo>> result = patientInformationService.patientQuery(patientQueryDTO);
+        Result<List<List<PatientVo>>> result = patientInformationService.patientQuery(patientQueryDTO);
 
         if (result.isStatus()) {
             return JsonVO.success(result.getMessage());
