@@ -1,13 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Layout from "../layout/index.vue";
-import ExtendedMsgDataDictionary from "@/view/content/ExtendedMsgDataDictionary.vue";
-import BedData from "@/view/content/schedulingDataManagement/BedData.vue";
-import ExtendedDataManagement from "@/view/content/schedulingDataManagement/ExtendedDataManagement.vue";
-import BedView from "@/view/content/BedView.vue";
-import PatientScreening from "@/view/content/PatientScreening.vue";
-import BedAllocation from "@/view/content/BedAllocation.vue";
-import User from "@/view/content/User.vue";
-import Role from "@/view/content/Role.vue";
+// import BedData from "@/view/content/schedulingDataManagement/BedData.vue";
+// import ExtendedDataManagement from "@/view/content/schedulingDataManagement/ExtendedDataManagement.vue";
 import { useAuthStore } from '@/store/authStore'
 import { useUserStore } from '@/store/userStore';
 import { message } from 'ant-design-vue';
@@ -28,48 +22,48 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '/extendedMsgDataDictionary',
         name: 'extendedMsgDataDictionary',
-        component: ExtendedMsgDataDictionary,
+        component: () => import('@/view/content/ExtendedMsgDataDictionary.vue'),
         meta: {
           title: '床位扩展数据字典',
           requiresAuth: true,
           roles: ["sys:extendedMsgDataDictionary"],
         }
       },
-      {
-        path: '/schedulingDataManagement',
-        name: 'schedulingDataManagement',
-        meta: {
-          title: '床位调度数据管理',
-          requiresAuth: true,
-          roles: ["sys:schedulingDataManagement"]
-        },
-        children: [
-          {
-            path: '/bedData',
-            name: 'bedData',
-            component: BedData,
-            meta: {
-              title: '床位数据',
-              requiresAuth: true,
-              roles: ["sys:bedData"],
-            }
-          },
-          {
-            path: '/extendedDataManagement',
-            name: 'extendedDataManagement',
-            component: ExtendedDataManagement,
-            meta: {
-              title: '床位扩展数据管理',
-              requiresAuth: true,
-              roles: ["sys:extendedDataManagement"],
-            }
-          }
-        ]
-      },
+      // {
+      //   path: '/schedulingDataManagement',
+      //   name: 'schedulingDataManagement',
+      //   meta: {
+      //     title: '床位调度数据管理',
+      //     requiresAuth: true,
+      //     roles: ["sys:schedulingDataManagement"]
+      //   },
+      //   children: [
+      //     {
+      //       path: '/bedData',
+      //       name: 'bedData',
+      //       component: BedData,
+      //       meta: {
+      //         title: '床位数据',
+      //         requiresAuth: true,
+      //         roles: ["sys:bedData"],
+      //       }
+      //     },
+      //     {
+      //       path: '/extendedDataManagement',
+      //       name: 'extendedDataManagement',
+      //       component: ExtendedDataManagement,
+      //       meta: {
+      //         title: '床位扩展数据管理',
+      //         requiresAuth: true,
+      //         roles: ["sys:extendedDataManagement"],
+      //       }
+      //     }
+      //   ]
+      // },
       {
         path: '/bedView',
         name: 'bedView',
-        component: BedView,
+        component: () => import('@/view/content/BedView.vue'),
         meta: {
           title: '床位管理',
           requiresAuth: true,
@@ -79,7 +73,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '/patientScreening',
         name: 'patientScreening',
-        component: PatientScreening,
+        component: () => import('@/view/content/PatientScreening.vue'),
         meta: {
           title: '患者管理',
           requiresAuth: true,
@@ -89,7 +83,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '/bedAllocation',
         name: 'bedAllocation',
-        component: BedAllocation,
+        component: () => import('@/view/content/BedAllocation.vue'),
         meta: {
           title: '床位分配',
           requiresAuth: true,
@@ -99,7 +93,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '/user',
         name: 'user',
-        component: User,
+        component: () => import('@/view/content/User.vue'),
         beforeEnter: (to, from, next) => {
           const userStore = useUserStore();
           const menuStore = useMenuStore();
@@ -108,7 +102,7 @@ export const routes: Array<RouteRecordRaw> = [
           } else {
             message.success('权限不足')
             // 直接更新 Pinia store 的状态
-             menuStore.openKeys = ['/bedView'];
+            menuStore.openKeys = ['/bedView'];
             next('/bedView'); // 重定向到未授权页面
           }
         },
@@ -121,7 +115,7 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: '/role',
         name: 'role',
-        component: Role,
+        component: () => import('@/view/content/Role.vue'),
         beforeEnter: (to, from, next) => {
           const userStore = useUserStore();
           const menuStore = useMenuStore();
@@ -138,6 +132,28 @@ export const routes: Array<RouteRecordRaw> = [
           title: '用户角色',
           requiresAuth: true,
           roles: ["sys:Role"],
+        }
+      },
+      {
+        path: '/permission',
+        name: 'permissions',
+        component: () => import("@/view/content/Permission.vue"),
+        // beforeEnter: (to, from, next) => {
+        //   const userStore = useUserStore();
+        //   const menuStore = useMenuStore();
+        //   if (userStore.permissions.includes('权限管理')) {
+        //     next();
+        //   } else {
+        //     message.success('权限不足')
+        //     // 直接更新 Pinia store 的状态
+        //     menuStore.openKeys = ['/bedView'];
+        //     next('/bedView'); // 重定向到未授权页面
+        //   }
+        // },
+        meta: {
+          title: '权限管理',
+          // requiresAuth: true,
+          // roles: ["sys:Permission"],
         }
       }
     ]

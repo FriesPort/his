@@ -11,13 +11,16 @@
       <a-button key="submit" type="primary" @click="handleOk">确认</a-button>
     </template>
     <a-form>
-      <a-form-item label="姓名：" style="width: 200px;">
-        <a-input v-model:value="props.user.roleName" placeholder="请输入名字">
+      <a-form-item label="角色名：" style="width: 200px;">
+        <a-input v-model:value="props.user.roleName" placeholder="请输入角色名">
         </a-input>
       </a-form-item>
-      <a-form-item label="描述：" style="width: 400px;">
+      <a-form-item label="角色描述：" style="width: 400px;">
         <a-input v-model:value="props.user.description" placeholder="请输入角色描述">
         </a-input>
+      </a-form-item>
+      <a-form-item>
+        <PermissionDialog :permissionList="[]" :getTitle="getTitle" />
       </a-form-item>
     </a-form>
   </a-modal>
@@ -25,6 +28,7 @@
 <script lang="ts" setup>
 import { onMounted, ref, reactive, watch } from 'vue';
 import { Campus, Ward, Office, } from '../bedview/types/Bed';
+import PermissionDialog from './permissionDialog.vue';
 // import { roleEditApi } from '@/api/user';
 import { message } from 'ant-design-vue';
 
@@ -37,6 +41,11 @@ const visible = ref<boolean>(false);
 const showModal = () => {
   visible.value = true;
 };
+
+const titles = ref()
+const getTitle = (newTitles: any) => {
+  titles.value = newTitles
+}
 
 const handleOk = async () => {
   visible.value = false;

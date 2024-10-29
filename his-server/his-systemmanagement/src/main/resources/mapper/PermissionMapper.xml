@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.PermissionMapper">
+    <select id="SearchListById" resultType="com.example.entity.Permission">
+        SELECT p.*
+        FROM role r
+                 JOIN role_permission rp ON r.id = rp.role_id
+                 JOIN permission p ON rp.permission_id = p.id
+        WHERE r.id = #{roldId}
+    </select>
+
+
+
+</mapper>

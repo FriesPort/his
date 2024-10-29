@@ -21,20 +21,20 @@ spring:
       discovery:
         server-addr: 111.230.250.144:8848
     gateway:
-#      globalcors:
-#        cors-configurations:
-#          '[/**]':
-#            allowedOrigins: "*"
-#            allowedMethods:
-#              - GET
-#              - HEAD
-#              - POST
-#              - PUT
-#              - DELETE
-#              - TRACE
-#              - OPTIONS
-#              - PATCH
-#            allowedHeaders: "*"
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - HEAD
+              - POST
+              - PUT
+              - DELETE
+              - TRACE
+              - OPTIONS
+              - PATCH
+            allowedHeaders: "*"
       discovery:
         locator:
           enabled: true

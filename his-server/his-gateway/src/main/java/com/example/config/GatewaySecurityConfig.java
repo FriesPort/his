@@ -45,7 +45,7 @@ public class  GatewaySecurityConfig {
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         //跨域支持
         http.cors().and().csrf().disable();
-        http.addFilterAt(corsFilter, SecurityWebFiltersOrder.SECURITY_CONTEXT_SERVER_WEB_EXCHANGE);
+        //http.addFilterAt(corsFilter, SecurityWebFiltersOrder.SECURITY_CONTEXT_SERVER_WEB_EXCHANGE);
         //对白名单路径，直接移除JWT请求头
         http.addFilterBefore(whitePathFilter, SecurityWebFiltersOrder.AUTHENTICATION);
         http

@@ -50,6 +50,12 @@
       </template>
       <RouterLink to="/role">角色管理</RouterLink>
     </a-menu-item>
+    <a-menu-item key="/permission">
+      <template #icon>
+        <solution-outlined />
+      </template>
+      <RouterLink to="/permission">权限管理</RouterLink>
+    </a-menu-item>
   </a-menu>
 </template>
 <script setup lang='ts'>

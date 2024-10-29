@@ -20,29 +20,30 @@ import type { TransferProps, TreeProps } from 'ant-design-vue';
 
 const props = defineProps<{
   permissionList: any,
-  getTitle:any
+  getTitle: any
 }>()
 const visible = ref<boolean>(false);
 
 const showModal = () => {
   // 执行函数更新 treeData
-  fillTreeDataWithPermissions(props.permissionList);
+  // fillTreeDataWithPermissions(props.permissionList);
   visible.value = true;
 };
+const checkedKeys = ref<string[]>([]);
 
 const handleOk = () => {
   // 当点击确认按钮时，输出当前勾选的值
   console.log('勾选的节点:', checkedKeys.value);
   // 遍历勾选的 keys，并获取每个节点的 title
-  const titles = reactive({titles:[] as any})
-  checkedKeys.value.forEach((key) => {
+  const titles = reactive({ titles: [] as any })
+  checkedKeys.value.forEach((key: any) => {
     const title = getTreeNodeTitle(key, treeData.treeData);
     if (title !== undefined) { // 只有当title存在时才添加
       titles.titles.push(title);
-      console.log(`节点 ${key} 的标题是: ${title}`);
+      // console.log(`节点 ${key} 的标题是: ${title}`);
     }
   });
-  console.log('从权限模块输出的titles：',titles.titles)
+  console.log('从权限模块输出的titles：', titles.titles)
   props.getTitle(titles.titles)
   visible.value = false;
 };
@@ -176,7 +177,7 @@ const treeData = reactive({
 
 function fillTreeDataWithPermissions(permissions: any) {
   // 清空原始的treeData
-  treeData.treeData.splice(0,treeData.treeData.length);
+  treeData.treeData.splice(0, treeData.treeData.length);
 
   // 根据permissionList填充treeData
   permissions.forEach((permission: { permissionName: any; permissionType: any; permissionId: any; }) => {
@@ -208,15 +209,14 @@ function fillTreeDataWithPermissions(permissions: any) {
 
 const expandedKeys = ref<string[]>([]);
 const selectedKeys = ref<string[]>([]);
-const checkedKeys = ref<string[]>([]);
 watch(expandedKeys, () => {
-  console.log('expandedKeys', expandedKeys);
+  // console.log('expandedKeys', expandedKeys);
 });
 watch(selectedKeys, () => {
-  console.log('selectedKeys', selectedKeys);
+  // console.log('selectedKeys', selectedKeys);
 });
 watch(checkedKeys, () => {
-  console.log('checkedKeys', checkedKeys);
+  // console.log('checkedKeys', checkedKeys);
 });
 
 </script>
