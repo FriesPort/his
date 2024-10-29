@@ -124,8 +124,8 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
 
 
     @Override   // 查看患者
-    public Result<List<List<PatientVo>>> patientQuery(PatientQueryDTO patientQueryDTO) {
-        Result<List<List<PatientVo>>> result = new Result<>();
+    public Result<Map<String, List<PatientVo>>> patientQuery(PatientQueryDTO patientQueryDTO) {
+        Result<Map<String, List<PatientVo>>> result = new Result<>();
         List<Patient> patients = patientList(patientQueryDTO);
         List<PatientVo> inpatientVos = new ArrayList<>();   // 存储住院
         List<PatientVo> outpatientVos = new ArrayList<>();  // 存储不住院
@@ -167,13 +167,13 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
         inpatientVos.sort(comparator);
         outpatientVos.sort(comparator);
 
-        // 将住院和不住院的患者列表添加到嵌套列表
-        List<List<PatientVo>> patientList = new ArrayList<>();
-        patientList.add(inpatientVos);
-        patientList.add(outpatientVos);
+        // 将两个列表封装到结果Map中
+        Map<String, List<PatientVo>> patientMap = new HashMap<>();
+        patientMap.put("inHospital", inpatientVos);   // 住院患者
+        patientMap.put("outHospital", outpatientVos); // 未住院患者
 
+        result.setMessage(patientMap);
         result.setStatus(true);
-        result.setMessage(patientList);
 
         return result;
     }
