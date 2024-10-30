@@ -87,6 +87,15 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>3.0.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>10.0.0</version> <!-- 根据需要选择合适的版本 -->
+            <scope>provided</scope>
+        </dependency>
+
+
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>his-domain</artifactId>

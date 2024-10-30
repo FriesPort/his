@@ -13,7 +13,7 @@ export default defineConfig({
     //publicPath: '/',
     outDir: 'dist',//打包后输出
     assetsDir: 'static',//静态文件输出地址
-   },
+  },
   plugins: [
     vue(),
     VueSetupExtend()
@@ -38,7 +38,9 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api1/, '')//api替代为''
       },
       '/api': {//获取路径中包含/api的请求
-        target: 'http://111.230.250.144:8081',//后台服务所在的源
+        // target: 'http://111.230.250.144:8081',//后台服务所在的源
+        target: 'http://localhost:9090',//后台服务所在的源
+
         changeOrigin: true,//修改源
         rewrite: (path) => path.replace(/^\/api/, '')//api替代为''
       }

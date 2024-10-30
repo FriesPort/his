@@ -5,7 +5,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -18,6 +21,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("role_permission")
 public class RolePermission implements Serializable {
 
@@ -38,10 +43,6 @@ public class RolePermission implements Serializable {
      */
     private String permissionId;
 
-    /**
-     * 关联数据规则表-外键
-     */
-    private String dataRuleId;
 
     /**
      * 创建时间

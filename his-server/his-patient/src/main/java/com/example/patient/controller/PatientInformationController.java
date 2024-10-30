@@ -7,14 +7,15 @@ import com.example.dto.patient.PatientQueryDTO;
 import com.example.patient.service.IPatientInformationService;
 import com.example.vo.patient.PatientVo;
 import com.example.vo.patient.Result;
-import jakarta.annotation.Resource;
+import com.example.vo.JsonVO;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.example.patient.utils.JsonReader;
-import com.example.patient.utils.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -30,21 +31,17 @@ public class PatientInformationController {
 
     private final static Logger log = LoggerFactory.getLogger(PatientInformationController.class);
 
-    @Resource
+    @Autowired
     private IPatientInformationService patientInformationService;
 
-    @Resource
-    private JsonReader jsonReader; // 注入 JsonReader
 
-    @Resource
-    private FileUtil fileUtil;
 
     @PostMapping("/query")
-    public JsonVO<List<PatientVo>> query(
+    public JsonVO<Map<String, List<PatientVo>>> query(
             @RequestBody PatientQueryDTO patientQueryDTO) {
 
         // 调用服务查询逻辑
-        Result<List<PatientVo>> result = patientInformationService.patientQuery(patientQueryDTO);
+        Result<Map<String, List<PatientVo>>> result = patientInformationService.patientQuery(patientQueryDTO);
 
         if (result.isStatus()) {
             return JsonVO.success(result.getMessage());
@@ -55,17 +52,17 @@ public class PatientInformationController {
 
 
     @PostMapping("/add")    //新增患者
-    public JsonVO<String> add(@RequestBody PatientAlterDTO patientAlterDTO){
-        Result<String> result = patientInformationService.patientAdd(patientAlterDTO);
-        if(result.isStatus())return JsonVO.success(result.getMessage());
+    public JsonVO<String> add(@RequestHeader("userId") String userId, @RequestBody PatientAlterDTO patientAlterDTO){
+        Result<String> result = patientInformationService.patientAdd(userId, patientAlterDTO);
+        if(result.isStatus()) return JsonVO.success(result.getMessage());
         return JsonVO.fail(result.getMessage());
     }
 
     @PostMapping("/adds")
-    public JsonVO<String> adds(@RequestBody List<PatientAlterDTO> patientList) {
+    public JsonVO<String> adds(@RequestHeader("userId") String userId,@RequestBody List<PatientAlterDTO> patientList) {
         try {
             // 批量导入患者信息
-            Result<String> result = patientInformationService.patientsAdd(patientList);
+            Result<String> result = patientInformationService.patientsAdd(userId,patientList);
             if (result.isStatus()) return JsonVO.success(result.getMessage());
             return JsonVO.fail(result.getMessage());
         } catch (Exception e) {
@@ -76,8 +73,8 @@ public class PatientInformationController {
 
 
     @PostMapping ("/edit")    //编辑患者
-    public JsonVO<String> edit(@RequestBody PatientEditDTO patientEditDTO){
-        Result<String> result = patientInformationService.patientEdit(patientEditDTO);
+    public JsonVO<String> edit(@RequestHeader("userId") String userId,@RequestBody PatientEditDTO patientEditDTO){
+        Result<String> result = patientInformationService.patientEdit(userId,patientEditDTO);
         if(result.isStatus())return JsonVO.success(result.getMessage());
         return JsonVO.fail(result.getMessage());
     }

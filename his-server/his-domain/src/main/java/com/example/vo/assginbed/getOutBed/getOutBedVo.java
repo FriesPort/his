@@ -1,4 +1,4 @@
-package com.example.vo.getOutBed;
+package com.example.vo.assginbed.getOutBed;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;

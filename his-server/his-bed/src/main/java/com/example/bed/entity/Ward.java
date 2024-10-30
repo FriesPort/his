@@ -1,17 +1,18 @@
 package com.example.bed.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author xw
@@ -25,17 +26,17 @@ public class Ward implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "ward_id", type = IdType.AUTO)
-    private Long wardId;
+    @TableId(value="id" ,type = IdType.INPUT)
+    private String wardId;
 
     @TableField("name")
     private String wardName;
-
+    @TableField("code")
     private String code;
-
-    private Long officeId;
-
+    @TableField("office_id")
+    private String officeId;
+    @TableField("room_count")
     private Integer roomCount;
-
+    @TableField("bed_count")
     private Integer bedCount;
 }

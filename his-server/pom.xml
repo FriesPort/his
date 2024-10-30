@@ -25,6 +25,7 @@
         <module>his-patient</module>
         <module>his-systemmanagement</module>
         <module>his-security</module>
+        <module>his-assignbed</module>
     </modules>
     <dependencyManagement>
         <dependencies>

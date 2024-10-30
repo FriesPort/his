@@ -2,7 +2,7 @@ import request from "@/utils/request.ts";
 
 //提供调用登录接口的函数
 export const userLoginService = (params: any) => {
-    return request.post('/users/login', params )
+    return request.post('/security/login', params )
 }
 
 //新增

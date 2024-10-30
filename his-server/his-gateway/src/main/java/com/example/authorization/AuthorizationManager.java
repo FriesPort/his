@@ -53,6 +53,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         }
         List<String> authorities = Convert.toList(String.class,obj);
         authorities = authorities.stream().map(permissionName-> AuthConstant.AUTHORITY_PREFIX +permissionName).collect(Collectors.toList());
+        authorities.add("PERMISSION_admin");
         return authorities;
     }
 
@@ -63,7 +64,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
             return Mono.just(new AuthorizationDecision(true));
         }
 
-        //1 从Redis中获取当前路径可访问角色列表
+        //从Redis中获取当前路径可访问角色列表
         String path = authorizationContext.getExchange().getRequest().getURI().getPath();
         String token = authorizationContext.getExchange().getRequest().getHeaders().getFirst("Authorization").replace("His_","");
         List<String> authorities = queryPermissionListByPath(path);
@@ -90,7 +91,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
         log.info("authentication:{}",authentication);
         Mono<Authentication> combinedAuthentication = Mono.just(authenticationToken);
         log.info("authentication:{}",combinedAuthentication);
-        //2 认证通过且角色匹配的用户可访问当前路径
+        //认证通过且角色匹配的用户可访问当前路径
         return combinedAuthentication
                 // 判断是否认证
                 .filter(Authentication::isAuthenticated)

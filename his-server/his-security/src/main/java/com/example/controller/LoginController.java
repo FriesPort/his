@@ -17,8 +17,10 @@ public class LoginController {
     public JsonVO<LoginVO> login(@RequestBody LoginDTO loginDTO){
         return JsonVO.success(loginService.login(loginDTO));
     }
-    @GetMapping("/test")
-    public JsonVO<String> test(){
-        return JsonVO.success("test");
+
+    @PostMapping("/logout")
+    public JsonVO<String> logout(@RequestHeader("userId") String userId){
+        return JsonVO.success(loginService.logout(userId));
     }
+
 }

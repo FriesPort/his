@@ -1,22 +1,26 @@
 package com.example.service.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.dto.systemmanagement.rolepermission.RoleAllocationDTO;
 import com.example.dto.systemmanagement.roles.RoleCreateDTO;
-import com.example.entity.Permission;
-import com.example.entity.Role;
-import com.example.entity.RolePermission;
+import com.example.entity.*;
+import com.example.mapper.PermissionDataRuleMapper;
 import com.example.mapper.PermissionMapper;
 import com.example.mapper.RolePermissionMapper;
 import com.example.mapper.RoleMapper;
 import com.example.service.IRolePermissionService;
 import com.example.utils.IdGenerate;
-import com.example.vo.systemmanagement.roles.RoleCreateVO;
+import com.example.utils.RedisCache;
+import com.example.vo.systemmanagement.role.PermissionDisplayVO;
+import com.example.vo.systemmanagement.role.RoleCreateVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * <p>
@@ -33,12 +37,14 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     RolePermissionMapper rolePermissionMapper;
     @Autowired
     PermissionMapper permissionMapper;
-
+    @Autowired
+    PermissionDataRuleMapper permissionDataRuleMapper;
     @Autowired
     RoleMapper roleMapper;
     @Autowired
     IdGenerate idGenerate;
-
+    @Autowired
+    RedisCache redisCache;
     Role role =new Role();
     RolePermission rolePermission=new RolePermission();
 
@@ -71,5 +77,57 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
 //        roleCreateVO.setPermissionsName(role.getName());
         roleCreateVO.setPermissionsName(roleCreateDTO.getPermissions());
         return roleCreateVO;
+    }
+
+    @Override
+    public List<PermissionDisplayVO> permissionDisplay(String roleId) {
+        List<Permission> permissions=permissionMapper.SearchListById(roleId);
+        List<PermissionDisplayVO> voList=new ArrayList<>();
+        for(Permission permission:permissions){
+            if(permission.getIsDatarule()==1){
+                PermissionDataRule permissionDataRule=permissionDataRuleMapper
+                        .selectOne(new LambdaQueryWrapper<PermissionDataRule>()
+                                .eq(PermissionDataRule::getPermissionId,permission
+                                        .getId()));
+                Map<String,String> map=new HashMap<>();
+                map.put("rule_name",permissionDataRule.getRuleName());
+                map.put("rule_column",permissionDataRule.getRuleColumn());
+                map.put("rule_conditions",permissionDataRule.getRuleConditions());
+                map.put("rule_value",permissionDataRule.getRuleValue());
+                voList.add(
+                        new PermissionDisplayVO(
+                                permission.getName(),
+                                permission.getDescription(),
+                                map));
+            }else {
+                voList.add(new PermissionDisplayVO(permission.getName(),permission.getDescription(),null));
+            }
+        }
+        return voList;
+    }
+
+    @Override
+    public boolean roleAllocation(RoleAllocationDTO allocationDTO,String userId) {
+        try{
+            for(String permission:allocationDTO.getAdd()){
+                rolePermissionMapper.insert(new RolePermission(
+                        idGenerate.nextUUID(allocationDTO),
+                        allocationDTO.getRoleId(),
+                        permission,
+                        LocalDateTime.now(),
+                        userId,
+                        null,
+                        null));
+            }
+            for(String permission:allocationDTO.getDel()){
+                rolePermissionMapper.delete(new LambdaQueryWrapper<RolePermission>()
+                        .eq(RolePermission::getPermissionId,permission)
+                        .eq(RolePermission::getRoleId,allocationDTO.getRoleId()));
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }

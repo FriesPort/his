@@ -36,12 +36,12 @@ public class TrimAspect {
             Field[] fields = target.getClass().getDeclaredFields();
 
             for (Field field : fields) {
-                field.setAccessible(true);
                 if (field.getType().equals(String.class)) {
-                    String value = (String) field.get(target);
-                    if (value != null) {
-                        field.set(target, value.trim());
-                    }
+                        field.setAccessible(true);
+                        String value = (String) field.get(target);
+                        if (value != null) {
+                            field.set(target, value.trim());
+                        }
                 }
             }
         }

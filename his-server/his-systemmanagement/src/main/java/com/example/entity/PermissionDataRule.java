@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +18,7 @@ import lombok.Setter;
  * @author diandian
  * @since 2024-10-17
  */
-@Getter
-@Setter
+@Data
 @TableName("permission_data_rule")
 public class PermissionDataRule implements Serializable {
 

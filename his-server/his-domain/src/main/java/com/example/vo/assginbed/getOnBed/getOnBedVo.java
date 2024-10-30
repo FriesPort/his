@@ -1,4 +1,4 @@
-package com.example.vo.getOnBed;
+package com.example.vo.assginbed.getOnBed;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
