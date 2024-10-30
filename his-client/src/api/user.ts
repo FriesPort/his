@@ -64,12 +64,12 @@ export const roleAdd = (params:any) => {
 
 //编辑角色
 export const roleEditApi = (params: any) => {
-    return request.put('/system/role/update', params)
+    return request.post('/system/role/allocation', params)
 }
 
 //删除用户角色
 export const roleDeleteApi = (params:any) => {
-    return request.delete(`/system/role/delete?id=${params}`);
+    return request.post(`/system/role/delete?id=${params}`);
 }
 
 //权限列表

@@ -32,7 +32,7 @@
           </a-input>
         </a-form-item>
         <a-form-item>
-          <PermissionDialog :permissionList="permissionList.permissionList" :getTitle="getTitle" />
+          <PermissionDialog :checkedKeys="[]" :permissionList="permissionList.permissionList" :getTitle="getTitle" />
         </a-form-item>
       </a-form>
     </a-modal>
