@@ -2,7 +2,6 @@ package com.example.controller;
 
 import com.example.dto.login.LoginDTO;
 import com.example.service.LoginService;
-import com.example.vo.JsonVO;
 import com.example.vo.login.LoginVO;
 
 import org.springframework.beans.factory.annotation.Autowired;

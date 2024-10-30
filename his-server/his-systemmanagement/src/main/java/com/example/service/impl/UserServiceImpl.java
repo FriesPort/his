@@ -1,6 +1,7 @@
 package com.example.service.impl;
 
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -16,6 +17,7 @@ import com.example.mapper.UserRoleMapper;
 import com.example.service.IUserService;
 import com.example.utils.IdGenerate;
 import com.example.vo.systemmanagement.user.UserDeleteVO;
+import com.example.vo.systemmanagement.user.UserDisplayVO;
 import com.example.vo.systemmanagement.user.UserUpdateVO;
 import com.example.vo.systemmanagement.userrole.UserRoleDisplayVo;
 import org.springframework.beans.BeanUtils;
@@ -25,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -80,7 +83,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public IPage<UserDisplayDTO> userlist(UserDisplayDTO userDisplayDTO, Page page){
+    public IPage<UserDisplayVO> userlist(UserDisplayDTO userDisplayDTO, Page page){
 //        List<User> userlist=new ArrayList<>();
 //        List<UsersDisplayVO> displayVOList=new ArrayList<>();
 //        QueryWrapper queryWrapper=new QueryWrapper();
@@ -119,7 +122,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public boolean updateUser(UserUpdateDTO userUpdateDTO,String userId) {
         User user = new User();
         BeanUtils.copyProperties(userUpdateDTO,user);
-        user.setCreateBy(userId);
+        user.setUpdateBy(userId);
         int rows = userMapper.updateById(user);
         if(rows>=1){
             return UserUpdateVO.success;
@@ -144,8 +147,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public boolean allocateRole(UserCreateDTO userCreateDTO,String userId) {
         UserRole userRole = new UserRole();
         userRole.setUserId(userCreateDTO.getUserId());
-        userRole.setRoleId(userRole.getRoleId());
+        userRole.setRoleId(userCreateDTO.getRoleId());
         userRole.setCreateBy(userId);
+        userRole.setId(idGenerate.nextUUID(userRole));
+        userRole.setCreateTime(LocalDateTime.now());
         int rows = userRoleMapper.insert(userRole);
         if(rows>=1){
             return true;

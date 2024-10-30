@@ -30,6 +30,13 @@
               {{ option }}
             </option>
           </select>
+          <h2>类型</h2>
+          <select v-model="selectedOption6">
+            <option disabled value="">请选择类型</option>
+            <option value="选项A">正床</option>
+            <option value="选项B">男床</option>
+            <option value="选项C">女床</option>
+          </select>
           <h2>房区</h2>
           <select v-model="selectedOption4">
             <option disabled value="">请选择房区</option>

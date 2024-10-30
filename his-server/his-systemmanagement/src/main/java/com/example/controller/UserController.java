@@ -27,6 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/system/user")
+@RequestMapping("/system/user")
 public class UserController {
     @Autowired
     private IUserService iUserService;
@@ -84,7 +85,7 @@ public class UserController {
      * @return JsonVO<IPage<UserDisplayDTO>>
      */
     @GetMapping("/msg/display")
-    public JsonVO<IPage<UserDisplayDTO>> UserList(UserDisplayDTO userDisplayDTO, @RequestParam long current, @RequestParam long size) {
+    public JsonVO<IPage<UserDisplayVO>> UserList(UserDisplayDTO userDisplayDTO, @RequestParam long current, @RequestParam long size) {
         Page<UserDisplayVO> page = new Page<>(current, size);
         if(page!=null){
             return JsonVO.success(iUserService.userlist(userDisplayDTO,page));
@@ -113,7 +114,7 @@ public class UserController {
      * @param roleId
      * @return JsonVO<String>
      */
-    @DeleteMapping("/role/delete")
+    @PostMapping("/role/delete")
     public JsonVO<String> UserRoleDelete(@RequestParam String userId,@RequestParam String roleId) {
         if(iUserService.userRoleDelete(userId,roleId)){
             return JsonVO.success(UserRoleDeleteVO.success);
