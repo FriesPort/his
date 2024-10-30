@@ -233,6 +233,7 @@ export default {
   created() {
     this.startCountdown();
   },
+
   methods: {
     async fetchPatients() {
       console.log("被调用了");
