@@ -26,13 +26,13 @@ import { onMounted, reactive, ref, watch } from 'vue';
 import addDialog from './addDialog.vue'
 import editDialog from './editDialog.vue'
 import permissionDialog from './permissionDialog.vue'
-import { getRoleListApi } from '@/api/user';
+import { getRoleListApi, roleDeleteApi } from '@/api/user';
 
 //表格高度
 const tableHeight = ref(0)
 const columns: TableColumnsType = [
   // { title: '编号', width: 28, dataIndex: 'id', key: 'r1', },
-  { title: '角色名', width: 20, dataIndex: 'roleName', key: 'r2', },
+  { title: '角色名', width: 20, dataIndex: 'name', key: 'r2', },
   { title: '角色描述', width: 66, dataIndex: 'description', key: 'r3', },
   {
     title: '角色操作',
@@ -69,7 +69,7 @@ const page = reactive({
 })
 // 获取表格的数据
 const getRoleList = async () => {
-  let res = await getRoleListApi()
+  let res = await getRoleListApi({})
   //设置表格的数据
   tableList.list = res.data
 }
@@ -77,10 +77,8 @@ const getRoleList = async () => {
 //删除
 const deleteBtn = async (id: number) => {
   console.log('id', id)
-  let params = {
-    roleId: id
-  }
-  await roleDeleteApi(params)
+  
+  await roleDeleteApi(id)
   message.success('角色删除成功')
   getRoleList()
 }

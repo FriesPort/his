@@ -46,7 +46,7 @@ spring:
         - id: systemanagement
           uri: http://127.0.0.1:9000
           predicates:
-            - Path=/system/**
+            - Path=/system/permission/**,/system/user/**,/system/role/**
         - id: bed
           uri: http://127.0.0.1:8087
           predicates:
@@ -67,6 +67,8 @@ mybatis-plus:
 secure:
   openauthorization: true
   white:
+    permissions:
+      - "admin"
     urls:
       - "/security/login"
 

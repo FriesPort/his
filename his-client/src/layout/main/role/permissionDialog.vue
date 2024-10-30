@@ -26,12 +26,12 @@ const visible = ref<boolean>(false);
 
 const showModal = () => {
   // 执行函数更新 treeData
-  // fillTreeDataWithPermissions(props.permissionList);
+  fillTreeDataWithPermissions(props.permissionList);
   visible.value = true;
 };
 const checkedKeys = ref<string[]>([]);
 
-const handleOk = () => {
+const handleOk = async() => {
   // 当点击确认按钮时，输出当前勾选的值
   console.log('勾选的节点:', checkedKeys.value);
   // 遍历勾选的 keys，并获取每个节点的 title
@@ -180,25 +180,25 @@ function fillTreeDataWithPermissions(permissions: any) {
   treeData.treeData.splice(0, treeData.treeData.length);
 
   // 根据permissionList填充treeData
-  permissions.forEach((permission: { permissionName: any; permissionType: any; permissionId: any; }) => {
+  permissions.forEach((permission: { name: any; id: any; }) => {
     // 查找是否存在于treeData中的相应父节点
-    const parentNode = treeData.treeData.find((node: { title: any; }) => node.title === permission.permissionName);
+    const parentNode = treeData.treeData.find((node: { title: any; }) => node.title === permission.name);
     if (parentNode) {
       // 如果父节点存在，添加子节点
       parentNode.children.push({
-        title: permission.permissionType,
-        key: permission.permissionId,
+        title: permission.name,
+        key: permission.id,
         disabled: false
       });
     } else {
       // 如果父节点不存在，创建新的父节点和子节点
       treeData.treeData.push({
-        title: permission.permissionName,
-        key: permission.permissionName, // 使用permissionName作为key
+        title: permission.name,
+        key: permission.id, // 使用name作为key
         children: [
           {
-            title: permission.permissionType,
-            key: permission.permissionId,
+            title: permission.name,
+            key: permission.id,
             disabled: false
           }
         ]

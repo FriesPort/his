@@ -17,4 +17,6 @@ import java.util.List;
  */
 public interface IRoleService extends IService<Role> {
     public List<RoleListVO> rolelist(String role_name);
+
+    public Boolean DeleteRole(String id);
 }

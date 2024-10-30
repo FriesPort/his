@@ -36,14 +36,28 @@ public class RoleController {
     IRolePermissionService iRolePermissionService;
 
     /**
+     * 删除角色
+     * @param id
+     * @return
+     */
+    @PostMapping("/delete")
+    public JsonVO<Boolean> deleteRole(String id){
+        if(iRoleService.DeleteRole(id)){
+            return JsonVO.success(true);
+        }else {
+            return JsonVO.fail(false);
+        }
+    }
+
+    /**
      * 自定义角色
      * @param roleCreateDTO
      * @return RoleCreateVO
      */
     @PostMapping("/register")
     @ApiOperation(value = "自定义角色")
-    public JsonVO<RoleCreateVO> RoleCreate(@RequestBody RoleCreateDTO roleCreateDTO) {
-        return JsonVO.success(iRolePermissionService.definedRole(roleCreateDTO));
+    public JsonVO<RoleCreateVO> RoleCreate(@RequestBody RoleCreateDTO roleCreateDTO, @RequestHeader("userId") String userId) {
+        return JsonVO.success(iRolePermissionService.definedRole(roleCreateDTO, userId));
     }
 
     /**
@@ -51,7 +65,7 @@ public class RoleController {
      * @return List<RoleListVO>
      */
     @GetMapping("/search")
-    public JsonVO<List<RoleListVO>> RoleList(@RequestParam String role_name) {
+    public JsonVO<List<RoleListVO>> RoleList(String role_name) {
 
         return JsonVO.success(iRoleService.rolelist(role_name));
     }

@@ -20,7 +20,7 @@ import java.util.List;
  */
 public interface IRolePermissionService extends IService<RolePermission> {
     //自定义角色
-    RoleCreateVO definedRole(RoleCreateDTO roleCreateDTO);
+    RoleCreateVO definedRole(RoleCreateDTO roleCreateDTO, String userId);
 
     //角色权限展示
     List<PermissionDisplayVO> permissionDisplay(String roleId);

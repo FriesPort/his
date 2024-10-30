@@ -18,6 +18,7 @@ import com.example.vo.systemmanagement.role.PermissionDisplayVO;
 import com.example.vo.systemmanagement.role.RoleCreateVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -51,29 +52,30 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
 
 
     @Override
-    public RoleCreateVO definedRole(RoleCreateDTO roleCreateDTO) {
+    public RoleCreateVO definedRole(@RequestBody RoleCreateDTO roleCreateDTO,String userId) {
         role.setId(idGenerate.nextUUID(roleCreateDTO));
         role.setName(roleCreateDTO.getRoleName());
         role.setDescription(roleCreateDTO.getDescription());
+        role.setCreateTime(LocalDateTime.now());
+        role.setCreateBy(userId);
         roleMapper.insert(role);
         List<String> permissions=roleCreateDTO.getPermissions();
         for(String name:permissions){
             Permission p= permissionMapper
-                    .selectOne(new QueryWrapper<Permission>().eq("permission_name",name));
+                    .selectOne(new LambdaQueryWrapper<Permission>().eq(Permission::getName,name));
             rolePermission.setId(idGenerate.nextUUID(role.getId()+p.getId()));
             rolePermission.setPermissionId(p.getId());
-            rolePermission.setPermissionId(role.getId());
+            rolePermission.setRoleId(role.getId());
+            rolePermission.setCreateBy(userId);
+            rolePermission.setCreateTime(LocalDateTime.now());
             rolePermissionMapper.insert(rolePermission);
         }
 
         RoleCreateVO roleCreateVO=new RoleCreateVO();
         roleCreateVO.setDescription(String.valueOf(roleMapper
-                .selectOne(new QueryWrapper<Role>()
-                        .eq("role_id", role
-                                .getId())).getDescription()));
+                .selectOne(new LambdaQueryWrapper<Role>().eq(Role::getId, role.getId())).getDescription()));
         roleCreateVO.setRoleName(String.valueOf(roleMapper
-                .selectOne(new QueryWrapper<Role>()
-                        .eq("role_id", role.getId())).getName()));
+                .selectOne(new LambdaQueryWrapper<Role>().eq(Role::getId, role.getId())).getName()));
 //        roleCreateVO.setPermissionsName(role.getName());
         roleCreateVO.setPermissionsName(roleCreateDTO.getPermissions());
         return roleCreateVO;

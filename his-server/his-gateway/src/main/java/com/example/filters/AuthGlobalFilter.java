@@ -1,8 +1,6 @@
 package com.example.filters;
 
 import cn.hutool.core.util.StrUtil;
-import com.example.constant.RedisConstant;
-import com.example.handler.CommonSender;
 import com.example.utils.RedisCache;
 import com.example.entity.LoginUser;
 import com.example.utils.JwtUtil;

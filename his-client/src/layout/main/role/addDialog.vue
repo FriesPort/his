@@ -43,6 +43,7 @@ import { onMounted, ref, reactive, watch } from 'vue';
 import { Campus, Ward, Office, } from '../bedview/types/Bed';
 import PermissionDialog from './permissionDialog.vue';
 import { permissionListApi, roleAdd } from '@/api/user';
+import { getPermissionList} from '@/api/permission/index';
 
 const labelCol = { style: { width: '80px' } };
 const wrapperCol = { span: 14 };
@@ -83,8 +84,9 @@ const permissionList = reactive({
   permissionList: [] as any
 })
 const showModal = async () => {
-  // let { data } = await permissionListApi()
-  // permissionList.permissionList.splice(0, permissionList.permissionList.length, ...data)
+  let { data } = await getPermissionList({})
+  console.log(data)
+  permissionList.permissionList.splice(0, permissionList.permissionList.length, ...data)
   visible.value = true;
 };
 const titles = ref()

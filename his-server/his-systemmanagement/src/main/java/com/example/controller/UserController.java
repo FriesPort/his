@@ -26,7 +26,8 @@ import java.util.List;
  * @since 2024-04-13
  */
 @RestController
-@RequestMapping("system/user")
+@RequestMapping("/system/user")
+@RequestMapping("/system/user")
 public class UserController {
     @Autowired
     private IUserService iUserService;
@@ -40,9 +41,7 @@ public class UserController {
      * @return JsonVO<String>
      */
     @PostMapping("/msg/add")
-    public JsonVO<String> AddUser(@RequestBody UserAddDTO userAddDTO,HttpServletRequest httpServletRequest) {
-        String token = httpServletRequest.getHeader("Authorization").replace("Bearer ","");
-        String userId = jwtUtil.parseTokenForUserId(token);
+    public JsonVO<String> AddUser(@RequestBody UserAddDTO userAddDTO,@RequestHeader("userId") String userId) {
         if(iUserService.insertUser(userAddDTO,userId)){
             return JsonVO.success("Add User Message Successful");
         }else {
@@ -70,9 +69,7 @@ public class UserController {
      * @return JsonVO<String>
      */
     @PostMapping("/msg/update")
-    public JsonVO<String> UpdateUser(@RequestBody UserUpdateDTO userUpdateDTO,HttpServletRequest httpServletRequest) {
-        String token = httpServletRequest.getHeader("Authorization").replace("Bearer ","");
-        String userId = jwtUtil.parseTokenForUserId(token);
+    public JsonVO<String> UpdateUser(@RequestBody UserUpdateDTO userUpdateDTO,@RequestHeader("userId") String userId) {
         if(iUserService.updateUser(userUpdateDTO,userId)){
             return JsonVO.success("update success");
         }else {
@@ -88,7 +85,7 @@ public class UserController {
      * @return JsonVO<IPage<UserDisplayDTO>>
      */
     @GetMapping("/msg/display")
-    public JsonVO<IPage<UserDisplayDTO>> UserList(UserDisplayDTO userDisplayDTO, @RequestParam long current, @RequestParam long size) {
+    public JsonVO<IPage<UserDisplayVO>> UserList(UserDisplayDTO userDisplayDTO, @RequestParam long current, @RequestParam long size) {
         Page<UserDisplayVO> page = new Page<>(current, size);
         if(page!=null){
             return JsonVO.success(iUserService.userlist(userDisplayDTO,page));
@@ -103,9 +100,7 @@ public class UserController {
      * @return JsonVO<String>
      */
     @PostMapping("/role/allocation")
-    public JsonVO<String> UserRoleAllocation(@RequestBody UserCreateDTO userCreateDTO,HttpServletRequest httpServletRequest) {
-        String token = httpServletRequest.getHeader("Authorization").replace("Bearer ","");
-        String userId = jwtUtil.parseTokenForUserId(token);
+    public JsonVO<String> UserRoleAllocation(@RequestBody UserCreateDTO userCreateDTO,@RequestHeader("userId") String userId) {
         if(iUserService.allocateRole(userCreateDTO,userId)){
             return JsonVO.success("Allocate role success");
         }else {
@@ -119,7 +114,7 @@ public class UserController {
      * @param roleId
      * @return JsonVO<String>
      */
-    @DeleteMapping("/role/delete")
+    @PostMapping("/role/delete")
     public JsonVO<String> UserRoleDelete(@RequestParam String userId,@RequestParam String roleId) {
         if(iUserService.userRoleDelete(userId,roleId)){
             return JsonVO.success(UserRoleDeleteVO.success);
