@@ -61,11 +61,11 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
         //将外键分割
         String[] foreignId = room.getForeignId().split("-");
         //分别将对应的信息放入
-        Campus campus= campusMapper.selectById(foreignId[0]);
+        Campus campus= campusMapper.selectById(foreignId[2]);
         numbers.setCampus(campus.getCampusName());
         Office office = officeMapper.selectById(foreignId[1]);
         numbers.setOffice(office.getOfficeName());
-        Ward ward = wardMapper.selectById(foreignId[2]);
+        Ward ward = wardMapper.selectById(foreignId[0]);
         numbers.setWard(ward.getWardName());
         Floor floor = floorMapper.selectById(foreignId[3]);
         numbers.setFloor(floor.getFloorName());

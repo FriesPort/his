@@ -21,12 +21,12 @@ import emitter from "@/utils/emitter";
 
 const app = createApp(App);
 
-app.config.errorHandler = function (err, vm, info) {
-  // 处理错误
-  console.error('ErrorHandler:', err, info);
-  // 可选: 返回一个消息，它将被用作窗口的异常信息
-  return '自定义错误信息';
-};
+// app.config.errorHandler = function (err, vm, info) {
+//   // 处理错误
+//   console.error('ErrorHandler:', err, info);
+//   // 可选: 返回一个消息，它将被用作窗口的异常信息
+//   return '自定义错误信息';
+// };
 //注册图标组件
 Object.keys(Icons).forEach((key) => {
   app.component(key, Icons[key as keyof typeof Icons])

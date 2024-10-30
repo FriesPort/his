@@ -1,11 +1,12 @@
 package com.example.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.dto.patientChangeBedDTO;
+
+import com.example.dto.assignbed.patientChangeBedDTO;
 import com.example.pojo.patientInformation;
-import com.example.vo.Result;
-import com.example.vo.getOnBed.getOnBedVo;
-import com.example.vo.getOutBed.getOutBedVo;
+
+import com.example.vo.assginbed.getOnBed.getOnBedVo;
+import com.example.vo.assginbed.getOutBed.getOutBedVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

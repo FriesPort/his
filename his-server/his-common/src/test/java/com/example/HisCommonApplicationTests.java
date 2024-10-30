@@ -22,7 +22,7 @@ class HisCommonApplicationTests {
     @Test
     void contextLoads() {
         List<String> permissionList = List.of("user:add", "user:update");
-        String token=jwtTool.createToken("1", Duration.ofMinutes(10),permissionList);
+        String token="Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyIjoidTEiLCJwZXJtaXNzaW9uIjpbIlBFUk1JU1NJT05fYWRtaW4iXSwiZXhwIjoxNzMwMjk0NTI1fQ.ggJFaNAx-6LZrFK9rNifxhCbiMeGNilMEuRcLvE6xamYwTb3UehWxCVTD6Si8PRQJHCSyGUWFU2ux3R4ZTOR6gr_7f2EHYYoojuZNWeQqKwD44q3zL5X5YJCy65bn6gx5xd_U3Y81NvpoZZUC1bY13ZoPqjMQ2SxJFKUwBLex5uk3opkiU9eQ_Z_oBNEQhlOZ1jrKjXXwI02ALXtwWcQatdJbD3QGpmPVM1IRW-2rlHZAPb5KODSzIY8Jk0jLnwMSUXP56uq-PqDSRgqRd7F1RuuZxdHAlsdUGUt9-FtgU4FOMUW7I0wCHBoZoW27_K5A-IA90GHnv-wAREibuDMOg";
         System.out.println("token:"+token);
         String relToken=token.replace("Bearer ","");
         String userId=jwtTool.parseTokenForUserId(relToken);

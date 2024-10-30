@@ -116,18 +116,18 @@ export const routes: Array<RouteRecordRaw> = [
         path: '/role',
         name: 'role',
         component: () => import('@/view/content/Role.vue'),
-        beforeEnter: (to, from, next) => {
-          const userStore = useUserStore();
-          const menuStore = useMenuStore();
-          if (userStore.permissions.includes('用户管理')) {
-            next();
-          } else {
-            message.success('权限不足')
-            // 直接更新 Pinia store 的状态
-            menuStore.openKeys = ['/bedView'];
-            next('/bedView'); // 重定向到未授权页面
-          }
-        },
+        // beforeEnter: (to, from, next) => {
+        //   const userStore = useUserStore();
+        //   const menuStore = useMenuStore();
+        //   if (userStore.permissions.includes('用户管理')) {
+        //     next();
+        //   } else {
+        //     message.success('权限不足')
+        //     // 直接更新 Pinia store 的状态
+        //     menuStore.openKeys = ['/bedView'];
+        //     next('/bedView'); // 重定向到未授权页面
+        //   }
+        // },
         meta: {
           title: '用户角色',
           requiresAuth: true,
