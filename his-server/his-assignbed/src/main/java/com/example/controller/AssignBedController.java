@@ -27,7 +27,7 @@ public class AssignBedController {
     private AssignBedService assignBedService;
 
     /**
-     * Inform json vo.
+     * 患者通知
      *
      * @param id the id
      * @return the json vo
@@ -42,7 +42,7 @@ public class AssignBedController {
     }
 
     /**
-     * In hospital json vo.
+     * 患者入院
      *
      * @param patientInformationDTO the patient information dto
      * @return the json vo
@@ -56,7 +56,7 @@ public class AssignBedController {
     }
 
     /**
-     * Discharge json vo.
+     * 患者出院
      *
      * @param patientInformationDTO the patient information dto
      * @return the json vo
@@ -72,7 +72,7 @@ public class AssignBedController {
     }
 
     /**
-     * Preassign json vo.
+     * 预分配床位
      *
      * @param patientInformationDTO the patient information dto
      * @return the json vo
@@ -80,6 +80,8 @@ public class AssignBedController {
 //预分配床位
     //bed表  patient_id  is_null   update_by  update_time
     //patientInformation表  bed_id  update_by  update_time
+    //todo 数据库中有一个字段 preAssignBed（预分配床位号,为0表示未进行预分配） 这个字段是用来干嘛的？
+    //todo 同时给多个患者分配同一个床位？？？
     @PostMapping("/preassign")
     public JsonVO<String> preassign(@RequestBody patientInformationDTO patientInformationDTO){
         Result<String> result = assignBedService.preassign(patientInformationDTO);
@@ -88,7 +90,7 @@ public class AssignBedController {
     }
 
     /**
-     * Get out bed json vo.
+     * 传入空床位
      *
      * @return the json vo
      */
@@ -103,7 +105,7 @@ public class AssignBedController {
     }
 
     /**
-     * Get on bed json vo.
+     * 传入占用床位.
      *
      * @return the json vo
      */
@@ -119,7 +121,7 @@ public class AssignBedController {
     }
 
     /**
-     * Change bed json vo.
+     * 患者更改床位
      *
      * @param patientChangeBedDTO the patient change bed dto
      * @return the json vo
