@@ -55,6 +55,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             userid = jwtUtil.parseTokenForUserId(relToken);
             log.info("当前用户权限信息:{}",permissionList.toString());
             ServerHttpRequest request=exchange.getRequest().mutate()
+                    .header("Authorization", token)
                     .header("permissions", UriEncoder.encode(permissionList.toString()))
                     .header("userId",userid)
                     .build();

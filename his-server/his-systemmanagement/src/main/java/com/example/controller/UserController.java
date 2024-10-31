@@ -52,7 +52,9 @@ public class UserController {
      * 删除用户
      * @param id
      * @return JsonVO<String>
+     *
      */
+    //todo 判断是否为已登录用户
     @PostMapping ("/msg/delete")
     public JsonVO<String> DeleteUser(@RequestParam String id) {
         if(iUserService.deleteUser(id)){
@@ -83,6 +85,7 @@ public class UserController {
      * @param size
      * @return JsonVO<IPage<UserDisplayDTO>>
      */
+    //todo 查询结果为null
     @GetMapping("/msg/display")
     public JsonVO<IPage<UserDisplayVO>> UserList(UserDisplayDTO userDisplayDTO, @RequestParam long current, @RequestParam long size) {
         Page<UserDisplayVO> page = new Page<>(current, size);

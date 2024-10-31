@@ -20,8 +20,8 @@ public class LoginController {
     }
 
     @PostMapping("/logout")
-    public JsonVO<String> logout(@RequestHeader("userId") String userId){
-        return JsonVO.success(loginService.logout(userId));
+    public JsonVO<String> logout(@RequestHeader("userId") String userId, @RequestHeader("Authorization") String token){
+        return JsonVO.success(loginService.logout(userId,token));
     }
 
 }

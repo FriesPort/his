@@ -4,10 +4,7 @@ package com.example.config;
 import cn.hutool.core.util.ArrayUtil;
 import com.example.authorization.AuthorizationManager;
 import com.example.constant.AuthConstant;
-import com.example.filters.AuthGlobalFilter;
-import com.example.filters.CorsFilter;
-import com.example.filters.JwtAuthenticationTokenFilter;
-import com.example.filters.WhitePathFilter;
+import com.example.filters.*;
 
 import com.example.handler.AccessDeniedHandlerImpl;
 import com.example.handler.AuthenticationEntryPointImpl;
@@ -39,6 +36,7 @@ public class  GatewaySecurityConfig {
     private final WhitePathFilter whitePathFilter;
     private final CorsFilter corsFilter;
     private final JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    private final AdminFilter adminFilter;
 
 
     @Bean
@@ -48,6 +46,7 @@ public class  GatewaySecurityConfig {
         //http.addFilterAt(corsFilter, SecurityWebFiltersOrder.SECURITY_CONTEXT_SERVER_WEB_EXCHANGE);
         //对白名单路径，直接移除JWT请求头
         http.addFilterBefore(whitePathFilter, SecurityWebFiltersOrder.AUTHENTICATION);
+        http.addFilterBefore(adminFilter, SecurityWebFiltersOrder.AUTHENTICATION);
         http
                 .authorizeExchange()
                 //白名单配置
