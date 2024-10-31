@@ -7,7 +7,7 @@
           <div class="lg">
             <img :src="image3" alt="描述图片3" />
             <input
-              style="width: 8vw"
+              style="width: calc(100vw * 140 / 1920)"
               type="text"
               v-model="searchQuery"
               placeholder="请输入患者姓名"
@@ -371,13 +371,9 @@ export default {
 </script>
 <style scoped>
 .pabox {
-  /* position: fixed;
-  top: 24%; */
-  width: 30%;
+  width: 35%;
   height: 95%;
   border: 1px solid hsl(206, 46%, 44%);
-  /*   left: 220px;
- */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -408,7 +404,7 @@ export default {
   width: 30%;
   border: 0.0625rem solid #ccc;
   font-weight: bold;
-  font-size: 14px;
+  font-size: calc(100vw * 17 / 1920);
   box-shadow: 0.25rem 0.25rem 0.625rem rgba(0, 0, 0, 0.5); /* 添加阴影 */
   border-radius: 15px;
   text-align: center;
@@ -419,13 +415,14 @@ export default {
 
 .lg {
   display: flex;
-  width: 40%;
-  font-size: 15px;
+  width: 60%;
+  font-size: calc(100vw * 18 / 1920);
 }
 .sou {
   cursor: pointer;
-  width: 24%;
-  font-size: 10px;
+  width: calc(100vw * 70 / 1920);
+  font-size: calc(100vw * 12 / 1920);
+  font-weight: bold;
   text-align: center;
   border: 1px solid #a2a7b0;
 }
@@ -472,6 +469,7 @@ export default {
   border: 0.0625rem solid #ccc;
   cursor: pointer;
   font-weight: bold;
+  font-size: calc(100vw * 17 / 1920);
   box-shadow: 0.25rem 0.25rem 0.625rem rgba(0, 0, 0, 0.5); /* 添加阴影 */
 }
 
@@ -482,7 +480,7 @@ export default {
   cursor: pointer;
   border: 0.0625rem solid #ccc;
   font-weight: bold;
-
+  font-size: calc(100vw * 17 / 1920);
   box-shadow: 0.25rem 0.25rem 0.625rem rgba(0, 0, 0, 0.5); /* 添加阴影 */
 }
 
