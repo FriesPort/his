@@ -205,7 +205,7 @@ export default {
   height: 100%;
   margin-right: 10px;
   font-weight: 800;
-  font-size: 30px;
+  font-size: calc(100vw * 30 / 1920);
   display: flex;
   justify-content: space-evenly;
   text-align: center;
@@ -220,7 +220,7 @@ export default {
 .left-section h3 {
   margin: 0; /* 去掉默认边距 */
   text-align: center; /* 水平居中 */
-  font-size: 30px; /* 设置字体大小 */
+  font-size: calc(100vw * 30 / 1920); /* 设置字体大小 */
   font-weight: 800; /* 设置字体加粗 */
   color: #333; /* 设置字体颜色（可以根据需要修改） */
 }
@@ -245,6 +245,7 @@ export default {
 }
 
 .right-section h2 {
+  font-size: calc(100vw * 30 / 1920);
   margin: 0;
 }
 select {
