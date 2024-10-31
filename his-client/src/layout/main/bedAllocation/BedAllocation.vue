@@ -1,98 +1,98 @@
 <template>
-  <div class="box">
-    <div class="header">
-      <div class="content">
-        <div class="left-section">
-          <img :src="image1" alt="描述图片1" />
-          <h3>床位分配</h3>
+  <div class="whole">
+    <div class="box">
+      <div class="header">
+        <div class="content">
+          <div class="left-section">
+            <img :src="image1" alt="描述图片1" />
+            <h3>床位分配</h3>
+          </div>
+          <div class="right-section">
+            <h2>院区</h2>
+            <select v-model="selectedOption1">
+              <option disabled value="">请选择院区</option>
+              <option>广州医院区</option>
+              <option>珠海院区</option>
+              <option>深圳院区</option>
+            </select>
+            <h2>病区</h2>
+            <select v-model="selectedOption2">
+              <option disabled value="">请选择病区</option>
+              <option value="选项A">内科</option>
+              <option value="选项B">外科</option>
+            </select>
+            <select v-model="selectedOption3">
+              <option disabled value="">请选择选项3</option>
+              <option
+                v-for="option in computedOptionsForSelect3"
+                :key="option"
+                :value="option"
+              >
+                {{ option }}
+              </option>
+            </select>
+            <h2>类型</h2>
+            <select v-model="selectedOption6">
+              <option disabled value="">请选择类型</option>
+              <option value="选项A">正床</option>
+              <option value="选项B">男床</option>
+              <option value="选项C">女床</option>
+            </select>
+            <h2>房区</h2>
+            <select v-model="selectedOption4">
+              <option disabled value="">请选择房区</option>
+              <option>普通病房</option>
+              <option>特殊病房</option>
+              <option>ICU</option>
+            </select>
+            <h2>房间</h2>
+            <select v-model="selectedOption5">
+              <option disabled value="">请选择选项5</option>
+              <option>选项X</option>
+              <option>选项Y</option>
+              <option>选项Z</option>
+            </select>
+          </div>
         </div>
-        <div class="right-section">
-          <h2>院区</h2>
-          <select v-model="selectedOption1">
-            <option disabled value="">请选择院区</option>
-            <option>广州医院区</option>
-            <option>珠海院区</option>
-            <option>深圳院区</option>
-          </select>
-          <h2>病区</h2>
-          <select v-model="selectedOption2">
-            <option disabled value="">请选择病区</option>
-            <option value="选项A">内科</option>
-            <option value="选项B">外科</option>
-          </select>
-          <select v-model="selectedOption3">
-            <option disabled value="">请选择选项3</option>
-            <option
-              v-for="option in computedOptionsForSelect3"
-              :key="option"
-              :value="option"
+      </div>
+    </div>
+    <div class="xiamian">
+      <!-- 引入患者列表 -->
+      <PatientList :selectedBeds="selectedBeds" />
+      <div class="operate-area">
+        <div class="shang">
+          <div class="bedarea">
+            <BedCard
+              v-for="index in 8"
+              :key="index"
+              :index="index"
+              :id="'bed-' + (100 + index)"
+              :show-checkbox="showCheckboxes[index - 1]"
+              @change="
+                updateSelectedBeds({ id: 'bed-' + (100 + index), index })
+              "
+            />
+          </div>
+          <div class="bedoperate">
+            <button class="xuanze" @click="toggleCheckboxes">床位选择</button>
+            <button class="shifang">床位释放</button>
+          </div>
+        </div>
+        <div class="xia">
+          <div class="selectarea">
+            <div
+              v-for="(selectedBed, idx) in selectedBeds"
+              :key="selectedBed.id"
+              class="selectbed"
             >
-              {{ option }}
-            </option>
-          </select>
-          <h2>类型</h2>
-          <select v-model="selectedOption6">
-            <option disabled value="">请选择类型</option>
-            <option value="选项A">正床</option>
-            <option value="选项B">男床</option>
-            <option value="选项C">女床</option>
-          </select>
-          <h2>房区</h2>
-          <select v-model="selectedOption4">
-            <option disabled value="">请选择房区</option>
-            <option>普通病房</option>
-            <option>特殊病房</option>
-            <option>ICU</option>
-          </select>
-          <h2>房间</h2>
-          <select v-model="selectedOption5">
-            <option disabled value="">请选择选项5</option>
-            <option>选项X</option>
-            <option>选项Y</option>
-            <option>选项Z</option>
-          </select>
+              容器 {{ selectedBed.id }} - {{ idx }}
+            </div>
+          </div>
+          <div class="selectoperate"></div>
         </div>
       </div>
     </div>
   </div>
-  <div class="operate-area">
-    <div class="shang">
-      <div class="bedarea">
-        <BedCard
-          v-for="index in 8"
-          :key="index"
-          :index="index"
-          :id="'bed-' + (100 + index)"
-          :show-checkbox="showCheckboxes[index - 1]"
-          @change="updateSelectedBeds({ id: 'bed-' + (100 + index), index })"
-        />
-      </div>
-      <div class="bedoperate">
-        <button class="xuanze" @click="toggleCheckboxes">床位选择</button>
-        <button class="shifang">床位释放</button>
-      </div>
-    </div>
-    <div class="xia">
-      <div class="selectarea">
-        <!-- <div v-for="index in 10" :key="index" class="selectbed">
-          容器 {{ index }}
-        </div> -->
-        <!-- <div v-for="(bed, idx) in selectedBeds" :key="bed.id" class="selectbed">
-          容器 {{ bed.id }}-{{ idx }}
-        </div> -->
-        <div
-          v-for="(selectedBed, idx) in selectedBeds"
-          :key="selectedBed.id"
-          class="selectbed"
-        >
-          容器 {{ selectedBed.id }} - {{ idx }}
-        </div>
-      </div>
-      <div class="selectoperate"></div>
-    </div>
-  </div>
-  <!-- 引入患者列表 -->
-  <PatientList />
 </template>
 
 <script>
@@ -105,6 +105,7 @@ export default {
     PatientList,
     BedCard,
   },
+
   data() {
     return {
       drag: false,
@@ -115,6 +116,7 @@ export default {
       selectedOption3: "",
       selectedOption4: "",
       selectedOption5: "",
+      selectedOption6: "",
       // 假设这些是所有可能的选项
       optionsForSelect3: {
         选项A: ["内科1区", "内科2区", "内科3区"],
@@ -158,14 +160,28 @@ export default {
 </script>
 
 <style scoped>
+.whole {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.xiamian {
+  width: 95%;
+  height: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
 .box {
-  position: fixed;
-  left: 220px;
-  top: 7%;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
-  width: 80%;
+  width: 95%;
   /* 可以根据需要调整宽度 */
   background-color: rgb(237 237 237 / 76%);
 }
@@ -236,13 +252,8 @@ select {
   width: 15%;
 }
 .operate-area {
-  top: 24%;
-  position: fixed;
-  /* border: 1px solid #ccc; */
-  width: 55%;
-  height: 75%;
-  left: 40%;
-  margin-right: 20%;
+  width: 60%;
+  height: 95%;
   display: flex;
   justify-content: space-between;
   /* 水平居中对齐 */
@@ -250,7 +261,8 @@ select {
   /* 垂直居中对齐 */
   flex-direction: column;
   border-radius: 5px;
-  padding: 10px;
+  /*   padding: 10px;
+ */
 }
 .shang {
   background-color: #eeeeeec2;
@@ -285,10 +297,11 @@ select {
 .xuanze {
   width: 80%;
   height: 40%;
-  background-color: hwb(128 86% 11%);
+  background-color: #1677ff;
   border: 1px solid hwb(128 86% 11%);
   border-radius: 10px;
   cursor: pointer;
+  color: white;
 }
 .shifang {
   width: 80%;

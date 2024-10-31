@@ -23,7 +23,7 @@
           <thead>
             <tr>
               <th style="width: 60px; text-align: center; cursor: pointer">
-                序号
+                选择
               </th>
               <th style="width: 100px; text-align: center">姓名</th>
               <th style="width: 80px; text-align: center">信息</th>
@@ -31,14 +31,16 @@
             </tr>
           </thead>
           <tbody>
-            <!-- 创建11行空数据 -->
+            <!-- 创建10行空数据 -->
             <tr v-for="(row, index) in currentPatientData" :key="index">
-              <td
-                style="cursor: pointer"
-                @click="addNumber(index)"
-                @dblclick="removeNumber(index)"
-              >
-                {{ row.number !== undefined ? row.number : "" }}
+              <td>
+                <input
+                  type="checkbox"
+                  v-if="row && row.name"
+                  v-model="row.checked"
+                  :disabled="selectedBeds.length === 0"
+                  :id="'checkbox-' + index"
+                />
               </td>
               <td class="pname" v-if="row">{{ row.name }}</td>
               <td>
@@ -131,11 +133,24 @@ import { getpatientsRequest } from "@/api/bedAllocation/bedAllocation"; // 根�
 
 export default {
   name: "PatientList",
+  props: {
+    selectedBeds: {
+      type: Array,
+      default: () => [], // 设置默认值
+    },
+  },
+  watch: {
+    selectedBeds: {
+      handler(newValue) {
+        console.log("selectedBeds changed:", newValue);
+        // 其他处理逻辑
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
   data() {
     return {
-      numbers: [], // 用于存储序号
-      count: 1, // 当前序号计数
-
       dialogVisible: false,
       // ipatients是待入院患者数组
       ipatients: [
@@ -198,6 +213,7 @@ export default {
           phone: "",
           is_emergency: "",
           is_vip: "",
+          checked: false,
         })),
 
       patientdata: Array(10)
@@ -210,7 +226,10 @@ export default {
           phone: "",
           is_emergency: "",
           is_vip: "",
+          checked: false,
         })),
+
+      //这个数组用于
       currentPatientData: [],
     };
   },
@@ -227,7 +246,10 @@ export default {
       preassignbed: "0",
       is_emergency: "0",
       is_vip: "0",
+      checked: false,
     };
+    //在这里，这个currentPatientData数组已经被赋予了十行表格
+    //如果换页，patientdata数组接收新的一页数据即可，原本
     this.currentPatientData = this.patientdata;
   },
   created() {
@@ -245,38 +267,6 @@ export default {
         this.patients = response.data; // 假设返回的数据在 response.data 中
       } catch (error) {
         console.error("获取患者列表失败", error);
-      }
-    },
-
-    addNumber(index) {
-      // 给当前行添加序号
-      if (this.currentPatientData[index].number === undefined) {
-        this.currentPatientData[index].number = this.getNextNumber();
-      }
-    },
-    removeNumber(index) {
-      // 移除当前行的序号
-      if (this.currentPatientData[index].number !== undefined) {
-        delete this.currentPatientData[index].number;
-
-        // 更新后续的序号
-        this.updateNumbers(index);
-      }
-    },
-    getNextNumber() {
-      // 获取下一个可用的序号
-      const numbers = this.currentPatientData
-        .filter((row) => row.number !== undefined)
-        .map((row) => row.number);
-      return numbers.length > 0 ? Math.max(...numbers) + 1 : 1;
-    },
-    updateNumbers(startIndex) {
-      // 更新被删除序号之后的序号
-      let currentNumber = 1;
-      for (let i = startIndex + 1; i < this.currentPatientData.length; i++) {
-        if (this.currentPatientData[i].number !== undefined) {
-          this.currentPatientData[i].number = currentNumber++;
-        }
       }
     },
 
@@ -301,7 +291,6 @@ export default {
           break;
         }
       }
-
       // 移除已添加的患者
       this.ipatients = this.ipatients.filter((patient) => !patient.selected);
     },
@@ -382,18 +371,19 @@ export default {
 </script>
 <style scoped>
 .pabox {
-  position: fixed;
-  top: 24%;
-  width: 24%;
-  height: 75%;
+  /* position: fixed;
+  top: 24%; */
+  width: 30%;
+  height: 95%;
   border: 1px solid hsl(206, 46%, 44%);
-  left: 220px;
+  /*   left: 220px;
+ */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  background-color: rgba(34, 72, 222, 0.759);
+  background-color: #1677ff;
   border-radius: 5px;
 }
 .find {
