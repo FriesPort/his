@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @ApiModel("数据权限注册")
 public class DataRuleDTO {
-    private String id;
     private String permissionId;
     private String ruleColumn;
     private String ruleConditions;

@@ -27,8 +27,8 @@ export const getListApi = (params: any) => {
 }
 
 //获取角色列表
-export const getRoleListApi = () => {
-    return request.get('/roles/msg/display')
+export const getRoleListApi = (params:any) => {
+    return request.get('/system/role/search',{params:params})
 }
 
 //获取指定用户已有的角色
@@ -59,9 +59,18 @@ export const userCustomize = (params:any) => {
 
 //自定义角色
 export const roleAdd = (params:any) => {
-    return request.post('roles/permission/allocation',params)
+    return request.post('/system/role/register',params)
 }
 
+//编辑角色
+export const roleEditApi = (params: any) => {
+    return request.post('/system/role/allocation', params)
+}
+
+//删除用户角色
+export const roleDeleteApi = (params:any) => {
+    return request.post(`/system/role/delete?id=${params}`);
+}
 
 //权限列表
 export const permissionListApi = () =>{

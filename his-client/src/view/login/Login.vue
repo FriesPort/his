@@ -94,6 +94,7 @@ const login = () => {
       //   username: username.value,
       //   password: password.value
       // };
+      tokenStore.setToken('');
       let result = await userLoginService(loginModel);
 
 
@@ -108,24 +109,25 @@ const login = () => {
   }
   
   console.log('请求params',params)
-  let userRoleList = await getUserRole(params)
-  console.log('userRoleList.data.permission',userRoleList)
- // 首先，从 userRoleList 中获取 data 属性
-const rolesData = userRoleList.data;
+//   let userRoleList = await getUserRole(params)
+//   console.log('userRoleList.data.permission',userRoleList)
+//  // 首先，从 userRoleList 中获取 data 属性
+// const rolesData = userRoleList.data;
 
-// 使用 map 来提取每个角色的 permission 数组，然后再次使用 map 提取每个 permission 的 permissionName
-const allPermissionNames = rolesData.map((role:any) => role.permission)
-  .flat() // 将嵌套数组展平成一个数组
-  .map((permission: any) => permission.permissionName); // 提取 permissionName
+// // 使用 map 来提取每个角色的 permission 数组，然后再次使用 map 提取每个 permission 的 permissionName
+// const allPermissionNames = rolesData.map((role:any) => role.permission)
+//   .flat() // 将嵌套数组展平成一个数组
+//   .map((permission: any) => permission.permissionName); // 提取 permissionName
 
-// 现在 allPermissionNames 包含了所有权限的 permissionName
-console.log('所有权限名称:', allPermissionNames);
-    userStore.setUser(params.user_id);
-    userStore.setPermissions(allPermissionNames);
+// // 现在 allPermissionNames 包含了所有权限的 permissionName
+// console.log('所有权限名称:', allPermissionNames);
+//     userStore.setUser(params.user_id);
+//     userStore.setPermissions(allPermissionNames);
 
       // 登录成功，更新状态
       authStore.login();
       // 跳转到首页
+      console.log('denglucg')
       router.push('/bedView');
     } catch (error: any) {
       // 捕获异步操作中的错误

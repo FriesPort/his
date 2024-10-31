@@ -10,6 +10,7 @@ import com.example.dto.systemmanagement.user.UserDeleteDTO;
 import com.example.dto.systemmanagement.user.UserUpdateDTO;
 import com.example.dto.systemmanagement.userrole.UserCreateDTO;
 import com.example.entity.User;
+import com.example.vo.systemmanagement.user.UserDisplayVO;
 import com.example.vo.systemmanagement.userrole.UserRoleDisplayVo;
 
 import java.util.List;
@@ -25,7 +26,7 @@ import java.util.List;
 public interface IUserService extends IService<User> {
     Boolean insertUser(UserAddDTO userAddDTO,String userId);
 
-    IPage<UserDisplayDTO> userlist(UserDisplayDTO userDisplayDTO, Page page);
+    IPage<UserDisplayVO> userlist(UserDisplayDTO userDisplayDTO, Page page);
 
     boolean updateUser(UserUpdateDTO userUpdateDTO,String userId);
 

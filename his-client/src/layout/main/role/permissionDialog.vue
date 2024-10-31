@@ -20,18 +20,20 @@ import type { TransferProps, TreeProps } from 'ant-design-vue';
 
 const props = defineProps<{
   permissionList: any,
-  getTitle: any
+  getTitle: any,
+  checkedKeys:any
 }>()
 const visible = ref<boolean>(false);
 
+const checkedKeys = ref<string[]>([]);
 const showModal = () => {
   // 执行函数更新 treeData
-  // fillTreeDataWithPermissions(props.permissionList);
+  fillTreeDataWithPermissions(props.permissionList);
   visible.value = true;
+  
 };
-const checkedKeys = ref<string[]>([]);
 
-const handleOk = () => {
+const handleOk = async() => {
   // 当点击确认按钮时，输出当前勾选的值
   console.log('勾选的节点:', checkedKeys.value);
   // 遍历勾选的 keys，并获取每个节点的 title
@@ -44,7 +46,7 @@ const handleOk = () => {
     }
   });
   console.log('从权限模块输出的titles：', titles.titles)
-  props.getTitle(titles.titles)
+  props.getTitle(titles.titles,checkedKeys.value)
   visible.value = false;
 };
 const getTreeNodeTitle = (key: string, treeData: any) => {
@@ -62,117 +64,7 @@ const handleCancel = () => {
   visible.value = false;
 };
 const treeData = reactive({
-  treeData: [
-    {
-      title: '用户管理',
-      key: '0-1',
-      children: [
-        {
-          title: '新增',
-          key: '1-1',
-          disabled: false,
-        },
-        {
-          title: '编辑',
-          key: '1-2',
-          disabled: false,
-        },
-        {
-          title: '查看',
-          key: '1-3',
-          disabled: false,
-        },
-        {
-          title: '删除',
-          key: '1-4',
-          disabled: false,
-        },
-      ],
-    },
-    {
-      title: '角色管理',
-      key: '0-2',
-      children: [
-        {
-          title: '新增',
-          key: '2-1',
-          disabled: false,
-        },
-        {
-          title: '编辑',
-          key: '2-2',
-          disabled: false,
-        },
-        {
-          title: '查看',
-          key: '2-3',
-          disabled: false,
-        },
-        {
-          title: '删除',
-          key: '2-4',
-          disabled: false,
-        },
-      ],
-    },
-    {
-      title: '床位管理',
-      key: '0-3',
-      children: [
-        {
-          title: '查看',
-          key: '3-1',
-          disabled: false,
-        },
-        {
-          title: '新增',
-          key: '3-2',
-          disabled: false,
-        },
-        {
-          title: '分配',
-          key: '3-3',
-          disabled: false,
-        },
-        {
-          title: '释放',
-          key: '3-4',
-          disabled: false,
-        },
-        {
-          title: '删除',
-          key: '3-5',
-          disabled: false,
-        },
-      ],
-    },
-    {
-      title: '患者管理',
-      key: '0-4',
-      children: [
-        {
-          title: '新增',
-          key: '4-1',
-          disabled: false,
-        },
-        {
-          title: '编辑',
-          key: '4-2',
-          disabled: false,
-        },
-        {
-          title: '查看',
-          key: '4-3',
-          disabled: false,
-        },
-        {
-          title: '删除',
-          key: '4-4',
-          disabled: false,
-        },
-      ],
-    },
-  ]
+  treeData: []
 })
 
 function fillTreeDataWithPermissions(permissions: any) {
@@ -180,31 +72,33 @@ function fillTreeDataWithPermissions(permissions: any) {
   treeData.treeData.splice(0, treeData.treeData.length);
 
   // 根据permissionList填充treeData
-  permissions.forEach((permission: { permissionName: any; permissionType: any; permissionId: any; }) => {
+  permissions.forEach((permission: { name: any; id: any; }) => {
     // 查找是否存在于treeData中的相应父节点
-    const parentNode = treeData.treeData.find((node: { title: any; }) => node.title === permission.permissionName);
+    const parentNode = treeData.treeData.find((node: { title: any; }) => node.title === permission.name);
     if (parentNode) {
       // 如果父节点存在，添加子节点
       parentNode.children.push({
-        title: permission.permissionType,
-        key: permission.permissionId,
+        title: permission.name,
+        key: permission.id,
         disabled: false
       });
     } else {
       // 如果父节点不存在，创建新的父节点和子节点
       treeData.treeData.push({
-        title: permission.permissionName,
-        key: permission.permissionName, // 使用permissionName作为key
+        title: permission.name,
+        key: permission.id, // 使用name作为key
         children: [
           {
-            title: permission.permissionType,
-            key: permission.permissionId,
+            title: permission.name,
+            key: permission.id,
             disabled: false
           }
         ]
       });
     }
   });
+  console.log('有的',props.checkedKeys);
+  checkedKeys.value = props.checkedKeys
 }
 
 const expandedKeys = ref<string[]>([]);

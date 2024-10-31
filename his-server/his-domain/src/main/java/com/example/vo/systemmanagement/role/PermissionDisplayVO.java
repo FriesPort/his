@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -12,7 +13,5 @@ import java.util.Map;
 @AllArgsConstructor
 @ApiModel("角色所拥有的权限展示")
 public class PermissionDisplayVO {
-    private String permissionName;
-    private String description;
-    private Map<String, String> data_rule;
+    private List<String> permission;
 }

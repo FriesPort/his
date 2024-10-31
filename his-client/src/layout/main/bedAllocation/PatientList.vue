@@ -127,6 +127,8 @@
 import image1 from "@/assets/blockWhiteLeft.png"; // 根据实际路径调整
 import image2 from "@/assets/blockWhiteRight.png"; // 根据实际路径调整
 import image3 from "@/assets/患者查询.png";
+import { getpatientsRequest } from "@/api/bedAllocation/bedAllocation"; // 根据你的项目路径导入函数
+
 export default {
   name: "PatientList",
   data() {
@@ -213,6 +215,7 @@ export default {
     };
   },
   mounted() {
+    this.fetchPatients(); // 组件加载时调用获取患者的函数
     this.startCountdown();
     // 假设这是从服务器获取的数据，这里直接赋值
     this.patientdata[0] = {
@@ -230,7 +233,26 @@ export default {
   created() {
     this.startCountdown();
   },
+
   methods: {
+    async fetchPatients() {
+      console.log("被调用了");
+
+      try {
+        console.log("被调用了");
+        const headers = { 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyIjoidTEiLCJwZXJtaXNzaW9uIjpbIlBFUk1JU1NJT05fYWRtaW4iXSwiZXhwIjoxNzMwMzEzMjkyfQ.YeQ7AWeRkYCaImxkJ5LFEqX40_TZvbyTgYfUQlmlphPXk7APW7j5yyvKJxYvKmYnMZRSly5INXvBwG0HoK8Ycw6C7q3ic1A_E534Gg0dOJ27vd6k8g61aE0o-AM0c2H5X5xzg6kiHFMk0sFzdTa3A2wfqQeqLcvYnIOlgB2vpG2RmKbpuumQa3cKegELVn2rCdUQtEXOcRB8mrKtcwIiVMVCbzFqpD4wpZDHiox4o5FGjnvae7SgQ8-P4P3kgCJrasn1x9Ftu_pGXzP6t7_4vRwiSq7gKJKUmUniB8fRPbApGS9FP_Askq1FJyAd_vYnmS1ePxkYxbPuPx5DZS8RsA', // 根据需要替换为你的实际 token 
+        'Content-Type': 'application/json', // 根据需要添加其他请求头 
+        }; 
+        const response = await getpatientsRequest({ headers: headers, // 可以在这里添加其他请求参数 
+          });
+
+
+        this.patients = response.data; // 假设返回的数据在 response.data 中
+      } catch (error) {
+        console.error("获取患者列表失败", error);
+      }
+    },
+
     addNumber(index) {
       // 给当前行添加序号
       if (this.currentPatientData[index].number === undefined) {

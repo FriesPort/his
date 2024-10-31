@@ -25,6 +25,8 @@ public interface IPermissionService extends IService<Permission> {
 
     Boolean UpdatePermission(PermissionUpdateDTO dto,String userId);
 
+    Boolean DeletePermission(String id);
+
     Boolean DataRuleInsert(DataRuleDTO dto, String userId);
 
     Boolean DataRuleUpdate(DataRuleDTO dto, String userId);
