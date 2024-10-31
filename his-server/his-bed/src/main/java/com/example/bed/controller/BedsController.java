@@ -1,17 +1,23 @@
 package com.example.bed.controller;
 
 
+import cn.hutool.system.UserInfo;
 import com.example.bed.Service.BedsService;
-import com.example.bed.entity.Result;
+import com.example.bed.entity.Campus;
+import com.example.bed.entity.Room;
 import com.example.dto.bed.BedAddDTO;
 import com.example.dto.bed.BedSearchDTO;
+import com.example.bed.entity.Result;
+
 import com.example.dto.bed.BedUpdataDTO;
-import com.example.vo.JsonVO;
 import com.example.vo.bed.BedVo;
+import com.example.vo.JsonVO;
+
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +40,8 @@ public class BedsController {
     //添加床位
     @ApiOperation("单个添加床位")
     @PostMapping("/add")
-    public JsonVO<String> add(@ApiParam("添加的床位信息") @RequestBody BedAddDTO bedAddDTO) {
-        Result<String> result = bedsService.insertBed(bedAddDTO);
+    public JsonVO<String> add(@ApiParam("添加的床位信息") @RequestHeader("userId")String userId, @RequestBody BedAddDTO bedAddDTO) {
+        Result<String> result = bedsService.insertBed(userId,bedAddDTO);
         if (result.isStatus()) {
             return JsonVO.success(result.getMessage());
         }
@@ -46,8 +52,8 @@ public class BedsController {
     //床位信息修改
     @ApiOperation("床位信息修改")
     @PostMapping("/update")
-    public JsonVO<String> update(@ApiParam("修改的床位信息") @RequestBody BedUpdataDTO bedUpdataDTO) {
-        Result<String> result = bedsService.updateBed(bedUpdataDTO);
+    public JsonVO<String> update(@ApiParam("修改的床位信息") @RequestHeader("userId")String userId,@RequestBody BedUpdataDTO bedUpdataDTO) {
+        Result<String> result = bedsService.updateBed(userId,bedUpdataDTO);
         if (result.isStatus()) {
             return JsonVO.success(result.getMessage());
         }
@@ -58,7 +64,7 @@ public class BedsController {
     //床位信息显示（床位信息显示应该不包含病房的查询）
     @ApiOperation("床位信息显示")
     @GetMapping("/list")
-    public JsonVO<List<BedVo>> list(@ApiParam("检索条件") BedSearchDTO bedSearchDTO) {
+    public JsonVO<List<BedVo>> list(@ApiParam("检索条件")BedSearchDTO bedSearchDTO) {
         Result<List<BedVo>> result = bedsService.bedList(bedSearchDTO);
         if (result.isStatus()) {
             return JsonVO.success(result.getMessage());
@@ -70,8 +76,8 @@ public class BedsController {
     //批量添加床位
     @ApiOperation("批量添加床位")
     @PostMapping("/addBatch")
-    public JsonVO<String> addBatch(@ApiParam("Json数据") @RequestBody ArrayList<BedAddDTO> bedAddDTOList) {
-        Result<String> result = bedsService.insertBatchBed(bedAddDTOList);
+    public JsonVO<String> addBatch(@ApiParam("Json数据") @RequestHeader("userId")String userId,@RequestBody ArrayList<BedAddDTO> bedAddDTOList) {
+        Result<String> result = bedsService.insertBatchBed(userId,bedAddDTOList);
         if (result.isStatus()) {
             return JsonVO.success(result.getMessage());
         }

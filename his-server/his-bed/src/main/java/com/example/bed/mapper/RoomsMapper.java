@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.bed.entity.Room;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.ArrayList;
+
 /**
  * <p>
  *  Mapper 接口
@@ -14,4 +16,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface RoomsMapper extends BaseMapper<Room> {
+
 }

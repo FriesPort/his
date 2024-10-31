@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BedAddDTO {
-    private String patientInfomationId;//病人id
+    private String patientInformationId;//病人id
     private String roomId;//病房id
     private String bednumber;//病床号
     private String bedType;//病床类型
