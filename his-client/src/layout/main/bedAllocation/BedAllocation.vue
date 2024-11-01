@@ -122,9 +122,9 @@ export default {
 
   data() {
     return {
+      /*       这个数组用于存放分配患者
+       */
       rowdata: Array(10).fill(null), // 初始化为包含 10 个 null 的数组
-      drag: false,
-      nextId: 101, // 下一个可用的 ID
       image1,
       selectedOption1: "",
       selectedOption2: "",
@@ -147,25 +147,24 @@ export default {
       const index = this.rowdata.findIndex(
         (item) => item && item.id === selectedRow.id
       );
-
       if (index === -1) {
         // 找到第一个空位置
         const emptyIndex = this.rowdata.findIndex((item) => item === null);
-
         if (emptyIndex !== -1) {
           this.rowdata[emptyIndex] = selectedRow; // 添加新行到空位置
+          // 仅更新 selectedBeds 中的 rowData
+          this.selectedBeds[emptyIndex].rowData = selectedRow;
         } else {
           console.log("已达到最大选择数量");
         }
       } else {
         // 移除已存在的行
         this.rowdata[index] = null;
+        // 更新 selectedBeds 中的对应 rowData 为 null
+        this.selectedBeds[index].rowData = null;
       }
-
-      // 触发更新
+      this.selectedBeds = [...this.selectedBeds]; // 强制触发更新
       this.rowdata = [...this.rowdata];
-      /*  console.log(this.rowdata); // 打印更新后的 rowdata
-      console.log("实时"); */
     },
 
     updateSelectedBeds(bed) {
