@@ -39,6 +39,10 @@ public class UserController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    /**
+     * 展示分区列表
+     * @return
+     */
     @PostMapping("/ward/list")
     public JsonVO<List<Ward>> getWardList() {
         List<Ward> list = wardService.list();
