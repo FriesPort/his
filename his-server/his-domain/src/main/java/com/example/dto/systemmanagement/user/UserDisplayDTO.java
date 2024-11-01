@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class UserDisplayDTO {
     private String name;
     private String employeeNumber;
+    private String userType;
 }
