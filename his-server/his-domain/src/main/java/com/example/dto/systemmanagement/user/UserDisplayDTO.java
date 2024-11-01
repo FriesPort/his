@@ -11,6 +11,5 @@ import lombok.NoArgsConstructor;
 @ApiModel("用户信息展示")
 public class UserDisplayDTO {
     private String name;
-    private String campusId;
     private String employeeNumber;
 }
