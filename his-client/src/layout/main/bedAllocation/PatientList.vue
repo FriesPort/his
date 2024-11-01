@@ -38,7 +38,10 @@
                   type="checkbox"
                   v-if="row && row.name"
                   v-model="row.checked"
-                  :disabled="selectedBeds.length === 0"
+                  :disabled="
+                    selectedBeds.length === 0 ||
+                    (isMaxSelected() && !row.checked)
+                  "
                   :id="'checkbox-' + index"
                   @change="handleCheckboxChange(row)"
                 />
@@ -139,20 +142,88 @@ export default {
       type: Array,
       default: () => [], // 设置默认值
     },
+    rowdata: {
+      type: Array,
+      required: true,
+    },
+  },
+  computed: {
+    selectedBeds() {
+      // 当前的选中床位数据
+      const newBeds = this.selectedBeds;
+      // 上一次的选中床位数据
+      const oldBeds = this.previousSelectedBeds;
+      const differentIndexes = [];
+      // 处理逻辑，比如比较新旧数据
+      if (JSON.stringify(newBeds) !== JSON.stringify(oldBeds)) {
+        console.log("旧床位数据:", oldBeds);
+        console.log("新床位数据:", newBeds);
+        newBeds.forEach((bed, index) => {
+          if (bed !== oldBeds[index]) {
+            differentIndexes.push(index);
+          }
+        });
+
+        // 处理被移除的床位
+        const removedBeds = oldBeds.filter((_, index) => !newBeds[index]);
+        removedBeds.forEach((removedBed) => {
+          const idToFind = removedBed.rowData.id; // 假设rowData有id属性
+          const indexInCurrentPatientData = this.currentPatientData.findIndex(
+            (patient) => patient.id === idToFind
+          );
+
+          if (indexInCurrentPatientData !== -1) {
+            this.currentPatientData[indexInCurrentPatientData].checked = false;
+            console.log(
+              `ID ${idToFind} 在 currentPatientData 中的索引: ${indexInCurrentPatientData}`
+            );
+          } else {
+            console.log(`ID ${idToFind} 不在 currentPatientData 中`);
+          }
+        });
+      }
+
+      // 更新 previousSelectedBeds 为当前的 selectedBeds
+      this.previousSelectedBeds = [...newBeds]; // 保持深拷贝以避免引用问题
+
+      return newBeds; // 返回处理后的数据
+    },
+
+    processedRowdata() {
+      // 当前的 rowdata
+      const newData = this.rowdata;
+      // 上一次的 rowdata
+      const oldData = this.previousRowdata;
+
+      // 处理逻辑，比如比较新旧数据
+      if (JSON.stringify(newData) !== JSON.stringify(oldData)) {
+      }
+
+      // 更新 previousRowdata 为当前的 rowdata
+      this.previousRowdata = [...newData]; // 保持深拷贝以避免引用问题
+
+      return newData; // 返回处理后的数据
+    },
   },
   watch: {
     selectedBeds: {
-      handler(newValue) {
-        console.log("selectedBeds changed:", newValue);
-        // 其他处理逻辑
+      handler() {
+        this.selectedBeds;
       },
-      deep: true,
-      immediate: true,
+      immediate: true, // 深度监听
+    },
+    rowdata: {
+      handler() {
+        this.processedRowdata; // 访问计算属性来触发其逻辑
+      },
+      immediate: true, // 深度监听
     },
   },
   data() {
     return {
       dialogVisible: false,
+      previousRowdata: [], // 用于存储上一次的 rowdata
+      previousSelectedBeds: [],
       // ipatients是待入院患者数组
       ipatients: [
         {
@@ -235,8 +306,8 @@ export default {
     };
   },
   mounted() {
-    this.fetchPatients(); // 组件加载时调用获取患者的函数
-    this.startCountdown();
+    /*     this.fetchPatients(); // 组件加载时调用获取患者的函数
+     */ this.startCountdown();
     // 假设这是从服务器获取的数据，这里直接赋值
     this.patientdata[0] = {
       id: "101",
@@ -258,12 +329,31 @@ export default {
   },
 
   methods: {
+    removePatient(removedBed) {
+      if (removedBed.rowData !== null) {
+        this.$emit("update-patient-data", removedBed.rowData); // 触发事件并传递数据
+      }
+    },
+
+    isMaxSelected() {
+      return (
+        this.currentPatientData.filter((row) => row.checked).length ===
+        this.selectedBeds.length
+      );
+    },
+    handleUncheckRow(rowId) {
+      // 根据 rowId 取消勾选逻辑
+      const row = this.currentPatientData.find((r) => r.id === rowId);
+      if (row) {
+        row.checked = false; // 假设每行都有一个 `checked` 属性
+      }
+    },
     handleCheckboxChange(row) {
       // Emit the selected row data to the parent
       this.$emit("update:selectedRow", row);
     },
 
-    async fetchPatients() {
+    /* async fetchPatients() {
       try {
         console.log("被调用了");
         const response = await getpatientsRequest({}); // 根据需要传入参数
@@ -273,7 +363,7 @@ export default {
         console.error("获取患者列表失败", error);
       }
     },
-
+ */
     addPatients() {
       const selectedPatients = this.ipatients.filter(
         (patient) => patient.selected
@@ -551,6 +641,7 @@ th {
   margin: 5px 5px;
 }
 .close {
+  z-index: 99;
   margin: 5px 5px;
 }
 </style>

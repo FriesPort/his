@@ -60,8 +60,8 @@
       <!-- 引入患者列表 -->
       <PatientList
         :selectedBeds="selectedBeds"
-        :currentPatientData="patientData"
         @update:selectedRow="handleSelectedRow"
+        :rowdata="rowdata"
       />
       <div class="operate-area">
         <div class="shang">
@@ -85,11 +85,15 @@
         <div class="xia">
           <div class="selectarea">
             <div
-              v-for="(selectedBed, idx) in selectedBeds"
+              v-for="selectedBed in selectedBeds"
               :key="selectedBed.id"
               class="selectbed"
             >
-              容器 {{ selectedBed.id }} - {{ idx }}
+              {{ selectedBed.id }}
+
+              <span v-if="selectedBed.rowData">{{
+                selectedBed.rowData.name
+              }}</span>
             </div>
           </div>
           <div class="selectoperate"></div>
@@ -173,8 +177,27 @@ export default {
       );
 
       if (idx > -1) {
-        // 如果已经选中，取消选择
+        const removedBed = this.selectedBeds[idx];
+        if (removedBed.rowData !== null) {
+          console.log("移除的 rowData:", removedBed.rowData); // 输出 rowData
+          console.log(removedBed.rowData.id);
+          console.log(this.rowdata);
+          const indexToRemove = this.rowdata.findIndex(
+            (item) => item.id === removedBed.rowData.id
+          );
+          // 如果找到索引，则移除该元素
+          if (indexToRemove !== -1) {
+            console.log(
+              "移除成功，当前 rowData:",
+              this.rowdata[indexToRemove].id
+            );
+            this.rowdata[indexToRemove] = null; // 将元素变为 null
+          } else {
+            console.log("未找到对应的 id，无法移除。");
+          }
+        }
         this.selectedBeds.splice(idx, 1);
+        console.log("取消了");
       } else {
         // 如果没有选中，添加到数组，并将 rowData 默认为 null
         this.selectedBeds.push({
@@ -347,6 +370,7 @@ select {
   border-radius: 10px;
   cursor: pointer;
   color: white;
+  text-align: center;
 }
 .shifang {
   width: 80%;
@@ -356,6 +380,7 @@ select {
   border-radius: 10px;
   cursor: pointer;
   color: white;
+  text-align: center;
 }
 .xia {
   width: 100%;
@@ -382,9 +407,11 @@ select {
   width: 9%;
   border: 1px solid #e62971;
   display: flex;
+  flex-direction: column;
   justify-content: center; /* 水平居中 */
   align-items: center; /* 垂直居中 */
   cursor: grab;
+  text-align: center;
 }
 .selectbed:active {
   /* 修改这里 */
