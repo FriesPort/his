@@ -1,10 +1,7 @@
 package com.example.bed.controller;
 
 
-import cn.hutool.system.UserInfo;
 import com.example.bed.Service.BedsService;
-import com.example.bed.entity.Campus;
-import com.example.bed.entity.Room;
 import com.example.dto.bed.BedAddDTO;
 import com.example.dto.bed.BedSearchDTO;
 import com.example.bed.entity.Result;
@@ -13,11 +10,11 @@ import com.example.dto.bed.BedUpdataDTO;
 import com.example.vo.bed.BedVo;
 import com.example.vo.JsonVO;
 
+import com.example.vo.bed.RoomListVO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +35,7 @@ public class BedsController {
     private BedsService bedsService;
 
     //添加床位
+    //todo 检测添加的床位类型（男床女床）是否和所属房间类型不同（房间性别）
     @ApiOperation("单个添加床位")
     @PostMapping("/add")
     public JsonVO<String> add(@ApiParam("添加的床位信息") @RequestHeader("userId")String userId, @RequestBody BedAddDTO bedAddDTO) {
@@ -50,6 +48,7 @@ public class BedsController {
 
 
     //床位信息修改
+    //todo 传入修改的字段名：字段值
     @ApiOperation("床位信息修改")
     @PostMapping("/update")
     public JsonVO<String> update(@ApiParam("修改的床位信息") @RequestHeader("userId")String userId,@RequestBody BedUpdataDTO bedUpdataDTO) {
@@ -62,6 +61,7 @@ public class BedsController {
 
 
     //床位信息显示（床位信息显示应该不包含病房的查询）
+    //todo 显示床位号
     @ApiOperation("床位信息显示")
     @GetMapping("/list")
     public JsonVO<List<BedVo>> list(@ApiParam("检索条件")BedSearchDTO bedSearchDTO) {
@@ -84,6 +84,10 @@ public class BedsController {
         return JsonVO.fail(result.getMessage());
     }
 
+    @GetMapping("/roomList")
+    public JsonVO<List<RoomListVO>> roomList() {
+        return JsonVO.success(bedsService.getRoomList());
+    }
 
 
 }

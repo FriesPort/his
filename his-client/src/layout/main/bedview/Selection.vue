@@ -78,7 +78,8 @@
         <div class="bed-type-color2"></div><span>女性病房</span>
         <div class="bed-type-color3"></div><span>混合病房</span>
       </div>
-      <a-button type="primary" @click="bedAdd"  :disabled="!hasPermission('床位管理')">
+      <!-- :disabled="!hasPermission('床位管理')" -->
+      <a-button type="primary" @click="bedAdd"  >
         <template #icon>
           <plus-outlined />
         </template>新增床位
@@ -86,43 +87,45 @@
       <a-modal v-model:visible="bedAddVisible" title="新增床位" @ok="bedAddOk" @cancel="bedAddCancel" ok-text="增加"
         cancel-text="取消" :afterClose="bedAddCancel" width="320px">
         <a-form>
-          <a-form-item label="科室：">
+          <!-- <a-form-item label="科室：">
             <a-select v-model:value="selectedOfficeName0" @change="selectRoomNameChange" style="width: 100px"
               size="small">
               <a-select-option v-for="office in filteredOfficeList0" :key="office.officeId" :value="office.officeName">
                 <span>{{ office.officeName }}</span>
               </a-select-option>
             </a-select>
-          </a-form-item>
-          <a-form-item label="病区：">
+          </a-form-item> -->
+          <!-- <a-form-item label="病区：">
             <a-select v-model:value="selectedWardName0" @change="selectRoomNameChange" style="width: 100px"
               size="small">
               <a-select-option v-for="ward in filteredWardList0" :key="ward.wardId" :value="ward.wardName">
                 <span>{{ ward.wardName }}</span>
               </a-select-option>
             </a-select>
-          </a-form-item>
+          </a-form-item> -->
           <a-form-item label="病房号：">
-            <a-select v-model:value="selectRoomName" @change="selectRoomNameChange" style="width: 100px" size="small">
-              <a-select-option v-for="room in roomsData" :key="room.roomId" :value="room.roomNumber">
-                <span>{{ room.roomNumber }}</span>
+            <!-- @change="selectRoomNameChange" -->
+            <a-select v-model:value="selectRoomName" style="width: 100px" size="small">
+              <a-select-option v-for="room in roomsData" :key="room.id" :value="room.number">
+                <span>{{ room.number }}</span>
               </a-select-option>
             </a-select>
           </a-form-item>
           <a-form-item label="床位号：">
-            <a-select v-model:value="baseBedNumber" style="width: 100px" size="small">
+            <input type="text" v-model="baseBedNumber"/>
+            <!-- <a-select v-model:value="baseBedNumber" style="width: 100px" size="small">
               <a-select-option v-for="baseBedNumber in currentBedNumber" :key="baseBedNumber" :value="baseBedNumber">
                 <span>{{ baseBedNumber }}</span>
-              </a-select-option>
-            </a-select>
+              </a-select-option> -->
+            <!-- </a-select> -->
           </a-form-item>
           <a-form-item label="床位类型：">
-            <a-select v-if="currentRoomGender === '混合病房'" v-model:value="baseBedType" style="width: 86px" size="small">
-              <a-select-option v-for="baseBedType in baseBedTypes" :key="baseBedType" :value="baseBedType">
+            <a-select v-model:value="baseBedType" style="width: 86px" size="small">
+              <a-select-option :key="baseBedType" v-for="baseBedType in baseBedTypes" :value="baseBedType">
                 <span>{{ baseBedType }}</span>
               </a-select-option>
             </a-select>
-            <a-select v-if="currentRoomGender === '男性病房'" v-model:value="baseBedType1" style="width: 86px" size="small">
+            <!-- <a-select v-if="currentRoomGender === '男性病房'" v-model:value="baseBedType1" style="width: 86px" size="small">
               <a-select-option v-for="baseBedType1 in baseBedTypes1" :key="baseBedType1" :value="baseBedType1">
                 <span>{{ baseBedType1 }}</span>
               </a-select-option>
@@ -131,7 +134,7 @@
               <a-select-option v-for="baseBedType2 in baseBedTypes2" :key="baseBedType2" :value="baseBedType2">
                 <span>{{ baseBedType2 }}</span>
               </a-select-option>
-            </a-select>
+            </a-select> -->
           </a-form-item>
         </a-form>
       </a-modal>
@@ -294,102 +297,7 @@ const showModal1 = () => {
 };
 
 const bedsData = ref<Bed[]>([
-//   {
-//   bedId: 1,
-//   bedNumber: '101房',
-//   roomNumber: '01床',
-//   bedStatus: '占用',
-//   roomType: '隔离病房',
-//   bedType: '男床',
-//   bedCount: 1,
-//   roomGender: '混合病房',
-//   patientId: 1,
-//   patientName: '张三',
-//   patientAge: 30,
-//   patientGender: '男',
-//   telephoneNumber: '111111',
-//   admissionType: '预约入院',
-//   admissionTime: '2024/04/20',
-//   admissionNumber: 'A1A1A1',
-//   bookType: '微信小程序',
-//   doctor: '老李',
-//   illness: '高血压',
-//   isEmergency: 1,
-//   isAcute: 1,
-//   isVip: 1
-// },
-// {
-//   bedId: 2,
-//   bedNumber: '102房',
-//   roomNumber: '01床',
-//   bedStatus: '空闲',
-//   roomType: '普通病房',
-//   bedType: '女床',
-//   bedCount: 4,
-//   patientId: null,
-//   roomGender: '混合病房',
-//   patientName: null,
-//   patientAge: null,
-//   patientGender: null,
-//   telephoneNumber: null,
-//   admissionType: null,
-//   admissionTime: null,
-//   admissionNumber: null,
-//   bookType: null,
-//   doctor: null,
-//   illness: null,
-//   isEmergency: null,
-//   isAcute: null,
-//   isVip: null
-// },
-// {
-//   bedId: 3,
-//   bedNumber: '103房',
-//   roomNumber: '01床',
-//   bedStatus: '空闲',
-//   roomType: '普通病房',
-//   bedType: '正床',
-//   bedCount: 3,
-//   roomGender: '混合病房',
-//   patientId: null,
-//   patientName: null,
-//   patientAge: null,
-//   patientGender: null,
-//   telephoneNumber: null,
-//   admissionType: null,
-//   admissionTime: null,
-//   admissionNumber: null,
-//   bookType: null,
-//   doctor: null,
-//   illness: null,
-//   isEmergency: null,
-//   isAcute: null,
-//   isVip: null
-// },
-// {
-//   bedId: 4,
-//   bedNumber: '104房',
-//   roomNumber: '01床',
-//   bedStatus: '即将出院',
-//   roomType: '隔离病房',
-//   bedType: '男床',
-//   bedCount: 1,
-//   roomGender: '混合病房',
-//   patientId: 4,
-//   patientName: '李四',
-//   patientAge: 30,
-//   patientGender: '男',
-//   telephoneNumber: '111111',
-//   admissionType: '预约入院',
-//   admissionTime: '2024/04/20',
-//   admissionNumber: 'A1A1A1',
-//   bookType: '微信小程序',
-//   doctor: '老李',
-//   illness: '高血压',
-//   isEmergency: 1,
-//   isAcute: 1,
-//   isVip: 1
-// }
+
 ]);
 onMounted(async () => {
   // let { data } = await axios.get('http://localhost:3000/beds');
@@ -445,27 +353,6 @@ const getId = () => {
 //新增床位
 const bedAddVisible = ref<boolean>(false)
 const roomsData = ref<Room[]>([
-  {
-  roomId: 1,
-  roomNumber: '101房',
-  bedCount: 1,
-  roomGender: '男性病房'
-}, {
-  roomId: 2,
-  roomNumber: '102房',
-  bedCount: 1,
-  roomGender: '男性病房'
-}, {
-  roomId: 3,
-  roomNumber: '103房',
-  bedCount: 1,
-  roomGender: '男性病房'
-}, {
-  roomId: 4,
-  roomNumber: '104房',
-  bedCount: 1,
-  roomGender: '男性病房'
-}
 ])
 const selectRoomName = ref()
 const baseBedTypes = ['正床', '男床', '女床']
@@ -474,39 +361,39 @@ const baseBedTypes1 = ['正床', '男床']
 const baseBedType1 = ref(baseBedTypes[0])
 const baseBedTypes2 = ['正床', '女床']
 const baseBedType2 = ref(baseBedTypes[0])
-const baseBedNumbers = ['01床', '02床', '03床', '04床', '05床', '06床', '07床', '08床']
+const baseBedNumbers = ref('')
 const currentBedNumber = ref<string[]>()
 const baseBedNumber = ref(currentBedNumber.value !== undefined ? currentBedNumber.value[0] : baseBedNumbers[0])
 const currentRoomGender = ref('混合病房')
 const bedAdd = async () => {
   //获取当前病区病房
-  const campus = campusData.find(c => c.campusId === recordCampusId.value);
-  recordOfficeId0.value = campus?.offices[0].officeId
-  recordWardId0.value = campus?.offices[0].wards[0].wardId
-  console.log('病房0', campus)
-  let params = recordWardId.value === null ? 1 : campus?.offices[0].wards[0].wardId as number
-  console.log('病房', params)
-  let result = await getRooms(params)
+  // const campus = campusData.find(c => c.campusId === recordCampusId.value);
+  // recordOfficeId0.value = campus?.offices[0].officeId
+  // recordWardId0.value = campus?.offices[0].wards[0].wardId
+  // console.log('病房0', campus)
+  // let params = recordWardId.value === null ? 1 : campus?.offices[0].wards[0].wardId as number
+  // console.log('病房', params)
+  let result = await getRooms()
   roomsData.value = result.data
-  recordRoomId.value = roomsData.value[0].roomId
-  selectRoomName.value = roomsData.value[0].roomNumber
+  recordRoomId.value = roomsData.value[0].id
+  selectRoomName.value = roomsData.value[0].number
   const startCount = roomsData.value[0].bedCount;
-  currentBedNumber.value = baseBedNumbers.slice(startCount);
-  baseBedNumber.value = currentBedNumber.value[0]
+  // currentBedNumber.value = baseBedNumbers.slice(startCount);
+  // baseBedNumber.value = currentBedNumber.value[0]
   currentRoomGender.value = roomsData.value[0].roomGender
   bedAddVisible.value = true
 }
 // 处理选择病房变化的函数，记录选择的病房id
-const recordRoomId = ref<number>(roomsData.value[0].roomId)
+const recordRoomId = ref<number>(  roomsData.value.length > 0 ? roomsData.value[0].id : 0)
 const selectRoomNameChange = (value: string) => {
   // 找到匹配选中 campusName 的 campusItem
   const selectRoom = roomsData.value.find(
-    item => item.roomNumber === value
+    item => item.number === value
   );
   // 如果找到了，更新 recordRoomId 的值
   if (selectRoom) {
-    if (typeof selectRoom?.roomId === 'number') recordRoomId.value = selectRoom?.roomId;
-    const selectedRoom = roomsData.value.find(room => room.roomNumber === selectRoomName.value);
+    if (typeof selectRoom?.id === 'number') recordRoomId.value = selectRoom?.id;
+    const selectedRoom = roomsData.value.find(room => room.number === selectRoomName.value);
     const startCount = selectedRoom ? selectedRoom.bedCount : 0;
     console.log('startCount', startCount)
     currentBedNumber.value = baseBedNumbers.slice(startCount);
@@ -518,17 +405,19 @@ const selectRoomNameChange = (value: string) => {
 const bedAddOk = async () => {
   console.log('roomId', recordRoomId.value);
   let currentBedType
-  if (currentRoomGender.value === '混合病房') currentBedType = baseBedType.value
-  if (currentRoomGender.value === '男性病房') currentBedType = baseBedType1.value
-  if (currentRoomGender.value === '女性病房') currentBedType = baseBedType2.value
+  currentBedType = baseBedType.value
+  // if (currentRoomGender.value === '混合病房') currentBedType = baseBedType.value
+  // if (currentRoomGender.value === '男性病房') currentBedType = baseBedType1.value
+  // if (currentRoomGender.value === '女性病房') currentBedType = baseBedType2.value
   try {
     let params = {
-      campusId: recordCampusId.value,
-      officeId: recordOfficeId0.value,
-      wardId: recordWardId0.value,
+      // campusId: recordCampusId.value,
+      // officeId: recordOfficeId0.value,
+      // wardId: recordWardId0.value,
       roomId: recordRoomId.value,
-      bedNumber: baseBedNumber.value,
-      bedType: currentBedType
+      number: baseBedNumber.value,
+      bedType: currentBedType,
+      bedStatus: 0
     }
     console.log(params)
     let result = await addBedRequest(params)
