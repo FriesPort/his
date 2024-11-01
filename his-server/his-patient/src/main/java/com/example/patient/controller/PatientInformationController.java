@@ -35,7 +35,7 @@ public class PatientInformationController {
     private IPatientInformationService patientInformationService;
 
 
-
+    //todo 查询所有患者信息好像没有做
     @PostMapping("/query")
     public JsonVO<Map<String, List<PatientVo>>> query(
             @RequestBody PatientQueryDTO patientQueryDTO) {
@@ -49,7 +49,10 @@ public class PatientInformationController {
         return JsonVO.fail(result.getMessage());
     }
 
-
+    /**
+     * 感觉add和adds的作用有些重复了，这里的批量导入是通过json实现的，拿我在批量里面只传入一位患者的信息也是单个导入啊
+     *
+     */
 
     @PostMapping("/add")    //新增患者
     public JsonVO<String> add(@RequestHeader("userId") String userId, @RequestBody PatientAlterDTO patientAlterDTO){

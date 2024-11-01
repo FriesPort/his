@@ -59,6 +59,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }catch (Exception e){
             e.printStackTrace();
         }
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername,user.getUsername());
+        User queryUser = userMapper.selectOne(queryWrapper);
+        if(queryUser!=null){
+            return false;
+        }
         PasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
         user.setId(idGenerate.nextUUID(userAddDTO));
         user.setPassword(passwordEncoder.encode(userAddDTO.getPassword()));
@@ -123,6 +129,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         User user = new User();
         BeanUtils.copyProperties(userUpdateDTO,user);
         user.setUpdateBy(userId);
+        user.setUpdateTime(LocalDateTime.now());
         int rows = userMapper.updateById(user);
         if(rows>=1){
             return UserUpdateVO.success;

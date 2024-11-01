@@ -65,7 +65,7 @@ public class PermissionController {
      */
     @PostMapping("/delete")
     public JsonVO<Boolean> deletePermission(String id){
-        if(iPermissionService.removeById(id)){
+        if(iPermissionService.DeletePermission(id)){
             return JsonVO.success(true);
         }else {
             return JsonVO.fail(false);

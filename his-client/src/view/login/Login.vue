@@ -94,6 +94,7 @@ const login = () => {
       //   username: username.value,
       //   password: password.value
       // };
+      tokenStore.setToken('');
       let result = await userLoginService(loginModel);
 
 

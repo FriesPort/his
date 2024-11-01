@@ -71,6 +71,7 @@ secure:
       - "admin"
     urls:
       - "/security/login"
+      - "/security/logout"
 
 
 hm:

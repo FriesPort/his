@@ -1,8 +1,10 @@
 package com.example.bed.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.bed.entity.PatientInformation;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+
+import javax.annotation.ManagedBean;
 
 /**
  * <p>

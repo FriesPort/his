@@ -76,7 +76,7 @@ public class RoleController {
      * @return permissiondisplay
      */
     @GetMapping("/permissiondisplay")
-    public JsonVO<List<PermissionDisplayVO>> PermissionDisplay(@RequestParam String roleId) {
+    public JsonVO<PermissionDisplayVO> PermissionDisplay(@RequestParam String roleId) {
         return JsonVO.success(iRolePermissionService.permissionDisplay(roleId));
     }
 

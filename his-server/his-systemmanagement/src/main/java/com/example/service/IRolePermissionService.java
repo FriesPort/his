@@ -23,7 +23,7 @@ public interface IRolePermissionService extends IService<RolePermission> {
     RoleCreateVO definedRole(RoleCreateDTO roleCreateDTO, String userId);
 
     //角色权限展示
-    List<PermissionDisplayVO> permissionDisplay(String roleId);
+    PermissionDisplayVO permissionDisplay(String roleId);
 
     //角色权限分配
     boolean roleAllocation(RoleAllocationDTO allocationDTO,String userId);

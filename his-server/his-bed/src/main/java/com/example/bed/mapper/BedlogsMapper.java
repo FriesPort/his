@@ -1,10 +1,9 @@
 package com.example.bed.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.bed.entity.Floor;
-import com.example.bed.entity.Office;
+import com.example.bed.entity.Bedlog;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface FloorMapper extends BaseMapper<Floor> {
+public interface BedlogsMapper extends BaseMapper<Bedlog> {
 }

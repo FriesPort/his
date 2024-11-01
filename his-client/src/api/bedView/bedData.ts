@@ -22,8 +22,8 @@ export const bedReleaseRequest = (params: any) => {
 
 //提供新增床位的函数
 //获取相关病区病房
-export const getRooms = (wardId: number) => {
-  return request.get(`/beds/add/${wardId}`)
+export const getRooms = () => {
+  return request.get(`/beds/roomList`)
 }
 //新增床位请求
 export const addBedRequest = (params: any) => {
