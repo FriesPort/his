@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.dto.systemmanagement.userrole.UserCreateDTO;
 import com.example.dto.systemmanagement.user.*;
+import com.example.entity.Ward;
 import com.example.service.IUserService;
+import com.example.service.WardService;
 import com.example.utils.JwtUtil;
 
 import com.example.vo.JsonVO;
@@ -32,7 +34,23 @@ public class UserController {
     private IUserService iUserService;
 
     @Autowired
+    private WardService wardService;
+
+    @Autowired
     private JwtUtil jwtUtil;
+
+    /**
+     * 展示分区列表
+     * @return
+     */
+    @PostMapping("/ward/list")
+    public JsonVO<List<Ward>> getWardList() {
+        List<Ward> list = wardService.list();
+        if(list==null){
+            return JsonVO.fail(null);
+        }
+        return JsonVO.success(list);
+    }
 
     /**
      * 添加用户
@@ -56,7 +74,10 @@ public class UserController {
      */
     //todo 判断是否为已登录用户
     @PostMapping ("/msg/delete")
-    public JsonVO<String> DeleteUser(@RequestParam String id) {
+    public JsonVO<String> DeleteUser(@RequestParam String id,@RequestHeader("userId") String userId) {
+        if(id==userId){
+            return JsonVO.fail("Fail To Delete User Message");
+        }
         if(iUserService.deleteUser(id)){
             return JsonVO.success("Delete User Message Successful");
         }else {
