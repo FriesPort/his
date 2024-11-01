@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -82,30 +83,14 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     }
 
     @Override
-    public List<PermissionDisplayVO> permissionDisplay(String roleId) {
+    public PermissionDisplayVO permissionDisplay(String roleId) {
         List<Permission> permissions=permissionMapper.SearchListById(roleId);
-        List<PermissionDisplayVO> voList=new ArrayList<>();
-        for(Permission permission:permissions){
-            if(permission.getIsDatarule()==1){
-                PermissionDataRule permissionDataRule=permissionDataRuleMapper
-                        .selectOne(new LambdaQueryWrapper<PermissionDataRule>()
-                                .eq(PermissionDataRule::getPermissionId,permission
-                                        .getId()));
-                Map<String,String> map=new HashMap<>();
-                map.put("rule_name",permissionDataRule.getRuleName());
-                map.put("rule_column",permissionDataRule.getRuleColumn());
-                map.put("rule_conditions",permissionDataRule.getRuleConditions());
-                map.put("rule_value",permissionDataRule.getRuleValue());
-                voList.add(
-                        new PermissionDisplayVO(
-                                permission.getName(),
-                                permission.getDescription(),
-                                map));
-            }else {
-                voList.add(new PermissionDisplayVO(permission.getName(),permission.getDescription(),null));
-            }
-        }
-        return voList;
+        PermissionDisplayVO vo=new PermissionDisplayVO();
+        List<String> permissionId=permissions.stream()
+                .map(Permission::getId)
+                .collect(Collectors.toList());
+        vo.setPermission(permissionId);
+        return vo;
     }
 
     @Override

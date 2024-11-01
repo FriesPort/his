@@ -26,8 +26,8 @@ export interface Bed {
 
 
 export interface Room {
-  roomId: number,
-  roomNumber: string,
+  id: number,
+  number: string,
   bedCount: number,
   roomGender: string
 }

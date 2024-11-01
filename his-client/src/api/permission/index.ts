@@ -5,6 +5,10 @@ export const getPermissionList = (params: any) => {
   return request.get('/system/permission/search', { params: params })
 }
 
+export const getRolePermission = (params: any) => {
+  return request.get(`/system/role/permissiondisplay?roleId=${params}`)
+}
+
 export const permisionRegister = (params: any) => {
   return request.post('/system/permission/register', params)
 }

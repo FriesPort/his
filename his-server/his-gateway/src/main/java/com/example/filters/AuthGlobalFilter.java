@@ -1,6 +1,8 @@
 package com.example.filters;
 
 import cn.hutool.core.util.StrUtil;
+import com.example.constant.RedisConstant;
+import com.example.handler.CommonSender;
 import com.example.utils.RedisCache;
 import com.example.entity.LoginUser;
 import com.example.utils.JwtUtil;
@@ -53,6 +55,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             userid = jwtUtil.parseTokenForUserId(relToken);
             log.info("当前用户权限信息:{}",permissionList.toString());
             ServerHttpRequest request=exchange.getRequest().mutate()
+                    .header("Authorization", token)
                     .header("permissions", UriEncoder.encode(permissionList.toString()))
                     .header("userId",userid)
                     .build();

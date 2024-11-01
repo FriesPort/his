@@ -5,6 +5,10 @@ export const userLoginService = (params: any) => {
     return request.post('/security/login', params )
 }
 
+export const toLogout = () => {
+    return request.post('/security/logout')
+}
+
 //新增
 export const addUserApi = (params: any) => {
     return request.post('/users/msg/add', params)
@@ -64,12 +68,12 @@ export const roleAdd = (params:any) => {
 
 //编辑角色
 export const roleEditApi = (params: any) => {
-    return request.put('/system/role/update', params)
+    return request.post('/system/role/allocation', params)
 }
 
 //删除用户角色
 export const roleDeleteApi = (params:any) => {
-    return request.delete(`/system/role/delete?id=${params}`);
+    return request.post(`/system/role/delete?id=${params}`);
 }
 
 //权限列表

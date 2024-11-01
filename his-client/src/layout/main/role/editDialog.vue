@@ -20,7 +20,7 @@
         </a-input>
       </a-form-item>
       <a-form-item>
-        <PermissionDialog :permissionList="permissionList.permissionList" :getTitle="getTitle" />
+        <PermissionDialog :checkedKeys="havePermission" :permissionList="permissionList.permissionList" :getTitle="getTitle" />
       </a-form-item>
     </a-form>
   </a-modal>
@@ -31,7 +31,7 @@ import { Campus, Ward, Office, } from '../bedview/types/Bed';
 import PermissionDialog from './permissionDialog.vue';
 import { roleEditApi } from '@/api/user';
 import { message } from 'ant-design-vue';
-import { getPermissionList} from '@/api/permission/index';
+import { getPermissionList,getRolePermission} from '@/api/permission/index';
 
 const props = defineProps<{
   user: any
@@ -41,18 +41,32 @@ const visible = ref<boolean>(false);
   permissionList: [] as any
 })
 
+const havePermission = ref([])
 // console.log(props.user);
 const showModal = async() => {
-  visible.value = true;
   let { data } = await getPermissionList({})
-  console.log(data)
+  let rolePermission = await getRolePermission(props.user.id)
+  havePermission.value = rolePermission.data.permission
   permissionList.permissionList.splice(0, permissionList.permissionList.length, ...data)
+  
+  visible.value = true;
+  // console.log(data)
   
 };
 
 const titles = ref()
-const getTitle = (newTitles: any) => {
+const add = ref<string[]>([])
+const del = ref<string[]>([])
+const getTitle = (newTitles: any,checkedKeys?:string[]) => {
   titles.value = newTitles
+  if(checkedKeys){
+    // 初始化add和del数组
+// 找出array2比array1多的项
+add.value.push(...checkedKeys.filter(item => !havePermission.value.includes(item)));
+
+// 找出array2比array1少的项
+del.value.push(...havePermission.value.filter((item:any) => !checkedKeys.includes(item)));
+  }
 }
 
 const handleOk = async () => {
@@ -60,9 +74,11 @@ const handleOk = async () => {
   
   let params = {
     roleId: props.user.id,
-    roleName: props.user.name,
-    description: props.user.description,
-    permissions: titles.value
+    // roleName: props.user.name,
+    // description: props.user.description,
+    // permissions: titles.value
+    add: add.value,
+    del: del.value,
   }
   console.log('bianji', params)
   await roleEditApi(params)

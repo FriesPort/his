@@ -38,10 +38,7 @@
                   type="checkbox"
                   v-if="row && row.name"
                   v-model="row.checked"
-                  :disabled="
-                    selectedBeds.length === 0 ||
-                    (isMaxSelected() && !row.checked)
-                  "
+                  :disabled="!isMaxSelected()"
                   :id="'checkbox-' + index"
                   @change="handleCheckboxChange(row)"
                 />
@@ -146,6 +143,14 @@ export default {
       type: Array,
       required: true,
     },
+    cancelID: {
+      type: String, // 修改为字符串类型
+      required: false, // 是否必需
+    },
+    changeTime: {
+      type: Number,
+      default: 0,
+    },
   },
   computed: {
     selectedBeds() {
@@ -153,34 +158,8 @@ export default {
       const newBeds = this.selectedBeds;
       // 上一次的选中床位数据
       const oldBeds = this.previousSelectedBeds;
-      const differentIndexes = [];
       // 处理逻辑，比如比较新旧数据
       if (JSON.stringify(newBeds) !== JSON.stringify(oldBeds)) {
-        console.log("旧床位数据:", oldBeds);
-        console.log("新床位数据:", newBeds);
-        newBeds.forEach((bed, index) => {
-          if (bed !== oldBeds[index]) {
-            differentIndexes.push(index);
-          }
-        });
-
-        // 处理被移除的床位
-        const removedBeds = oldBeds.filter((_, index) => !newBeds[index]);
-        removedBeds.forEach((removedBed) => {
-          const idToFind = removedBed.rowData.id; // 假设rowData有id属性
-          const indexInCurrentPatientData = this.currentPatientData.findIndex(
-            (patient) => patient.id === idToFind
-          );
-
-          if (indexInCurrentPatientData !== -1) {
-            this.currentPatientData[indexInCurrentPatientData].checked = false;
-            console.log(
-              `ID ${idToFind} 在 currentPatientData 中的索引: ${indexInCurrentPatientData}`
-            );
-          } else {
-            console.log(`ID ${idToFind} 不在 currentPatientData 中`);
-          }
-        });
       }
 
       // 更新 previousSelectedBeds 为当前的 selectedBeds
@@ -197,6 +176,9 @@ export default {
 
       // 处理逻辑，比如比较新旧数据
       if (JSON.stringify(newData) !== JSON.stringify(oldData)) {
+        /* console.log("旧数据:", oldData);
+        console.log("新数据:", newData); */
+        // 在这里可以进行数据转换或其他处理
       }
 
       // 更新 previousRowdata 为当前的 rowdata
@@ -206,10 +188,17 @@ export default {
     },
   },
   watch: {
+    changeTime(newChangeTime) {
+      if (newChangeTime > 0) {
+        this.deselectPatient(this.cancelID);
+      }
+    },
+
     selectedBeds: {
       handler() {
         this.selectedBeds;
       },
+      deep: true,
       immediate: true, // 深度监听
     },
     rowdata: {
@@ -221,9 +210,9 @@ export default {
   },
   data() {
     return {
-      dialogVisible: false,
       previousRowdata: [], // 用于存储上一次的 rowdata
       previousSelectedBeds: [],
+      dialogVisible: false,
       // ipatients是待入院患者数组
       ipatients: [
         {
@@ -329,6 +318,17 @@ export default {
   },
 
   methods: {
+    deselectPatient(cancelID) {
+      const patient = this.currentPatientData.find((p) => p.id === cancelID);
+      if (patient) {
+        patient.checked = false; // 将 selected 设置为 false，表示取消勾选
+      }
+    },
+
+    // 判断勾选框是否应该禁用
+    isDisabled(patientID) {
+      return this.cancelID === patientID;
+    },
     removePatient(removedBed) {
       if (removedBed.rowData !== null) {
         this.$emit("update-patient-data", removedBed.rowData); // 触发事件并传递数据
@@ -336,14 +336,15 @@ export default {
     },
 
     isMaxSelected() {
+      // 如果 selectedBeds 不为空且被选中的患者数量小于床位数量，则返回 true
       return (
-        this.currentPatientData.filter((row) => row.checked).length ===
-        this.selectedBeds.length
+        this.selectedBeds.length > 0 &&
+        this.currentPatientData.filter((row) => row.checked).length <
+          this.selectedBeds.length
       );
     },
     handleUncheckRow(rowId) {
       // 根据 rowId 取消勾选逻辑
-      /*  */
       const row = this.currentPatientData.find((r) => r.id === rowId);
       if (row) {
         row.checked = false; // 假设每行都有一个 `checked` 属性
@@ -388,6 +389,7 @@ export default {
       }
       // 移除已添加的患者
       this.ipatients = this.ipatients.filter((patient) => !patient.selected);
+      this.dialogVisible = false;
     },
 
     viewPatientInfo(patient) {
@@ -642,7 +644,6 @@ th {
   margin: 5px 5px;
 }
 .close {
-  z-index: 99;
   margin: 5px 5px;
 }
 </style>

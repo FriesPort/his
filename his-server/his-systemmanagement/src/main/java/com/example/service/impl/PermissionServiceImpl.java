@@ -9,8 +9,10 @@ import com.example.dto.systemmanagement.permission.PermissionRegisterDTO;
 import com.example.dto.systemmanagement.permission.PermissionUpdateDTO;
 import com.example.entity.Permission;
 import com.example.entity.PermissionDataRule;
+import com.example.entity.RolePermission;
 import com.example.mapper.PermissionDataRuleMapper;
 import com.example.mapper.PermissionMapper;
+import com.example.mapper.RolePermissionMapper;
 import com.example.service.IPermissionService;
 import com.example.utils.IdGenerate;
 import com.example.vo.systemmanagement.permissions.PermissionListVO;
@@ -41,6 +43,8 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     PermissionMapper permissionMapper;
     @Autowired
     PermissionDataRuleMapper permissionDataRuleMapper;
+    @Autowired
+    RolePermissionMapper rolePermissionMapper;
     @Autowired
     IdGenerate idGenerate;
     @Override
@@ -100,6 +104,21 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Boolean DeletePermission(String id) {
+        if(id.isEmpty()){
+            log.info("id为空");
+            return false;
+        }
+        int i=permissionMapper.deleteById(id);
+        int j=permissionDataRuleMapper.delete(new LambdaQueryWrapper<PermissionDataRule>().eq(PermissionDataRule::getPermissionId,id));
+        int k=rolePermissionMapper.delete(new LambdaQueryWrapper<RolePermission>().eq(RolePermission::getPermissionId,id));
+        if(i==0){
+            log.info("删除权限数据错误{},权限不存在",i);
+            return false;
+        } else return i > 0 && j >= 0 && k >= 0;
     }
 
     @Override

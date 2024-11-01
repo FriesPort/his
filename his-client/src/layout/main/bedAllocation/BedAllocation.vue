@@ -62,6 +62,8 @@
         :selectedBeds="selectedBeds"
         @update:selectedRow="handleSelectedRow"
         :rowdata="rowdata"
+        :cancelID="cancelID"
+        :change-time="changeTime"
       />
       <div class="operate-area">
         <div class="shang">
@@ -128,6 +130,8 @@ export default {
     return {
       /*       这个数组用于存放分配患者
        */
+      changeTime: 0, // 记录更改次数
+      cancelID: null, // 用于保存要传递给子组件的 ID
       rowdata: Array(10).fill(null), // 初始化为包含 10 个 null 的数组
       image1,
       selectedOption1: "",
@@ -181,12 +185,13 @@ export default {
         if (removedBed.rowData !== null) {
           console.log("移除的 rowData:", removedBed.rowData); // 输出 rowData
           console.log(removedBed.rowData.id);
-          console.log(this.rowdata);
           const indexToRemove = this.rowdata.findIndex(
             (item) => item.id === removedBed.rowData.id
           );
           // 如果找到索引，则移除该元素
           if (indexToRemove !== -1) {
+            this.cancelID = this.rowdata[indexToRemove].id;
+            this.changeTime += 1; // 增加更改次数
             console.log(
               "移除成功，当前 rowData:",
               this.rowdata[indexToRemove].id
@@ -197,7 +202,6 @@ export default {
           }
         }
         this.selectedBeds.splice(idx, 1);
-        console.log("取消了");
       } else {
         // 如果没有选中，添加到数组，并将 rowData 默认为 null
         this.selectedBeds.push({
