@@ -58,7 +58,11 @@
     </div>
     <div class="xiamian">
       <!-- 引入患者列表 -->
-      <PatientList :selectedBeds="selectedBeds" />
+      <PatientList
+        :selectedBeds="selectedBeds"
+        :currentPatientData="patientData"
+        @update:selectedRow="handleSelectedRow"
+      />
       <div class="operate-area">
         <div class="shang">
           <div class="bedarea">
@@ -106,8 +110,19 @@ export default {
     BedCard,
   },
 
+  watch: {
+    rowdata: {
+      handler(newValue) {
+        console.log("rowdata 发生变化:", newValue);
+      },
+      deep: true, // 监测深层变化
+      immediate: true,
+    },
+  },
+
   data() {
     return {
+      rowdata: Array(10).fill(null), // 初始化为包含 10 个 null 的数组
       drag: false,
       nextId: 101, // 下一个可用的 ID
       image1,
@@ -128,6 +143,31 @@ export default {
     };
   },
   methods: {
+    handleSelectedRow(selectedRow) {
+      const index = this.rowdata.findIndex(
+        (item) => item && item.id === selectedRow.id
+      );
+
+      if (index === -1) {
+        // 找到第一个空位置
+        const emptyIndex = this.rowdata.findIndex((item) => item === null);
+
+        if (emptyIndex !== -1) {
+          this.rowdata[emptyIndex] = selectedRow; // 添加新行到空位置
+        } else {
+          console.log("已达到最大选择数量");
+        }
+      } else {
+        // 移除已存在的行
+        this.rowdata[index] = null;
+      }
+
+      // 触发更新
+      this.rowdata = [...this.rowdata];
+      /*  console.log(this.rowdata); // 打印更新后的 rowdata
+      console.log("实时"); */
+    },
+
     updateSelectedBeds(bed) {
       const idx = this.selectedBeds.findIndex(
         (selectedBed) => selectedBed.id === bed.id
@@ -137,10 +177,15 @@ export default {
         // 如果已经选中，取消选择
         this.selectedBeds.splice(idx, 1);
       } else {
-        // 如果没有选中，添加到数组
-        this.selectedBeds.push(bed);
+        // 如果没有选中，添加到数组，并将 rowData 默认为 null
+        this.selectedBeds.push({
+          id: bed.id,
+          index: this.selectedBeds.length, // 或者其他合适的索引逻辑
+          rowData: null, // 默认为 null
+        });
       }
     },
+
     toggleCheckboxes() {
       // 切换每个 checkbox 的显示状态
       this.showCheckboxes = this.showCheckboxes.map((show) => !show);

@@ -40,6 +40,7 @@
                   v-model="row.checked"
                   :disabled="selectedBeds.length === 0"
                   :id="'checkbox-' + index"
+                  @change="handleCheckboxChange(row)"
                 />
               </td>
               <td class="pname" v-if="row">{{ row.name }}</td>
@@ -257,9 +258,12 @@ export default {
   },
 
   methods: {
-    async fetchPatients() {
-      console.log("被调用了");
+    handleCheckboxChange(row) {
+      // Emit the selected row data to the parent
+      this.$emit("update:selectedRow", row);
+    },
 
+    async fetchPatients() {
       try {
         console.log("被调用了");
         const response = await getpatientsRequest({}); // 根据需要传入参数
