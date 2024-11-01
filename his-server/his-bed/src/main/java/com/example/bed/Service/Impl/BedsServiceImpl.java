@@ -60,10 +60,14 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
 //        Numbers numbers = new Numbers();
         //从Room中获取信息
         Room room = roomsMapper.selectById(bedAddDTO.getRoomId());
-//        //将外键分割
-//        String[] foreignId = room.getForeignId().split("-");
+        //获取房间性别
+        String gender=room.getGender();
+        if(!bedAddDTO.getBedType().equals("混合床位")&&!gender.equals(bedAddDTO.getBedType())){
+            result.setMessage("床位类型与房间类型不符合");
+            result.setStatus(false);
+            return result;
+        }
         //分别将对应的信息放入
-//        Campus campus= campusMapper.selectById(foreignId[2]);
 //        numbers.setCampus(campus.getCampusName());
 //        Office office = officeMapper.selectById(foreignId[1]);
 //        numbers.setOffice(office.getOfficeName());
