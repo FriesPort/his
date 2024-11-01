@@ -343,6 +343,7 @@ export default {
     },
     handleUncheckRow(rowId) {
       // 根据 rowId 取消勾选逻辑
+      /*  */
       const row = this.currentPatientData.find((r) => r.id === rowId);
       if (row) {
         row.checked = false; // 假设每行都有一个 `checked` 属性
