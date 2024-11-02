@@ -62,7 +62,7 @@ public class UserController {
         if(iUserService.insertUser(userAddDTO,userId)){
             return JsonVO.success("Add User Message Successful");
         }else {
-            return JsonVO.fail("Fail to Delete User Message");
+            return JsonVO.fail("Fail to Add User Message");
         }
     }
 
