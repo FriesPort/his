@@ -13,6 +13,7 @@ import com.example.utils.JwtUtil;
 import com.example.vo.JsonVO;
 import com.example.vo.systemmanagement.userrole.*;
 import com.example.vo.systemmanagement.user.UserDisplayVO;
+import com.example.vo.systemmanagement.ward.WardVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,8 +45,8 @@ public class UserController {
      * @return
      */
     @PostMapping("/ward/list")
-    public JsonVO<List<Ward>> getWardList() {
-        List<Ward> list = wardService.list();
+    public JsonVO<List<WardVo>> getWardList() {
+        List<WardVo> list = wardService.listWardVo();
         if(list==null){
             return JsonVO.fail(null);
         }

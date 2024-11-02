@@ -2,7 +2,10 @@ package com.example.mapper;
 
 import com.example.entity.Ward;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.vo.systemmanagement.ward.WardVo;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
 * @author 18255
@@ -13,6 +16,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface WardMapper extends BaseMapper<Ward> {
 
+    List<WardVo> listWardVo();
 }
 
 

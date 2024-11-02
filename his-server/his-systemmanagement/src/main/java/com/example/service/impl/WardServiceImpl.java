@@ -4,7 +4,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.entity.Ward;
 import com.example.service.WardService;
 import com.example.mapper.WardMapper;
+import com.example.vo.systemmanagement.ward.WardVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
 * @author 18255
@@ -15,6 +19,13 @@ import org.springframework.stereotype.Service;
 public class WardServiceImpl extends ServiceImpl<WardMapper, Ward>
     implements WardService{
 
+    @Autowired
+    private WardMapper wardMapper;
+
+    @Override
+    public List<WardVo> listWardVo() {
+        return wardMapper.listWardVo();
+    }
 }
 
 

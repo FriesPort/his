@@ -4,4 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.WardMapper">
 
+    <select id="listWardVo" resultType="com.example.vo.systemmanagement.ward.WardVo">
+        select id,name
+        from ward
+    </select>
 </mapper>

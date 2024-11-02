@@ -3,6 +3,9 @@ package com.example.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.entity.Ward;
+import com.example.vo.systemmanagement.ward.WardVo;
+
+import java.util.List;
 
 /**
 * @author 18255
@@ -11,4 +14,5 @@ import com.example.entity.Ward;
 */
 public interface WardService extends IService<Ward> {
 
+    List<WardVo> listWardVo();
 }
