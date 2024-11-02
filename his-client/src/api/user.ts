@@ -5,6 +5,10 @@ export const userLoginService = (params: any) => {
     return request.post('/security/login', params )
 }
 
+export const toLogout = () => {
+    return request.post('/security/logout')
+}
+
 //新增
 export const addUserApi = (params: any) => {
     return request.post('/users/msg/add', params)

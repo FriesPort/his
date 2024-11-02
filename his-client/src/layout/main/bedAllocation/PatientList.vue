@@ -7,7 +7,7 @@
           <div class="lg">
             <img :src="image3" alt="描述图片3" />
             <input
-              style="width: 8vw"
+              style="width: calc(100vw * 140 / 1920)"
               type="text"
               v-model="searchQuery"
               placeholder="请输入患者姓名"
@@ -23,7 +23,7 @@
           <thead>
             <tr>
               <th style="width: 60px; text-align: center; cursor: pointer">
-                序号
+                选择
               </th>
               <th style="width: 100px; text-align: center">姓名</th>
               <th style="width: 80px; text-align: center">信息</th>
@@ -31,14 +31,20 @@
             </tr>
           </thead>
           <tbody>
-            <!-- 创建11行空数据 -->
+            <!-- 创建10行空数据 -->
             <tr v-for="(row, index) in currentPatientData" :key="index">
-              <td
-                style="cursor: pointer"
-                @click="addNumber(index)"
-                @dblclick="removeNumber(index)"
-              >
-                {{ row.number !== undefined ? row.number : "" }}
+              <td>
+                <input
+                  type="checkbox"
+                  v-if="row && row.name"
+                  v-model="row.checked"
+                  :disabled="
+                    selectedBeds.length === 0 ||
+                    (isMaxSelected() && !row.checked)
+                  "
+                  :id="'checkbox-' + index"
+                  @change="handleCheckboxChange(row)"
+                />
               </td>
               <td class="pname" v-if="row">{{ row.name }}</td>
               <td>
@@ -131,12 +137,93 @@ import { getpatientsRequest } from "@/api/bedAllocation/bedAllocation"; // 根�
 
 export default {
   name: "PatientList",
+  props: {
+    selectedBeds: {
+      type: Array,
+      default: () => [], // 设置默认值
+    },
+    rowdata: {
+      type: Array,
+      required: true,
+    },
+  },
+  computed: {
+    selectedBeds() {
+      // 当前的选中床位数据
+      const newBeds = this.selectedBeds;
+      // 上一次的选中床位数据
+      const oldBeds = this.previousSelectedBeds;
+      const differentIndexes = [];
+      // 处理逻辑，比如比较新旧数据
+      if (JSON.stringify(newBeds) !== JSON.stringify(oldBeds)) {
+        console.log("旧床位数据:", oldBeds);
+        console.log("新床位数据:", newBeds);
+        newBeds.forEach((bed, index) => {
+          if (bed !== oldBeds[index]) {
+            differentIndexes.push(index);
+          }
+        });
+
+        // 处理被移除的床位
+        const removedBeds = oldBeds.filter((_, index) => !newBeds[index]);
+        removedBeds.forEach((removedBed) => {
+          const idToFind = removedBed.rowData.id; // 假设rowData有id属性
+          const indexInCurrentPatientData = this.currentPatientData.findIndex(
+            (patient) => patient.id === idToFind
+          );
+
+          if (indexInCurrentPatientData !== -1) {
+            this.currentPatientData[indexInCurrentPatientData].checked = false;
+            console.log(
+              `ID ${idToFind} 在 currentPatientData 中的索引: ${indexInCurrentPatientData}`
+            );
+          } else {
+            console.log(`ID ${idToFind} 不在 currentPatientData 中`);
+          }
+        });
+      }
+
+      // 更新 previousSelectedBeds 为当前的 selectedBeds
+      this.previousSelectedBeds = [...newBeds]; // 保持深拷贝以避免引用问题
+
+      return newBeds; // 返回处理后的数据
+    },
+
+    processedRowdata() {
+      // 当前的 rowdata
+      const newData = this.rowdata;
+      // 上一次的 rowdata
+      const oldData = this.previousRowdata;
+
+      // 处理逻辑，比如比较新旧数据
+      if (JSON.stringify(newData) !== JSON.stringify(oldData)) {
+      }
+
+      // 更新 previousRowdata 为当前的 rowdata
+      this.previousRowdata = [...newData]; // 保持深拷贝以避免引用问题
+
+      return newData; // 返回处理后的数据
+    },
+  },
+  watch: {
+    selectedBeds: {
+      handler() {
+        this.selectedBeds;
+      },
+      immediate: true, // 深度监听
+    },
+    rowdata: {
+      handler() {
+        this.processedRowdata; // 访问计算属性来触发其逻辑
+      },
+      immediate: true, // 深度监听
+    },
+  },
   data() {
     return {
-      numbers: [], // 用于存储序号
-      count: 1, // 当前序号计数
-
       dialogVisible: false,
+      previousRowdata: [], // 用于存储上一次的 rowdata
+      previousSelectedBeds: [],
       // ipatients是待入院患者数组
       ipatients: [
         {
@@ -198,6 +285,7 @@ export default {
           phone: "",
           is_emergency: "",
           is_vip: "",
+          checked: false,
         })),
 
       patientdata: Array(10)
@@ -210,13 +298,16 @@ export default {
           phone: "",
           is_emergency: "",
           is_vip: "",
+          checked: false,
         })),
+
+      //这个数组用于
       currentPatientData: [],
     };
   },
   mounted() {
-    this.fetchPatients(); // 组件加载时调用获取患者的函数
-    this.startCountdown();
+    /*     this.fetchPatients(); // 组件加载时调用获取患者的函数
+     */ this.startCountdown();
     // 假设这是从服务器获取的数据，这里直接赋值
     this.patientdata[0] = {
       id: "101",
@@ -227,7 +318,10 @@ export default {
       preassignbed: "0",
       is_emergency: "0",
       is_vip: "0",
+      checked: false,
     };
+    //在这里，这个currentPatientData数组已经被赋予了十行表格
+    //如果换页，patientdata数组接收新的一页数据即可，原本
     this.currentPatientData = this.patientdata;
   },
   created() {
@@ -235,9 +329,32 @@ export default {
   },
 
   methods: {
-    async fetchPatients() {
-      console.log("被调用了");
+    removePatient(removedBed) {
+      if (removedBed.rowData !== null) {
+        this.$emit("update-patient-data", removedBed.rowData); // 触发事件并传递数据
+      }
+    },
 
+    isMaxSelected() {
+      return (
+        this.currentPatientData.filter((row) => row.checked).length ===
+        this.selectedBeds.length
+      );
+    },
+    handleUncheckRow(rowId) {
+      // 根据 rowId 取消勾选逻辑
+      /*  */
+      const row = this.currentPatientData.find((r) => r.id === rowId);
+      if (row) {
+        row.checked = false; // 假设每行都有一个 `checked` 属性
+      }
+    },
+    handleCheckboxChange(row) {
+      // Emit the selected row data to the parent
+      this.$emit("update:selectedRow", row);
+    },
+
+    /* async fetchPatients() {
       try {
         console.log("被调用了");
         const headers = { 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJ1c2VyIjoidTEiLCJwZXJtaXNzaW9uIjpbIlBFUk1JU1NJT05fYWRtaW4iXSwiZXhwIjoxNzMwMzEzMjkyfQ.YeQ7AWeRkYCaImxkJ5LFEqX40_TZvbyTgYfUQlmlphPXk7APW7j5yyvKJxYvKmYnMZRSly5INXvBwG0HoK8Ycw6C7q3ic1A_E534Gg0dOJ27vd6k8g61aE0o-AM0c2H5X5xzg6kiHFMk0sFzdTa3A2wfqQeqLcvYnIOlgB2vpG2RmKbpuumQa3cKegELVn2rCdUQtEXOcRB8mrKtcwIiVMVCbzFqpD4wpZDHiox4o5FGjnvae7SgQ8-P4P3kgCJrasn1x9Ftu_pGXzP6t7_4vRwiSq7gKJKUmUniB8fRPbApGS9FP_Askq1FJyAd_vYnmS1ePxkYxbPuPx5DZS8RsA', // 根据需要替换为你的实际 token 
@@ -252,39 +369,7 @@ export default {
         console.error("获取患者列表失败", error);
       }
     },
-
-    addNumber(index) {
-      // 给当前行添加序号
-      if (this.currentPatientData[index].number === undefined) {
-        this.currentPatientData[index].number = this.getNextNumber();
-      }
-    },
-    removeNumber(index) {
-      // 移除当前行的序号
-      if (this.currentPatientData[index].number !== undefined) {
-        delete this.currentPatientData[index].number;
-
-        // 更新后续的序号
-        this.updateNumbers(index);
-      }
-    },
-    getNextNumber() {
-      // 获取下一个可用的序号
-      const numbers = this.currentPatientData
-        .filter((row) => row.number !== undefined)
-        .map((row) => row.number);
-      return numbers.length > 0 ? Math.max(...numbers) + 1 : 1;
-    },
-    updateNumbers(startIndex) {
-      // 更新被删除序号之后的序号
-      let currentNumber = 1;
-      for (let i = startIndex + 1; i < this.currentPatientData.length; i++) {
-        if (this.currentPatientData[i].number !== undefined) {
-          this.currentPatientData[i].number = currentNumber++;
-        }
-      }
-    },
-
+ */
     addPatients() {
       const selectedPatients = this.ipatients.filter(
         (patient) => patient.selected
@@ -306,7 +391,6 @@ export default {
           break;
         }
       }
-
       // 移除已添加的患者
       this.ipatients = this.ipatients.filter((patient) => !patient.selected);
     },
@@ -387,18 +471,15 @@ export default {
 </script>
 <style scoped>
 .pabox {
-  position: fixed;
-  top: 24%;
-  width: 24%;
-  height: 75%;
+  width: 35%;
+  height: 95%;
   border: 1px solid hsl(206, 46%, 44%);
-  left: 220px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  background-color: rgba(34, 72, 222, 0.759);
+  background-color: #1677ff;
   border-radius: 5px;
 }
 .find {
@@ -423,7 +504,7 @@ export default {
   width: 30%;
   border: 0.0625rem solid #ccc;
   font-weight: bold;
-  font-size: 14px;
+  font-size: calc(100vw * 17 / 1920);
   box-shadow: 0.25rem 0.25rem 0.625rem rgba(0, 0, 0, 0.5); /* 添加阴影 */
   border-radius: 15px;
   text-align: center;
@@ -434,13 +515,14 @@ export default {
 
 .lg {
   display: flex;
-  width: 40%;
-  font-size: 15px;
+  width: 60%;
+  font-size: calc(100vw * 18 / 1920);
 }
 .sou {
   cursor: pointer;
-  width: 24%;
-  font-size: 10px;
+  width: calc(100vw * 70 / 1920);
+  font-size: calc(100vw * 12 / 1920);
+  font-weight: bold;
   text-align: center;
   border: 1px solid #a2a7b0;
 }
@@ -487,6 +569,7 @@ export default {
   border: 0.0625rem solid #ccc;
   cursor: pointer;
   font-weight: bold;
+  font-size: calc(100vw * 17 / 1920);
   box-shadow: 0.25rem 0.25rem 0.625rem rgba(0, 0, 0, 0.5); /* 添加阴影 */
 }
 
@@ -497,7 +580,7 @@ export default {
   cursor: pointer;
   border: 0.0625rem solid #ccc;
   font-weight: bold;
-
+  font-size: calc(100vw * 17 / 1920);
   box-shadow: 0.25rem 0.25rem 0.625rem rgba(0, 0, 0, 0.5); /* 添加阴影 */
 }
 
@@ -564,6 +647,7 @@ th {
   margin: 5px 5px;
 }
 .close {
+  z-index: 99;
   margin: 5px 5px;
 }
 </style>

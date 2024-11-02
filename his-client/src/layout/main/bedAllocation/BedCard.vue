@@ -67,6 +67,7 @@ export default {
 }
 .rightpart {
   width: 80%;
+  height: 100%;
 }
 /* #myCheckbox {
   display: none;

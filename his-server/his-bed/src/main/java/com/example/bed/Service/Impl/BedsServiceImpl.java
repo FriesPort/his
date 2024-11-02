@@ -1,27 +1,29 @@
 package com.example.bed.Service.Impl;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.example.bed.mapper.*;
 import com.example.bed.entity.*;
 import com.example.bed.Service.BedsService;
-import com.example.bed.utils.NumberGenerate;
 import com.example.dto.bed.BedAddDTO;
 import com.example.dto.bed.BedSearchDTO;
 import com.example.dto.bed.BedUpdataDTO;
 import com.example.utils.IdGenerate;
 import com.example.vo.bed.BedVo;
+import com.example.vo.bed.RoomListVO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.descriptor.web.LoginConfig;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.beans.BeanUtils.copyProperties;
 
@@ -57,28 +59,50 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
         copyProperties(bedAddDTO, bed);
         //生成床位编号number
         //1.将生成number需要的信息放到Number中储存
-        Numbers numbers = new Numbers();
+//        Numbers numbers = new Numbers();
         //从Room中获取信息
         Room room = roomsMapper.selectById(bedAddDTO.getRoomId());
-        //将外键分割
-        String[] foreignId = room.getForeignId().split("-");
-        //分别将对应的信息放入
-        Campus campus= campusMapper.selectById(foreignId[2]);
-        numbers.setCampus(campus.getCampusName());
-        Office office = officeMapper.selectById(foreignId[1]);
-        numbers.setOffice(office.getOfficeName());
-        Ward ward = wardMapper.selectById(foreignId[0]);
-        numbers.setWard(ward.getWardName());
-        Floor floor = floorMapper.selectById(foreignId[3]);
-        numbers.setFloor(floor.getFloorName());
-        numbers.setRoom(room.getNumber());
-        numbers.setBednumber(bedAddDTO.getBednumber());
-        //2.调用NumberGenerate生成number
-        bed.setNumber(NumberGenerate.nextNumbers(numbers));
-        //查询添加的床位的number是否重复
-        if (Db.lambdaQuery(Bed.class).eq(Bed::getNumber, bed.getNumber()).exists()) {
-            result.setMessage("床位已存在");
+        //获取房间性别
+        String gender=room.getGender();
+        if(!bedAddDTO.getBedType().equals("混合床位")&&!gender.equals(bedAddDTO.getBedType())){
+            result.setMessage("床位类型与房间类型不符合");
+            result.setStatus(false);
             return result;
+        }
+        //分别将对应的信息放入
+//        numbers.setCampus(campus.getCampusName());
+//        Office office = officeMapper.selectById(foreignId[1]);
+//        numbers.setOffice(office.getOfficeName());
+//        Ward ward = wardMapper.selectById(foreignId[0]);
+//        numbers.setWard(ward.getWardName());
+//        Floor floor = floorMapper.selectById(foreignId[3]);
+//        numbers.setFloor(floor.getFloorName());
+//        numbers.setRoom(room.getNumber());
+//        numbers.setBednumber(bedAddDTO.getBednumber());
+        //2.调用NumberGenerate生成number
+//        bed.setNumber(NumberGenerate.nextNumbers(numbers));
+        //查询添加的床位的number是否重复
+//        if (Db.lambdaQuery(Bed.class).eq(Bed::getNumber, bed.getNumber()).exists()) {
+//            result.setMessage("床位已存在");
+//            return result;
+//        }
+        //判断room是否存在
+        if (!Db.lambdaQuery(Room.class).eq(Room::getId, bed.getRoomId()).exists()) {
+            result.setMessage("房间不存在！");
+            return result;
+        }
+        //根据number查重
+        //查询roomId中的bed类里面的number是否重复
+        if(Db.lambdaQuery(Bed.class).eq(Bed::getRoomId, bed.getRoomId()).exists()){
+            //创建一个容器存储这个room的bed对象
+            List<Bed> bedList = lambdaQuery().eq(Bed::getRoomId, bed.getRoomId()).list();
+            for (Bed bed1 : bedList) {
+                //判断number是否重复
+                if (bed1.getNumber().equals(bed.getNumber())){
+                    result.setMessage("床位已存在！");
+                    return result;
+                }
+            }
         }
         //插入床位信息
         bed.setCreateBy(userId);
@@ -115,27 +139,53 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
     //修改床位信息
     @Override
     public Result<String> updateBed(String userId,BedUpdataDTO bedUpdataDTO) {
-        Result<String> result= new Result<>();
-        Bed bed = new Bed();
-        BeanUtils.copyProperties(bedUpdataDTO, bed);
-        //查询床位的id是否存在
-        if (!(Db.lambdaQuery(Bed.class).eq(Bed::getBedId, bed.getBedId()).exists())) {
-            result.setMessage("床位不存在");
+        Bed now=bedsMapper.selectById(bedUpdataDTO.getBedId());
+        Result<String> result=new Result<>();
+        if(bedUpdataDTO.getBedId().isEmpty()){
+            result.setMessage("id为null");
+            result.setStatus(false);
             return result;
         }
-        //修改床位信息
-        lambdaUpdate().eq(Bed::getBedId, bed.getBedId())
-                .set(bed.getNumber()!=null,Bed::getNumber, bed.getNumber())
-                .set(bed.getBedType()!=null,Bed::getBedType, bed.getBedType())
-                .set(bed.getBedStatus()!=null,Bed::getBedStatus, bed.getBedStatus())
-                .set(bed.getRoomId()!=null,Bed::getRoomId, bed.getRoomId())
-                .set(bed.getPatientInformationId()!=null,Bed::getPatientInformationId, bed.getPatientInformationId())
-                .set(Bed::getUpdateBy, userId)
-                .set(Bed::getUpdateTime, LocalDateTime.now())
-                .update();
+        Bed bed=new Bed();
+        Map<String,String> map=bedUpdataDTO.getBed();
+        Class<?> clazz=bed.getClass();
+        for(Map.Entry<String,String> entry:map.entrySet()){
+            try {
+                if(entry.getKey().equals("number")){
+                    if(Db.lambdaQuery(Bed.class).eq(Bed::getRoomId, now.getRoomId()).exists()){
+                        //创建一个容器存储这个room的bed对象
+                        List<Bed> bedList = lambdaQuery().eq(Bed::getRoomId, now.getRoomId()).list();
+                        for (Bed bed1 : bedList) {
+                            //判断number是否重复
+                            if (bed1.getNumber().equals(entry.getValue())){
+                                result.setMessage("床位已存在！");
+                                return result;
+                            }
+                        }
+                    }
+                }
+                Field field=clazz.getDeclaredField(entry.getKey());
+                field.setAccessible(true);
+                field.set(bed,entry.getValue());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        bed.setBedId(bedUpdataDTO.getBedId());
+        bed.setUpdateBy(userId);
+        bed.setUpdateTime(LocalDateTime.now());
+        try{
+            int i=bedsMapper.updateById(bed);
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setStatus(false);
+            result.setMessage("修改失败");
+            return result;
+        }
         result.setStatus(true);
         result.setMessage("修改成功");
         return result;
+
     }
 
 
@@ -162,11 +212,11 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
             String[] split = room.getForeignId().split("-");
             //查询切分后的数据是否符合
             //2、判断roomList1是否为空
-          if((bedSearchDTO.getCampusId().equals("null")) || bedSearchDTO.getCampusId().equals(split[0])){
-              if((bedSearchDTO.getOfficeId().equals("null")) || bedSearchDTO.getOfficeId().equals(split[1])){
-                  if((bedSearchDTO.getWardId().equals("null")) || bedSearchDTO.getWardId().equals(split[2])){
-                      if((bedSearchDTO.getRoomType().equals("null")) || bedSearchDTO.getRoomType().equals(room.getType())){
-                          if((bedSearchDTO.getRoomGender().equals("null")) || bedSearchDTO.getRoomGender().equals(room.getGender())){
+          if((StrUtil.isEmpty(bedSearchDTO.getCampusId()) || bedSearchDTO.getCampusId().equals(split[0]))){
+              if((StrUtil.isEmpty(bedSearchDTO.getOfficeId())) || bedSearchDTO.getOfficeId().equals(split[1])){
+                  if((StrUtil.isEmpty(bedSearchDTO.getWardId()))|| bedSearchDTO.getWardId().equals(split[2])){
+                      if((StrUtil.isEmpty(bedSearchDTO.getRoomType()) || bedSearchDTO.getRoomType().equals(room.getType()))){
+                          if((StrUtil.isEmpty(bedSearchDTO.getRoomGender()) || bedSearchDTO.getRoomGender().equals(room.getGender()))){
                               //将正确的数据存储到集合中
                               roomList1.add(room);
                           }
@@ -181,8 +231,8 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
         for (Room room : roomList1) {
             //根据roomid查询bed
             List<Bed> bedList = lambdaQuery().eq(Bed::getRoomId, room.getId())
-                    .eq(!(bedSearchDTO.getBedType().equals("null")),Bed::getBedType, bedSearchDTO.getBedType())
-                    .eq(Bed::getBedStatus, bedSearchDTO.getBedStatus())
+                    .eq(!StrUtil.isEmpty(bedSearchDTO.getBedType()),Bed::getBedType, bedSearchDTO.getBedType())
+                    .eq(bedSearchDTO.getBedStatus()!=null,Bed::getBedStatus, bedSearchDTO.getBedStatus())
                     .list();
             //将符合条件的bed添加到bedVoList中
             for (Bed bed : bedList) {
@@ -196,12 +246,13 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
                 Room room1 = roomsMapper.selectById(bed.getRoomId());
                 bedVo.setRoomType(room1.getType());
                 bedVo.setRoomGender(room1.getGender());
-                //判断该病床是否有关联病人
-                if (!(bed.getPatientInformationId().equals("null"))){
-                    //有关联病人，查询病人信息
-                    PatientInformation patientInformation = patientInformationMapper.selectById(bed.getPatientInformationId());
-                    bedVo.setPatientName(patientInformation.getPatientName());
-                }
+                bedVo.setRoomNumber(room.getNumber());
+//                //判断该病床是否有关联病人
+//                if (!(bed.getPatientInformationId().equals("null"))){
+//                    //有关联病人，查询病人信息
+//                    PatientInformation patientInformation = patientInformationMapper.selectById(bed.getPatientInformationId());
+//                    bedVo.setPatientName(patientInformation.getPatientName());
+//                }
                 bedVoList.add(bedVo);
             }
         }
@@ -225,28 +276,50 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
             copyProperties(bedAddDTO, bed);
             //生成床位编号number
             //1.将生成number需要的信息放到Number中储存
-            Numbers numbers = new Numbers();
+//            Numbers numbers = new Numbers();
             //从Room中获取信息
             Room room = roomsMapper.selectById(bedAddDTO.getRoomId());
             //将外键分割
-            String[] foreignId = room.getForeignId().split("-");
-            //分别将对应的信息放入
-            Campus campus= campusMapper.selectById(foreignId[0]);
-            numbers.setCampus(campus.getCampusName());
-            Office office = officeMapper.selectById(foreignId[1]);
-            numbers.setOffice(office.getOfficeName());
-            Ward ward = wardMapper.selectById(foreignId[2]);
-            numbers.setWard(ward.getWardName());
-            Floor floor = floorMapper.selectById(foreignId[3]);
-            numbers.setFloor(floor.getFloorName());
-            numbers.setRoom(room.getNumber());
-            numbers.setBednumber(bedAddDTO.getBednumber());
-            //2.调用NumberGenerate生成number
-            bed.setNumber(NumberGenerate.nextNumbers(numbers));
-            //判断床位是否重复
-            if (Db.lambdaQuery(Bed.class).eq(Bed::getNumber, bed.getNumber()).exists()) {
+//            String[] foreignId = room.getForeignId().split("-");
+//            //分别将对应的信息放入
+//            Campus campus= campusMapper.selectById(foreignId[0]);
+//            numbers.setCampus(campus.getCampusName());
+//            Office office = officeMapper.selectById(foreignId[1]);
+//            numbers.setOffice(office.getOfficeName());
+//            Ward ward = wardMapper.selectById(foreignId[2]);
+//            numbers.setWard(ward.getWardName());
+//            Floor floor = floorMapper.selectById(foreignId[3]);
+//            numbers.setFloor(floor.getFloorName());
+//            numbers.setRoom(room.getNumber());
+//            numbers.setBednumber(bedAddDTO.getBednumber());
+//            //2.调用NumberGenerate生成number
+//            bed.setNumber(NumberGenerate.nextNumbers(numbers));
+//            //判断床位是否重复
+//            if (Db.lambdaQuery(Bed.class).eq(Bed::getNumber, bed.getNumber()).exists()) {
+//                continue;
+//            }
+            //判断room是否存在
+            if (!Db.lambdaQuery(Room.class).eq(Room::getId, bed.getRoomId()).exists()) {
                 continue;
             }
+            //根据number查重
+            //查询roomId中的bed类里面的number是否重复
+            if(Db.lambdaQuery(Bed.class).eq(Bed::getRoomId, bed.getRoomId()).exists()){
+                int flag=0;
+                //创建一个容器存储这个room的bed对象
+                List<Bed> bedList = lambdaQuery().eq(Bed::getRoomId, bed.getRoomId()).list();
+                for (Bed bed1 : bedList) {
+                    //判断number是否重复
+                    if (bed1.getNumber().equals(bed.getNumber())){
+                        flag=1;
+                        break;
+                    }
+                }
+                if(flag==1){
+                    continue;
+                }
+            }
+
             //添加的床位信息不重复，继续执行操作
             //添加床位信息
             bed.setCreateBy(userId);
@@ -341,4 +414,10 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
 //        result.setMessage("添加成功");
 //        return result;
 //    }
+
+    @Override
+    public List<RoomListVO> getRoomList() {
+        List<RoomListVO> voList=roomsMapper.roomList();
+        return voList;
+    }
 }
