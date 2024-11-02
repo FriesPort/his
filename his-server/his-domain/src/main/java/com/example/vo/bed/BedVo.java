@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BedVo {
+    String roomNumber;
     String bedId;//床位id
     String bedNumber;//床位编号
     String bedType;//床位类型

@@ -61,7 +61,7 @@ public class BedsController {
 
 
     //床位信息显示（床位信息显示应该不包含病房的查询）
-    //todo 显示床位号
+    //todo 显示病房号
     @ApiOperation("床位信息显示")
     @GetMapping("/list")
     public JsonVO<List<BedVo>> list(@ApiParam("检索条件")BedSearchDTO bedSearchDTO) {

@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 /**
  * @ProjectName: his
  * @Author: HBTTAY
@@ -18,5 +20,5 @@ public class BedUpdataDTO {
     //床位ID
     private String bedId;
     //患者ID
-    private String patientInformationId;
+    private Map<String,String> bed;
 }
