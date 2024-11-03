@@ -1,98 +1,106 @@
 <template>
-  <div class="box">
-    <div class="header">
-      <div class="content">
-        <div class="left-section">
-          <img :src="image1" alt="描述图片1" />
-          <h3>床位分配</h3>
+  <div class="whole">
+    <div class="box">
+      <div class="header">
+        <div class="content">
+          <div class="left-section">
+            <img :src="image1" alt="描述图片1" />
+            <h3>床位分配</h3>
+          </div>
+          <div class="right-section">
+            <h2>院区</h2>
+            <select v-model="selectedOption1">
+              <option disabled value="">请选择院区</option>
+              <option>广州医院区</option>
+              <option>珠海院区</option>
+              <option>深圳院区</option>
+            </select>
+            <h2>病区</h2>
+            <select v-model="selectedOption2">
+              <option disabled value="">请选择病区</option>
+              <option value="选项A">内科</option>
+              <option value="选项B">外科</option>
+            </select>
+            <select v-model="selectedOption3">
+              <option disabled value="">请选择选项3</option>
+              <option
+                v-for="option in computedOptionsForSelect3"
+                :key="option"
+                :value="option"
+              >
+                {{ option }}
+              </option>
+            </select>
+            <h2>类型</h2>
+            <select v-model="selectedOption6">
+              <option disabled value="">请选择类型</option>
+              <option value="选项A">正床</option>
+              <option value="选项B">男床</option>
+              <option value="选项C">女床</option>
+            </select>
+            <h2>房区</h2>
+            <select v-model="selectedOption4">
+              <option disabled value="">请选择房区</option>
+              <option>普通病房</option>
+              <option>特殊病房</option>
+              <option>ICU</option>
+            </select>
+            <h2>房间</h2>
+            <select v-model="selectedOption5">
+              <option disabled value="">请选择选项5</option>
+              <option>选项X</option>
+              <option>选项Y</option>
+              <option>选项Z</option>
+            </select>
+          </div>
         </div>
-        <div class="right-section">
-          <h2>院区</h2>
-          <select v-model="selectedOption1">
-            <option disabled value="">请选择院区</option>
-            <option>广州医院区</option>
-            <option>珠海院区</option>
-            <option>深圳院区</option>
-          </select>
-          <h2>病区</h2>
-          <select v-model="selectedOption2">
-            <option disabled value="">请选择病区</option>
-            <option value="选项A">内科</option>
-            <option value="选项B">外科</option>
-          </select>
-          <select v-model="selectedOption3">
-            <option disabled value="">请选择选项3</option>
-            <option
-              v-for="option in computedOptionsForSelect3"
-              :key="option"
-              :value="option"
+      </div>
+    </div>
+    <div class="xiamian">
+      <!-- 引入患者列表 -->
+      <PatientList
+        :selectedBeds="selectedBeds"
+        @update:selectedRow="handleSelectedRow"
+        :rowdata="rowdata"
+      />
+      <div class="operate-area">
+        <div class="shang">
+          <div class="bedarea">
+            <BedCard
+              v-for="index in 8"
+              :key="index"
+              :index="index"
+              :id="'bed-' + (100 + index)"
+              :show-checkbox="showCheckboxes[index - 1]"
+              @change="
+                updateSelectedBeds({ id: 'bed-' + (100 + index), index })
+              "
+            />
+          </div>
+          <div class="bedoperate">
+            <button class="xuanze" @click="toggleCheckboxes">床位选择</button>
+            <button class="shifang">床位释放</button>
+          </div>
+        </div>
+        <div class="xia">
+          <div class="selectarea">
+            <div
+              v-for="selectedBed in selectedBeds"
+              :key="selectedBed.id"
+              class="selectbed"
             >
-              {{ option }}
-            </option>
-          </select>
-          <h2>类型</h2>
-          <select v-model="selectedOption6">
-            <option disabled value="">请选择类型</option>
-            <option value="选项A">正床</option>
-            <option value="选项B">男床</option>
-            <option value="选项C">女床</option>
-          </select>
-          <h2>房区</h2>
-          <select v-model="selectedOption4">
-            <option disabled value="">请选择房区</option>
-            <option>普通病房</option>
-            <option>特殊病房</option>
-            <option>ICU</option>
-          </select>
-          <h2>房间</h2>
-          <select v-model="selectedOption5">
-            <option disabled value="">请选择选项5</option>
-            <option>选项X</option>
-            <option>选项Y</option>
-            <option>选项Z</option>
-          </select>
+              {{ selectedBed.id }}
+
+              <span v-if="selectedBed.rowData">{{
+                selectedBed.rowData.name
+              }}</span>
+            </div>
+          </div>
+          <div class="selectoperate"></div>
         </div>
       </div>
     </div>
   </div>
-  <div class="operate-area">
-    <div class="shang">
-      <div class="bedarea">
-        <BedCard
-          v-for="index in 8"
-          :key="index"
-          :index="index"
-          :id="'bed-' + (100 + index)"
-          :show-checkbox="showCheckboxes[index - 1]"
-          @change="updateSelectedBeds({ id: 'bed-' + (100 + index), index })"
-        />
-      </div>
-      <div class="bedoperate">
-        <button class="xuanze" @click="toggleCheckboxes">床位选择</button>
-        <button class="shifang">床位释放</button>
-      </div>
-    </div>
-    <div class="xia">
-      <div class="selectarea">
-        <!-- <div v-for="index in 10" :key="index" class="selectbed">
-          容器 {{ index }}
-        </div> -->
-        <!-- <div v-for="(bed, idx) in selectedBeds" :key="bed.id" class="selectbed">
-          容器 {{ bed.id }}-{{ idx }}
-        </div> -->
-        <div
-          v-for="(selectedBed, idx) in selectedBeds"
-          :key="selectedBed.id"
-          class="selectbed"
-        >
-          容器 {{ selectedBed.id }} - {{ idx }}
-        </div>
-      </div>
-      <div class="selectoperate"></div>
-    </div>
-  </div>
-  <!-- 引入患者列表 -->
-  <PatientList />
 </template>
 
 <script>
@@ -105,16 +113,29 @@ export default {
     PatientList,
     BedCard,
   },
+
+  watch: {
+    rowdata: {
+      handler(newValue) {
+        console.log("rowdata 发生变化:", newValue);
+      },
+      deep: true, // 监测深层变化
+      immediate: true,
+    },
+  },
+
   data() {
     return {
-      drag: false,
-      nextId: 101, // 下一个可用的 ID
+      /*       这个数组用于存放分配患者
+       */
+      rowdata: Array(10).fill(null), // 初始化为包含 10 个 null 的数组
       image1,
       selectedOption1: "",
       selectedOption2: "",
       selectedOption3: "",
       selectedOption4: "",
       selectedOption5: "",
+      selectedOption6: "",
       // 假设这些是所有可能的选项
       optionsForSelect3: {
         选项A: ["内科1区", "内科2区", "内科3区"],
@@ -126,19 +147,67 @@ export default {
     };
   },
   methods: {
+    handleSelectedRow(selectedRow) {
+      const index = this.rowdata.findIndex(
+        (item) => item && item.id === selectedRow.id
+      );
+      if (index === -1) {
+        // 找到第一个空位置
+        const emptyIndex = this.rowdata.findIndex((item) => item === null);
+        if (emptyIndex !== -1) {
+          this.rowdata[emptyIndex] = selectedRow; // 添加新行到空位置
+          // 仅更新 selectedBeds 中的 rowData
+          this.selectedBeds[emptyIndex].rowData = selectedRow;
+        } else {
+          console.log("已达到最大选择数量");
+        }
+      } else {
+        // 移除已存在的行
+        this.rowdata[index] = null;
+        // 更新 selectedBeds 中的对应 rowData 为 null
+        this.selectedBeds[index].rowData = null;
+      }
+      this.selectedBeds = [...this.selectedBeds]; // 强制触发更新
+      this.rowdata = [...this.rowdata];
+    },
+
     updateSelectedBeds(bed) {
       const idx = this.selectedBeds.findIndex(
         (selectedBed) => selectedBed.id === bed.id
       );
 
       if (idx > -1) {
-        // 如果已经选中，取消选择
+        const removedBed = this.selectedBeds[idx];
+        if (removedBed.rowData !== null) {
+          console.log("移除的 rowData:", removedBed.rowData); // 输出 rowData
+          console.log(removedBed.rowData.id);
+          console.log(this.rowdata);
+          const indexToRemove = this.rowdata.findIndex(
+            (item) => item.id === removedBed.rowData.id
+          );
+          // 如果找到索引，则移除该元素
+          if (indexToRemove !== -1) {
+            console.log(
+              "移除成功，当前 rowData:",
+              this.rowdata[indexToRemove].id
+            );
+            this.rowdata[indexToRemove] = null; // 将元素变为 null
+          } else {
+            console.log("未找到对应的 id，无法移除。");
+          }
+        }
         this.selectedBeds.splice(idx, 1);
+        console.log("取消了");
       } else {
-        // 如果没有选中，添加到数组
-        this.selectedBeds.push(bed);
+        // 如果没有选中，添加到数组，并将 rowData 默认为 null
+        this.selectedBeds.push({
+          id: bed.id,
+          index: this.selectedBeds.length, // 或者其他合适的索引逻辑
+          rowData: null, // 默认为 null
+        });
       }
     },
+
     toggleCheckboxes() {
       // 切换每个 checkbox 的显示状态
       this.showCheckboxes = this.showCheckboxes.map((show) => !show);
@@ -158,14 +227,28 @@ export default {
 </script>
 
 <style scoped>
+.whole {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.xiamian {
+  width: 95%;
+  height: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
 .box {
-  position: fixed;
-  left: 220px;
-  top: 7%;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
-  width: 80%;
+  width: 95%;
   /* 可以根据需要调整宽度 */
   background-color: rgb(237 237 237 / 76%);
 }
@@ -189,7 +272,7 @@ export default {
   height: 100%;
   margin-right: 10px;
   font-weight: 800;
-  font-size: 30px;
+  font-size: calc(100vw * 30 / 1920);
   display: flex;
   justify-content: space-evenly;
   text-align: center;
@@ -204,7 +287,7 @@ export default {
 .left-section h3 {
   margin: 0; /* 去掉默认边距 */
   text-align: center; /* 水平居中 */
-  font-size: 30px; /* 设置字体大小 */
+  font-size: calc(100vw * 30 / 1920); /* 设置字体大小 */
   font-weight: 800; /* 设置字体加粗 */
   color: #333; /* 设置字体颜色（可以根据需要修改） */
 }
@@ -229,6 +312,7 @@ export default {
 }
 
 .right-section h2 {
+  font-size: calc(100vw * 30 / 1920);
   margin: 0;
 }
 select {
@@ -236,13 +320,8 @@ select {
   width: 15%;
 }
 .operate-area {
-  top: 24%;
-  position: fixed;
-  /* border: 1px solid #ccc; */
-  width: 55%;
-  height: 75%;
-  left: 40%;
-  margin-right: 20%;
+  width: 60%;
+  height: 95%;
   display: flex;
   justify-content: space-between;
   /* 水平居中对齐 */
@@ -250,7 +329,8 @@ select {
   /* 垂直居中对齐 */
   flex-direction: column;
   border-radius: 5px;
-  padding: 10px;
+  /*   padding: 10px;
+ */
 }
 .shang {
   background-color: #eeeeeec2;
@@ -285,10 +365,12 @@ select {
 .xuanze {
   width: 80%;
   height: 40%;
-  background-color: hwb(128 86% 11%);
+  background-color: #1677ff;
   border: 1px solid hwb(128 86% 11%);
   border-radius: 10px;
   cursor: pointer;
+  color: white;
+  text-align: center;
 }
 .shifang {
   width: 80%;
@@ -298,6 +380,7 @@ select {
   border-radius: 10px;
   cursor: pointer;
   color: white;
+  text-align: center;
 }
 .xia {
   width: 100%;
@@ -324,9 +407,11 @@ select {
   width: 9%;
   border: 1px solid #e62971;
   display: flex;
+  flex-direction: column;
   justify-content: center; /* 水平居中 */
   align-items: center; /* 垂直居中 */
   cursor: grab;
+  text-align: center;
 }
 .selectbed:active {
   /* 修改这里 */

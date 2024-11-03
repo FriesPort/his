@@ -1,6 +1,7 @@
 package com.example.authorization;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import com.example.constant.AuthConstant;
 import com.example.constant.RedisConstant;
 import com.example.utils.RedisCache;
@@ -62,8 +63,9 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
     public Mono<AuthorizationDecision> check(Mono<Authentication> authentication, AuthorizationContext authorizationContext) {
         //从Redis中获取当前路径可访问角色列表
         String path = authorizationContext.getExchange().getRequest().getURI().getPath();
+        String role = authorizationContext.getExchange().getRequest().getHeaders().getFirst("role");
         String token = authorizationContext.getExchange().getRequest().getHeaders().getFirst("Authorization").replace("Bearer ","");
-        if(!isOpenAuthorization|| token.isEmpty()){
+        if(!isOpenAuthorization|| token.isEmpty() || !StrUtil.isEmpty(role)){
             return Mono.just(new AuthorizationDecision(true));
         }
 

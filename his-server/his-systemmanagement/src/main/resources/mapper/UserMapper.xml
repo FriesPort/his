@@ -13,13 +13,15 @@
         camp.name campus_name
         from user user
         left join campus camp on user.campus_id = camp.id
-        where user.is_use = 0
-        <if test="userDisplayDTO.name != null">
-            and user.employee_name = #{userDisplayDTO.name}
-        </if>
-        <if test="userDisplayDTO.employeeNumber != null">
-            and user.employee_number = #{userDisplayDTO.employeeNumber}
-        </if>
+        <where>
+            user.is_use = 0 and user.user_type = #{userDisplayDTO.userType}
+            <if test="userDisplayDTO.name!=null and userDisplayDTO.name!=''">
+                and user.employee_name=#{userDisplayDTO.name}
+            </if>
+            <if test="userDisplayDTO.employeeNumber!=null and userDisplayDTO.employeeNumber!=''">
+                and user.employee_number=#{userDisplayDTO.employeeNumber}
+            </if>
+        </where>
     </select>
     <select id="userRoleDisplay" resultType="com.example.vo.systemmanagement.userrole.UserRoleDisplayVo">
         select id role_id, name role_name
