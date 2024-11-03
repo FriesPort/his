@@ -31,7 +31,6 @@ public class PatientAlterDTO {
     private Integer isvip;                // 是否 VIP（0 否, 1 是）
     private Integer isacute;              // 是否重症
     private String illness;               // 疾病类型
-    private String createby;              // 创建人
 
 }
 
