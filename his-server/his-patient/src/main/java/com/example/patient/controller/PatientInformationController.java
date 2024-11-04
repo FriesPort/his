@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,10 +36,11 @@ public class PatientInformationController {
     private IPatientInformationService patientInformationService;
 
 
-    //todo 查询所有患者信息好像没有做
+
     @PostMapping("/query")
     public JsonVO<Map<String, List<PatientVo>>> query(
             @RequestBody PatientQueryDTO patientQueryDTO) {
+        try {
 
         // 调用服务查询逻辑
         Result<Map<String, List<PatientVo>>> result = patientInformationService.patientQuery(patientQueryDTO);
@@ -47,19 +49,23 @@ public class PatientInformationController {
             return JsonVO.success(result.getMessage());
         }
         return JsonVO.fail(result.getMessage());
+        } catch (Exception e) {
+            return JsonVO.fail(e.getMessage());
+        }
     }
 
-    /**
-     * 感觉add和adds的作用有些重复了，这里的批量导入是通过json实现的，拿我在批量里面只传入一位患者的信息也是单个导入啊
-     *
-     */
 
-    @PostMapping("/add")    //新增患者
-    public JsonVO<String> add(@RequestHeader("userId") String userId, @RequestBody PatientAlterDTO patientAlterDTO){
-        Result<String> result = patientInformationService.patientAdd(userId, patientAlterDTO);
-        if(result.isStatus()) return JsonVO.success(result.getMessage());
-        return JsonVO.fail(result.getMessage());
-    }
+
+//    @PostMapping("/add")    //新增患者
+//    public JsonVO<String> add(@RequestHeader("userId") String userId, @RequestBody PatientAlterDTO patientAlterDTO){
+//        try {
+//        Result<String> result = patientInformationService.patientAdd(userId, patientAlterDTO);
+//        if(result.isStatus()) return JsonVO.success(result.getMessage());
+//        return JsonVO.fail(result.getMessage());
+//        } catch (Exception e) {
+//            return JsonVO.fail(e.getMessage());
+//        }
+//    }
 
     @PostMapping("/adds")
     public JsonVO<String> adds(@RequestHeader("userId") String userId,@RequestBody List<PatientAlterDTO> patientList) {
@@ -69,7 +75,7 @@ public class PatientInformationController {
             if (result.isStatus()) return JsonVO.success(result.getMessage());
             return JsonVO.fail(result.getMessage());
         } catch (Exception e) {
-            return JsonVO.fail("导入失败：" + e.getMessage());
+            return JsonVO.fail(e.getMessage());
         }
     }
 
@@ -77,15 +83,23 @@ public class PatientInformationController {
 
     @PostMapping ("/edit")    //编辑患者
     public JsonVO<String> edit(@RequestHeader("userId") String userId,@RequestBody PatientEditDTO patientEditDTO){
+        try {
         Result<String> result = patientInformationService.patientEdit(userId,patientEditDTO);
         if(result.isStatus())return JsonVO.success(result.getMessage());
         return JsonVO.fail(result.getMessage());
+        } catch (Exception e) {
+            return JsonVO.fail( e.getMessage());
+        }
     }
 
     @PostMapping("/delete")  //删除患者（物理删除）
     public JsonVO<String> delete(@RequestBody PatientDeleteDTO patientDeleteDTO){
+        try {
         Result<String> result = patientInformationService.patientDelete(patientDeleteDTO);
         if(result.isStatus()) return JsonVO.success(result.getMessage());
         return JsonVO.fail(result.getMessage());
+        } catch (Exception e) {
+            return JsonVO.fail( e.getMessage());
+        }
     }
 }
