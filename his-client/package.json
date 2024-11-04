@@ -15,6 +15,7 @@
     "@ant-design/icons-vue": "^7.0.1",
     "ant-design-vue": "^4.1.2",
     "axios": "^1.6.8",
+    "bed_resource_scheduling": "file:",
     "element-plus": "^2.7.2",
     "json-server": "^1.0.0-alpha.23",
     "mitt": "^3.0.1",

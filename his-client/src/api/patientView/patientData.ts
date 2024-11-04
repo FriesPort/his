@@ -1,30 +1,22 @@
-import request from "@/utils/request2.ts";
+import request from "@/utils/request.ts";
 
-//获取病人数据
+//查找患者信息
 export const getPatientsData = (params: any) => {
-  return request.get('/patient/query', { params: params })
+  return request.post('/patient/query', params)
 }
 
 //患者删除请求
-// export const patientDeleteRequest = (params: any) => {
-//   return request.delete('/patient/delete',{params: params})
-// }
-export const patientDeleteRequest = (patientId: number) => {
-  return request.delete(`/patient/delete/${patientId}`)
+export const patientDeleteRequest = (params: any) => {
+  return request.post(`/patient/delete`, params)
 }
+
 //患者编辑请求
 export const patientEditRequest = (params: any) => {
-  return request.put('/patient/edit', params )
+  return request.post('/patient/edit', params )
 }
 
 //患者新增请求
 export const patientAddRequest = (params: any) => {
   console.log('新增',params)
-  return request.post('/patient/add',params)
+  return request.post('/patient/adds',params)
 }
-
-
-//获取病区数据
-// export const getWardsData = () => {
-//   return request.get('/patients')
-// }

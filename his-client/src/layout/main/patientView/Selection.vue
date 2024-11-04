@@ -298,7 +298,7 @@ import Card from "@/layout/main/patientView/Card.vue";
 import type { Patient } from './types/patientViewTypes';
 import type { Ward, Office, Campus } from "@/layout/main/bedview/types/Bed.ts";
 import { getPatientsData, patientAddRequest } from '@/api/patientView/patientData'
-import axios from 'axios';
+// import axios from 'axios';
 import { getWardsData } from '@/api/bedView/bedData';
 import { message } from 'ant-design-vue';
 // import dayjs, { Dayjs } from 'dayjs';
