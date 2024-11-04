@@ -3,27 +3,27 @@
     :style="{ borderBottom: '1px solid #e8e8e8' }" bordered>
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'patientDetail'">
-        <a-button class="adpatient" v-if="record.bedStatus === '占用' || record.bedStatus === '即将出院'"
-          @click="openPatient(record)">
-          {{ record.patientName }}
+        <a-button class="adpatient" v-if="record.bedStatus == '1'"
+          @click="openPatient(record.patient)">
+          <!-- {{ record.patientName }} -->已占用
         </a-button>
-        <span class="check-in" v-else>待入住</span>
+        <span class="check-in" v-else>空闲</span>
         <a-modal v-model:visible="pVisible" title="详情" @ok="pHandleOk">
           <template #footer>
             <a-button key="submit" type="primary" @click="pHandleOk">确定</a-button>
           </template>
-          <p>姓名：{{ selectBed?.patientName }}</p>
-          <p>性别：{{ selectBed?.patientGender }}</p>
-          <p>年龄：{{ selectBed?.patientAge }}</p>
-          <p>联系电话：{{ selectBed?.telephoneNumber }}</p>
-          <p>住院号：{{ selectBed?.admissionNumber }}</p>
-          <p>医生：{{ selectBed?.doctor }}</p>
-          <p>诊断情况：{{ selectBed?.illness }}</p>
-          <p>入院类型：{{ selectBed?.admissionType }}</p>
-          <p v-if="selectBed?.admissionType === '预约入院'">预约方式：{{ selectBed?.bookType }}</p>
-          <p>急诊：<span v-if="selectBed?.isEmergency === 1">是</span><span v-else>否</span></p>
-          <p>重症：<span v-if="selectBed?.isAcute === 1">是</span><span v-else>否</span></p>
-          <p>VIP：<span v-if="selectBed?.isVip === 1">是</span><span v-else>否</span></p>
+          <p>姓名：{{ selectPatient?.patientName }}</p>
+          <p>性别：{{ selectPatient?.patientGender }}</p>
+          <p>年龄：{{ selectPatient?.patientAge }}</p>
+          <p>联系电话：{{ selectPatient?.telephoneNumber }}</p>
+          <p>住院号：{{ selectPatient?.admissionNumber }}</p>
+          <!-- <p>医生：{{ selectPatient?.doctor }}</p> -->
+          <p>诊断情况：{{ selectPatient?.illness }}</p>
+          <p>入院类型：{{ selectPatient?.admissionType }}</p>
+          <p v-if="selectPatient?.admissionType === '预约入院'">预约方式：{{ selectPatient?.bookType }}</p>
+          <p>急诊：<span v-if="selectPatient?.isEmergency === 1">是</span><span v-else>否</span></p>
+          <p>重症：<span v-if="selectPatient?.isAcute === 1">是</span><span v-else>否</span></p>
+          <p>VIP：<span v-if="selectPatient?.isVip === 1">是</span><span v-else>否</span></p>
         </a-modal>
       </template>
       <template v-if="column.key === 'operation'">
@@ -38,7 +38,7 @@
         </a-popconfirm>
         <a-popconfirm v-else title="是否确认删除此床位?" okText="是" cancelText="否"
           @confirm="bedDelete(record.bedId, record.patientName)">
-          <a-button danger  :disabled="!hasPermission('床位管理')">
+          <a-button danger  >
             <template #icon>
               <delete-outlined />
             </template>
@@ -122,10 +122,10 @@ watch(bedsData, () => {
   }
 })
 const pVisible = ref<boolean>(false);
-const selectBed = ref<Bed>()
-const openPatient = (recordBed: Bed) => {
+const selectPatient = ref<Bed>()
+const openPatient = (patient: any) => {
   pVisible.value = true
-  selectBed.value = recordBed
+  selectPatient.value = patient
 
 }
 const pHandleOk = () => {
@@ -133,26 +133,17 @@ const pHandleOk = () => {
 }
 
 const bedDelete = async (bedId: number, patientName: string | null) => {
-  if (patientName !== null) message.warning('请先释放床位上的患者')
-  else if (patientName === null || patientName === '') {
+  // if (patientName !== null) message.warning('请先释放床位上的患者')
     console.log('删除id', bedId)
-    let params = bedId;
-    try {
+    // let params = bedId;
       // 假设 bedDeleteRequest 是一个返回 Promise 的异步函数
-      let deleteResult = await bedDeleteRequest(params);
+      let deleteResult = await bedDeleteRequest(bedId);
       // 如果需要的话，处理 result
       console.log('床位删除成功', deleteResult);
       message.success('床位删除成功')
       //删除成功后再一次进行查询请求刷新页面
       await handleSearch()
-    } catch (error: any) {
-      // 捕获并处理异步操作中的错误
-      message.warning('删除床位时发生错误');
-      // 可以根据错误类型或内容进行更详细的错误处理
-      console.log('删除床位错误：', error.data.msg)
-      // 例如，可以设置错误处理的状态，或者给用户展示错误信息
-    }
-  }
+  
 }
 
 const bedRelease = async (bedId: number, patientId: number) => {

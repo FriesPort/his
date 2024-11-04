@@ -33,8 +33,6 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, reactive, watch } from 'vue';
-import { getWardsData } from '@/api/bedView/bedData.ts';
-import { Campus, Ward, Office, } from '../bedview/types/Bed';
 import { addUserApi } from '@/api/user';
 import { message } from 'ant-design-vue';
 import type { CascaderProps } from 'ant-design-vue';
@@ -110,18 +108,4 @@ const handleCancel = () => {
   visible.value = false;
 };
 
-const campusData: Campus[] = reactive([])
-const selectCampusName = ref('')
-const campusId = ref<number>()
-watch(() => selectCampusName.value, (newValue) => {
-  const campus = campusData.find(item => item.campusName === newValue)
-  if (campus) {
-    campusId.value = campus.campusId
-  }
-})
-onMounted(async () => {
-  let { data } = await getWardsData();
-  campusData.splice(0, campusData.length, ...data)
-  selectCampusName.value = campusData[0].campusName
-})
 </script>

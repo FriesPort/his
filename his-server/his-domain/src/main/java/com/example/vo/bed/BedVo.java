@@ -15,4 +15,5 @@ public class BedVo {
     Integer bedStatus;//床位状态
     String roomType;//病房类型
     String roomGender;//病房性别
+    Object patient;
 }

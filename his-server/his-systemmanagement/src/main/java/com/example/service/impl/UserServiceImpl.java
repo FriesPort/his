@@ -88,6 +88,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return false;
     }
 
+    //这里展示用户表列表会展示出登录用户自己吗？
     @Override
     public IPage<UserDisplayVO> userlist(UserDisplayDTO userDisplayDTO, Page page){
 //        List<User> userlist=new ArrayList<>();
@@ -123,7 +124,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         return  userMapper.userList(userDisplayDTO,page);
     }
-
+    //建议值传入修改的字段，用Map接收，然后拼接sql，不需要每次都传入全部字段
     @Override
     public boolean updateUser(UserUpdateDTO userUpdateDTO,String userId) {
         User user = new User();

@@ -12,7 +12,7 @@ export const getWardsData = () => {
 
 //提供删除床位的函数
 export const bedDeleteRequest = (bedId: number) => {
-  return request.delete(`/beds/delete/${bedId}`)
+  return request.post(`/beds/delete?id=${bedId}`)
 }
 
 //释放床位请求

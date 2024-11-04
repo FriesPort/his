@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
-import Permission from '@/view/content/Permission.vue'
+// import Permission from '@/view/content/Permission.vue'
 // 使用 ref 创建一个响应式引用
 const zhcn = ref(zhCN);
 

@@ -1,7 +1,7 @@
 <template>
   <div class="select">
     <div class="selectmain">
-      <div>
+      <!-- <div>
         <span>院区</span>
         <a-select v-model:value="selectedCampusName" @change="handleChange" style="width: 120px;">
           <a-select-option v-for="(campusItem, index) in campusData" :key="campusItem.campusId"
@@ -22,7 +22,7 @@
             <span >{{ ward.wardName }}</span>
           </a-select-option>
         </a-select>
-      </div>
+      </div> -->
       <div>
         <span>床位类型</span>
         <a-select v-model:value="bedType" style="width: 90px" >
@@ -63,9 +63,9 @@
         </a-button>
       </div>
       <!-- <div class="statistics">全院共200床，有患者床位120，其中已入院100，待出院20；无患者床位80，已留床10，空闲70</div> -->
-    </div>
+    <!-- </div> -->
   </div>
-  <div class="other-info">
+  <!-- <div class="other-info">
     <div class="campus">
       <h2>{{ selectedCampusName }}</h2>
       <h2>{{ selectedWardName }}</h2>
@@ -139,7 +139,7 @@
         </a-form>
       </a-modal>
     </div>
-  </div>
+  <!-- </div> -->
   <keep-alive>
     <component :is="currentComponent" />
   </keep-alive>
@@ -154,6 +154,7 @@ import { getBedsData, getWardsData, getRooms, addBedRequest } from '@/api/bedVie
 import axios from 'axios'
 import { message } from 'ant-design-vue';
 import { useUserStore } from '@/store/userStore';
+import { log } from 'console';
 
 const userStore = useUserStore();
 
@@ -161,107 +162,107 @@ const hasPermission = (permission: string) => {
   return userStore.permissions.includes(permission);
 };
 
-const recordCampusId = ref<number>()
-const recordOfficeId = ref<number>()
-const recordWardId = ref<number>()
-const campusData = reactive<Campus[]>([])
-// 用于 v-model 的响应式变量，存储选中的 campusName
-const selectedCampusName = ref('');
-// 处理选择变化的函数
-const handleChange = (value: string) => {
-  // 找到匹配选中 campusName 的 campusItem
-  const selectedCampus = campusData.find(
-    item => item.campusName === value
-  );
-  // 如果找到了，更新 recordCampusId 的值
-  if (selectedCampus) {
-    recordCampusId.value = selectedCampus.campusId;
-  }
-};
+// const recordCampusId = ref<number>()
+// const recordOfficeId = ref<number>()
+// const recordWardId = ref<number>()
+// const campusData = reactive<Campus[]>([])
+// // 用于 v-model 的响应式变量，存储选中的 campusName
+// const selectedCampusName = ref('');
+// // 处理选择变化的函数
+// const handleChange = (value: string) => {
+//   // 找到匹配选中 campusName 的 campusItem
+//   const selectedCampus = campusData.find(
+//     item => item.campusName === value
+//   );
+//   // 如果找到了，更新 recordCampusId 的值
+//   if (selectedCampus) {
+//     recordCampusId.value = selectedCampus.campusId;
+//   }
+// };
 
-// 基于 selectedCampusName 过滤出的 officeList
-const filteredOfficeList = ref<Office[]>([]);
-const filteredOfficeList0 = ref<Office[]>([]);
+// // 基于 selectedCampusName 过滤出的 officeList
+// const filteredOfficeList = ref<Office[]>([]);
+// const filteredOfficeList0 = ref<Office[]>([]);
 
-// 监听 selectedCampusName 的变化，更新 filteredOfficeList
-watch(selectedCampusName, (newCampusName) => {
-  // 找到匹配 selectedCampusName 的 campus 对象
-  const campus = campusData.find(c => c.campusName === newCampusName);
-  // 更新 filteredOfficeList 为该 campus 对象中的 offices 数组
-  if (campus) {
-    // 创建一个 '全部' 选项，确保它具有与数组中其他元素相同的结构
-    let allOption: Office = {
-      officeId: -1, // 假设 -1 是一个无效的 officeId，用来表示 '全部'
-      officeName: '全部',
-      wards: [{
-        wardId: -1,
-        wardName: '全部'
-      }]
-    };
-    // 将 '全部' 选项插入到 filteredOfficeList 的开头
-    filteredOfficeList.value = [allOption, ...campus.offices];
-    filteredOfficeList0.value = [...campus.offices];
-    selectedOfficeName.value = allOption.officeName; // 设置默认选中的 officeName 为 '全部'
-    selectedOfficeName0.value = filteredOfficeList0.value[0].officeName;
-  } else {
-    filteredOfficeList.value = []; // 如果没有匹配的 campus，重置 filteredOfficeList 为空数组
-  }
-});
-const selectedOfficeName = ref('');
-const selectedOfficeName0 = ref('');
+// // 监听 selectedCampusName 的变化，更新 filteredOfficeList
+// watch(selectedCampusName, (newCampusName) => {
+//   // 找到匹配 selectedCampusName 的 campus 对象
+//   const campus = campusData.find(c => c.campusName === newCampusName);
+//   // 更新 filteredOfficeList 为该 campus 对象中的 offices 数组
+//   if (campus) {
+//     // 创建一个 '全部' 选项，确保它具有与数组中其他元素相同的结构
+//     let allOption: Office = {
+//       officeId: -1, // 假设 -1 是一个无效的 officeId，用来表示 '全部'
+//       officeName: '全部',
+//       wards: [{
+//         wardId: -1,
+//         wardName: '全部'
+//       }]
+//     };
+//     // 将 '全部' 选项插入到 filteredOfficeList 的开头
+//     filteredOfficeList.value = [allOption, ...campus.offices];
+//     filteredOfficeList0.value = [...campus.offices];
+//     selectedOfficeName.value = allOption.officeName; // 设置默认选中的 officeName 为 '全部'
+//     selectedOfficeName0.value = filteredOfficeList0.value[0].officeName;
+//   } else {
+//     filteredOfficeList.value = []; // 如果没有匹配的 campus，重置 filteredOfficeList 为空数组
+//   }
+// });
+// const selectedOfficeName = ref('');
+// const selectedOfficeName0 = ref('');
 
-// 基于 selectedOfficeName 过滤出的 wardList
-const filteredWardList = ref<Ward[]>([]);
-const filteredWardList0 = ref<Ward[]>([]);
-// 监听 selectedOfficeName 的变化，更新 filteredWardList
-watch(selectedOfficeName, (newOfficeName) => {
-  // 找到匹配 selectedOfficeName 的 office 对象
-  const office = filteredOfficeList.value.find(c => c.officeName === newOfficeName);
-  recordOfficeId.value = office?.officeId; //记录当前officeId，以便后面请求数据时传递
-  // 更新 filteredWardList 为该 office 对象中的 wards 数组
-  if (office) {
-    let allOption: Ward = {
-      wardId: -1, // 假设 -1 是一个无效的 officeId，用来表示 '全部'
-      wardName: '全部'
-    };
-    filteredWardList.value = [allOption, ...office.wards];
-    selectedWardName.value = filteredWardList.value[0].wardName; // 设置默认选中的 wardName
-  } else {
-    filteredOfficeList.value = []; // 如果没有匹配的 office，重置 filteredWardList 为空数组
-  }
-});
-const recordOfficeId0 = ref<number>()
-watch(selectedOfficeName0, (newOfficeName) => {
-  // 找到匹配 selectedOfficeName 的 office 对象
-  const office = filteredOfficeList.value.find(c => c.officeName === newOfficeName);
-  recordOfficeId0.value = office?.officeId; //记录当前officeId，以便后面请求数据时传递
-  // 更新 filteredWardList 为该 office 对象中的 wards 数组
-  if (office) {
-    filteredWardList0.value = [...office.wards];
-    selectedWardName0.value = filteredWardList0.value[0].wardName; // 设置默认选中的 wardName
-  } else {
-    filteredOfficeList.value = []; // 如果没有匹配的 office，重置 filteredWardList 为空数组
-  }
-});
-const selectedWardName = ref('');
-const selectedWardName0 = ref('');
-// 监听 selectedOfficeName 的变化，更新 recordWardId
-watch(selectedWardName, (newWardName) => {
-  // 找到匹配 selectedWardName 的 ward 对象
-  const ward = filteredWardList.value.find(c => c.wardName === newWardName);
-  recordWardId.value = ward?.wardId //记录当前wardId，以便后面请求数据时传递
-})
-const recordWardId0 = ref<number>()
-watch(selectedWardName0, async (newWardName) => {
-  // 找到匹配 selectedWardName 的 ward 对象
-  const ward = filteredWardList0.value.find(c => c.wardName === newWardName);
-  console.log('wraad', ward)
-  recordWardId0.value = ward?.wardId //记录当前wardId，以便后面请求数据时传递
-  let result = await getRooms(ward?.wardId as number)
-  roomsData.value = result.data
-  selectRoomName.value = roomsData.value[0].roomNumber
+// // 基于 selectedOfficeName 过滤出的 wardList
+// const filteredWardList = ref<Ward[]>([]);
+// const filteredWardList0 = ref<Ward[]>([]);
+// // 监听 selectedOfficeName 的变化，更新 filteredWardList
+// watch(selectedOfficeName, (newOfficeName) => {
+//   // 找到匹配 selectedOfficeName 的 office 对象
+//   const office = filteredOfficeList.value.find(c => c.officeName === newOfficeName);
+//   recordOfficeId.value = office?.officeId; //记录当前officeId，以便后面请求数据时传递
+//   // 更新 filteredWardList 为该 office 对象中的 wards 数组
+//   if (office) {
+//     let allOption: Ward = {
+//       wardId: -1, // 假设 -1 是一个无效的 officeId，用来表示 '全部'
+//       wardName: '全部'
+//     };
+//     filteredWardList.value = [allOption, ...office.wards];
+//     selectedWardName.value = filteredWardList.value[0].wardName; // 设置默认选中的 wardName
+//   } else {
+//     filteredOfficeList.value = []; // 如果没有匹配的 office，重置 filteredWardList 为空数组
+//   }
+// });
+// const recordOfficeId0 = ref<number>()
+// watch(selectedOfficeName0, (newOfficeName) => {
+//   // 找到匹配 selectedOfficeName 的 office 对象
+//   const office = filteredOfficeList.value.find(c => c.officeName === newOfficeName);
+//   recordOfficeId0.value = office?.officeId; //记录当前officeId，以便后面请求数据时传递
+//   // 更新 filteredWardList 为该 office 对象中的 wards 数组
+//   if (office) {
+//     filteredWardList0.value = [...office.wards];
+//     selectedWardName0.value = filteredWardList0.value[0].wardName; // 设置默认选中的 wardName
+//   } else {
+//     filteredOfficeList.value = []; // 如果没有匹配的 office，重置 filteredWardList 为空数组
+//   }
+// });
+// const selectedWardName = ref('');
+// const selectedWardName0 = ref('');
+// // 监听 selectedOfficeName 的变化，更新 recordWardId
+// watch(selectedWardName, (newWardName) => {
+//   // 找到匹配 selectedWardName 的 ward 对象
+//   const ward = filteredWardList.value.find(c => c.wardName === newWardName);
+//   recordWardId.value = ward?.wardId //记录当前wardId，以便后面请求数据时传递
+// })
+// const recordWardId0 = ref<number>()
+// watch(selectedWardName0, async (newWardName) => {
+//   // 找到匹配 selectedWardName 的 ward 对象
+//   const ward = filteredWardList0.value.find(c => c.wardName === newWardName);
+//   console.log('wraad', ward)
+//   recordWardId0.value = ward?.wardId //记录当前wardId，以便后面请求数据时传递
+//   let result = await getRooms(ward?.wardId as number)
+//   roomsData.value = result.data
+//   selectRoomName.value = roomsData.value[0].roomNumber
 
-})
+// })
 
 const bedTypeList = ['全部', '正床', '男床', '女床'];
 const admissionTypeList = ['全部', '急诊入院', '预约入院', '手术入院'];
@@ -301,15 +302,15 @@ const bedsData = ref<Bed[]>([
 ]);
 onMounted(async () => {
   // let { data } = await axios.get('http://localhost:3000/beds');
-  let { data } = await getWardsData();
-  campusData.splice(0, campusData.length, ...data)
-  selectedCampusName.value = campusData[0].campusName;
-  recordCampusId.value = campusData[0].campusId;
-  recordWardId.value = campusData[0].offices[0].wards[0].wardId;
+  // let { data } = await getWardsData();
+  // campusData.splice(0, campusData.length, ...data)
+  // selectedCampusName.value = campusData[0].campusName;
+  // recordCampusId.value = campusData[0].campusId;
+  // recordWardId.value = campusData[0].offices[0].wards[0].wardId;
   let params = {
-    campusId: recordCampusId.value === -1 ? null : recordCampusId.value,
-    officeId: null,
-    wardId: null,
+    // campusId: recordCampusId.value === -1 ? null : recordCampusId.value,
+    // officeId: null,
+    // wardId: null,
     bedType: bedType.value === '全部' ? null : bedType.value,
     roomType: wardType.value === '全部' ? null : wardType.value,
     bedCount: wardPeopleCount.value === '全部' ? null : wardPeopleCount.value,
@@ -319,16 +320,19 @@ onMounted(async () => {
 })
 
 const handleSearch = async () => {
+  
   let params = {
-    campusId: recordCampusId.value === -1 ? null : recordCampusId.value,
-    officeId: recordOfficeId.value === -1 ? null : recordOfficeId.value,
-    wardId: recordWardId.value === -1 ? null : recordWardId.value,
+    // campusId: recordCampusId.value === -1 ? null : recordCampusId.value,
+    // officeId: recordOfficeId.value === -1 ? null : recordOfficeId.value,
+    // wardId: recordWardId.value === -1 ? null : recordWardId.value,
     bedType: bedType.value === '全部' ? null : bedType.value,
     roomType: wardType.value === '全部' ? null : wardType.value,
     bedCount: wardPeopleCount.value === '全部' ? null : wardPeopleCount.value,
   }
   let result = await getBedsData(params);
   bedsData.value = result.data;
+  console.log('床位树',bedsData.value);
+  
 }
 // 提供 handleSearch 给所有后代组件
 provide('handleSearch', handleSearch)
@@ -355,31 +359,18 @@ const bedAddVisible = ref<boolean>(false)
 const roomsData = ref<Room[]>([
 ])
 const selectRoomName = ref()
-const baseBedTypes = ['正床', '男床', '女床']
+const baseBedTypes = ['混合床位', '男床', '女床']
 const baseBedType = ref(baseBedTypes[0])
-const baseBedTypes1 = ['正床', '男床']
-const baseBedType1 = ref(baseBedTypes[0])
-const baseBedTypes2 = ['正床', '女床']
-const baseBedType2 = ref(baseBedTypes[0])
 const baseBedNumbers = ref('')
 const currentBedNumber = ref<string[]>()
 const baseBedNumber = ref(currentBedNumber.value !== undefined ? currentBedNumber.value[0] : baseBedNumbers[0])
 const currentRoomGender = ref('混合病房')
 const bedAdd = async () => {
-  //获取当前病区病房
-  // const campus = campusData.find(c => c.campusId === recordCampusId.value);
-  // recordOfficeId0.value = campus?.offices[0].officeId
-  // recordWardId0.value = campus?.offices[0].wards[0].wardId
-  // console.log('病房0', campus)
-  // let params = recordWardId.value === null ? 1 : campus?.offices[0].wards[0].wardId as number
-  // console.log('病房', params)
   let result = await getRooms()
   roomsData.value = result.data
   recordRoomId.value = roomsData.value[0].id
   selectRoomName.value = roomsData.value[0].number
   const startCount = roomsData.value[0].bedCount;
-  // currentBedNumber.value = baseBedNumbers.slice(startCount);
-  // baseBedNumber.value = currentBedNumber.value[0]
   currentRoomGender.value = roomsData.value[0].roomGender
   bedAddVisible.value = true
 }
@@ -406,9 +397,6 @@ const bedAddOk = async () => {
   console.log('roomId', recordRoomId.value);
   let currentBedType
   currentBedType = baseBedType.value
-  // if (currentRoomGender.value === '混合病房') currentBedType = baseBedType.value
-  // if (currentRoomGender.value === '男性病房') currentBedType = baseBedType1.value
-  // if (currentRoomGender.value === '女性病房') currentBedType = baseBedType2.value
   try {
     let params = {
       // campusId: recordCampusId.value,

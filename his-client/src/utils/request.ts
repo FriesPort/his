@@ -6,7 +6,7 @@ import { message } from 'ant-design-vue'
 //定义返回值类型
 export interface Result<T = any> {
     code: number;
-    msg: string;
+    message: string;
     data: T;
 }
 //定义一个变量,记录公共的前缀  ,  baseURL
@@ -66,72 +66,72 @@ instance.interceptors.response.use(
             };
         } else {
             // 显示错误消息
-            message.error(result.msg || result.data.loginstatus || '服务异常');
+            message.error(result.message || result.data.loginstatus || '服务异常');
             // 抛出错误，拒绝 Promise
-            return Promise.reject(new Error(result.msg || result.data.loginstatus || '服务异常'));
+            return Promise.reject(new Error(result.message || result.data.loginstatus || '服务异常'));
         }
 
     },
     (error: any) => {
-        error.data = {};
-        if (error && error.response) {
-            switch (error.response.status) {
-                case 400:
-                    error.data.msg = '错误请求';
-                    // message.error(error.data.msg)
-                    break
-                case 401:
-                    error.data.msg = '未授权，请重新登录';
-                    // message.error(error.data.msg)
-                    router.push('/login')
-                    break
-                case 403:
-                    error.data.msg = '拒绝访问';
-                    // message.error(error.data.msg)
-                    break
-                case 404:
-                    error.data.msg = '请求错误,未找到该资源';
-                    message.error(error.data.msg)
-                    break
-                case 405:
-                    error.data.msg = '请求方法未允许';
-                    // message.error(error.data.msg)
-                    break
-                case 408:
-                    error.data.msg = '请求超时';
-                    // message.error(error.data.msg)
-                    break
-                case 500:
-                    error.data.msg = '服务器端出错';
-                    // message.error(error.data.msg)
-                    break
-                case 501:
-                    error.data.msg = '网络未实现';
-                    // message.error(error.data.msg)
-                    break
-                case 502:
-                    error.data.msg = '网络错误';
-                    // message.error(error.data.msg)
-                    break
-                case 503:
-                    error.data.msg = '服务不可用';
-                    // message.error(error.data.msg)
-                    break
-                case 504:
-                    error.data.msg = '网络超时';
-                    // message.error(error.data.msg)
-                    break
-                case 505:
-                    error.data.msg = 'http版本不支持该请求';
-                    // message.error(error.data.msg)
-                    break
-                default:
-                    error.data.msg = `连接错误${error.response.status}`;
-                // message.error(error.data.msg)
-            }
-        } else {
-            // message.error("服务异常")
-        }
+        // error.data = {};
+        // if (error && error.response) {
+        //     switch (error.response.status) {
+        //         case 400:
+        //             error.data.message = '错误请求';
+        //             // message.error(error.data.message)
+        //             break
+        //         case 401:
+        //             error.data.message = '未授权，请重新登录';
+        //             // message.error(error.data.message)
+        //             router.push('/login')
+        //             break
+        //         case 403:
+        //             error.data.message = '拒绝访问';
+        //             // message.error(error.data.message)
+        //             break
+        //         case 404:
+        //             error.data.message = '请求错误,未找到该资源';
+        //             message.error(error.data.message)
+        //             break
+        //         case 405:
+        //             error.data.message = '请求方法未允许';
+        //             // message.error(error.data.message)
+        //             break
+        //         case 408:
+        //             error.data.message = '请求超时';
+        //             // message.error(error.data.message)
+        //             break
+        //         case 500:
+        //             error.data.message = '服务器端出错';
+        //             // message.error(error.data.message)
+        //             break
+        //         case 501:
+        //             error.data.message = '网络未实现';
+        //             // message.error(error.data.message)
+        //             break
+        //         case 502:
+        //             error.data.message = '网络错误';
+        //             // message.error(error.data.message)
+        //             break
+        //         case 503:
+        //             error.data.message = '服务不可用';
+        //             // message.error(error.data.message)
+        //             break
+        //         case 504:
+        //             error.data.message = '网络超时';
+        //             // message.error(error.data.message)
+        //             break
+        //         case 505:
+        //             error.data.message = 'http版本不支持该请求';
+        //             // message.error(error.data.message)
+        //             break
+        //         default:
+        //             error.data.message = `连接错误${error.response.status}`;
+        //         // message.error(error.data.message)
+        //     }
+        // } else {
+        //     // message.error("服务异常")
+        // }
 
         return Promise.reject(error);//异步的状态转化成失败的状态
     }

@@ -38,7 +38,7 @@
       </template>
       <RouterLink to="/bedAllocation">床位分配</RouterLink>
     </a-menu-item>
-    <a-menu-item key="/reportStatistics">
+    <a-menu-item key="/user">
       <template #icon>
         <UserOutlined />
       </template>

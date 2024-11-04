@@ -11,6 +11,7 @@ import com.example.dto.bed.BedAddDTO;
 import com.example.dto.bed.BedSearchDTO;
 import com.example.dto.bed.BedUpdataDTO;
 import com.example.utils.IdGenerate;
+import com.example.vo.JsonVO;
 import com.example.vo.bed.BedVo;
 import com.example.vo.bed.RoomListVO;
 import lombok.extern.slf4j.Slf4j;
@@ -69,23 +70,7 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
             result.setStatus(false);
             return result;
         }
-        //分别将对应的信息放入
-//        numbers.setCampus(campus.getCampusName());
-//        Office office = officeMapper.selectById(foreignId[1]);
-//        numbers.setOffice(office.getOfficeName());
-//        Ward ward = wardMapper.selectById(foreignId[0]);
-//        numbers.setWard(ward.getWardName());
-//        Floor floor = floorMapper.selectById(foreignId[3]);
-//        numbers.setFloor(floor.getFloorName());
-//        numbers.setRoom(room.getNumber());
-//        numbers.setBednumber(bedAddDTO.getBednumber());
-        //2.调用NumberGenerate生成number
-//        bed.setNumber(NumberGenerate.nextNumbers(numbers));
-        //查询添加的床位的number是否重复
-//        if (Db.lambdaQuery(Bed.class).eq(Bed::getNumber, bed.getNumber()).exists()) {
-//            result.setMessage("床位已存在");
-//            return result;
-//        }
+
         //判断room是否存在
         if (!Db.lambdaQuery(Room.class).eq(Room::getId, bed.getRoomId()).exists()) {
             result.setMessage("房间不存在！");
@@ -107,6 +92,7 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
         //插入床位信息
         bed.setCreateBy(userId);
         bed.setCreateTime(LocalDateTime.now());
+        bed.setBedStatus(0);
         IdGenerate idGenerate=new IdGenerate();
         String uuid=idGenerate.nextUUID(bed);
         bed.setBedId(uuid);
@@ -122,7 +108,7 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
             bedlog.setId(idGenerate.nextUUID(bedlog));
             bedlogMapper.insert(bedlog);
         }else{
-            bed.setPatientInformationId("null");
+            bed.setPatientInformationId(null);
         }
         bedsMapper.insert(bed);
         //修改关联的房间信息
@@ -247,12 +233,12 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
                 bedVo.setRoomType(room1.getType());
                 bedVo.setRoomGender(room1.getGender());
                 bedVo.setRoomNumber(room.getNumber());
-//                //判断该病床是否有关联病人
-//                if (!(bed.getPatientInformationId().equals("null"))){
-//                    //有关联病人，查询病人信息
-//                    PatientInformation patientInformation = patientInformationMapper.selectById(bed.getPatientInformationId());
-//                    bedVo.setPatientName(patientInformation.getPatientName());
-//                }
+                //判断该病床是否有关联病人
+                if (StrUtil.isNotEmpty(bed.getPatientInformationId())){
+                    //有关联病人，查询病人信息
+                    PatientInformation patientInformation = patientInformationMapper.selectById(bed.getPatientInformationId());
+                    bedVo.setPatient(patientInformation);
+                }
                 bedVoList.add(bedVo);
             }
         }
@@ -419,5 +405,20 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
     public List<RoomListVO> getRoomList() {
         List<RoomListVO> voList=roomsMapper.roomList();
         return voList;
+    }
+
+    @Override
+    public JsonVO<Boolean> deleteBed(String id) {
+        Bed bed=bedsMapper.selectById(id);
+        if(StrUtil.isNotEmpty(bed.getPatientInformationId())){
+            return JsonVO.create(false,0,"请先释放该床位的病人");
+        }
+        int i=bedsMapper.deleteById(id);
+        if(i<=0){
+            return JsonVO.create(false,0,"删除失败");
+        }else{
+            return JsonVO.success(true);
+        }
+
     }
 }

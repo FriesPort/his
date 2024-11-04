@@ -6,6 +6,7 @@ import com.example.bed.entity.Result;
 import com.example.dto.bed.BedAddDTO;
 import com.example.dto.bed.BedSearchDTO;
 import com.example.dto.bed.BedUpdataDTO;
+import com.example.vo.JsonVO;
 import com.example.vo.bed.BedVo;
 import com.example.vo.bed.RoomListVO;
 
@@ -23,6 +24,8 @@ public interface BedsService extends IService<Bed> {
     Result<String> insertBatchBed(String userId,ArrayList<BedAddDTO> bedAddDTOs);
 
     List<RoomListVO> getRoomList();
+
+    JsonVO<Boolean> deleteBed(String id);
 
 }
 

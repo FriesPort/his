@@ -84,9 +84,23 @@ public class BedsController {
         return JsonVO.fail(result.getMessage());
     }
 
+    /**
+     * 获取房间信息列表
+     * @return
+     */
     @GetMapping("/roomList")
     public JsonVO<List<RoomListVO>> roomList() {
         return JsonVO.success(bedsService.getRoomList());
+    }
+
+    /**
+     * 床位删除
+     * @param id
+     * @return
+     */
+    @PostMapping("/delete")
+    public JsonVO<Boolean> bedDelete(@ApiParam("要删除的床位id") @RequestParam String id) {
+        return bedsService.deleteBed(id);
     }
 
 
