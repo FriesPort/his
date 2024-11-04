@@ -1,6 +1,7 @@
 package com.example.service.impl;
 
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -16,6 +17,7 @@ import com.example.mapper.UserRoleMapper;
 import com.example.service.IUserService;
 import com.example.utils.IdGenerate;
 import com.example.vo.systemmanagement.user.UserDeleteVO;
+import com.example.vo.systemmanagement.user.UserDisplayVO;
 import com.example.vo.systemmanagement.user.UserUpdateVO;
 import com.example.vo.systemmanagement.userrole.UserRoleDisplayVo;
 import org.springframework.beans.BeanUtils;
@@ -25,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,6 +59,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }catch (Exception e){
             e.printStackTrace();
         }
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getUsername,user.getUsername());
+        User queryUser = userMapper.selectOne(queryWrapper);
+        if(queryUser!=null){
+            return false;
+        }
         PasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
         user.setId(idGenerate.nextUUID(userAddDTO));
         user.setPassword(passwordEncoder.encode(userAddDTO.getPassword()));
@@ -79,8 +88,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         return false;
     }
 
+    //这里展示用户表列表会展示出登录用户自己吗？
     @Override
-    public IPage<UserDisplayDTO> userlist(UserDisplayDTO userDisplayDTO, Page page){
+    public IPage<UserDisplayVO> userlist(UserDisplayDTO userDisplayDTO, Page page){
 //        List<User> userlist=new ArrayList<>();
 //        List<UsersDisplayVO> displayVOList=new ArrayList<>();
 //        QueryWrapper queryWrapper=new QueryWrapper();
@@ -114,12 +124,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         return  userMapper.userList(userDisplayDTO,page);
     }
-
+    //建议值传入修改的字段，用Map接收，然后拼接sql，不需要每次都传入全部字段
     @Override
     public boolean updateUser(UserUpdateDTO userUpdateDTO,String userId) {
         User user = new User();
         BeanUtils.copyProperties(userUpdateDTO,user);
-        user.setCreateBy(userId);
+        user.setUpdateBy(userId);
+        user.setUpdateTime(LocalDateTime.now());
         int rows = userMapper.updateById(user);
         if(rows>=1){
             return UserUpdateVO.success;
@@ -144,8 +155,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public boolean allocateRole(UserCreateDTO userCreateDTO,String userId) {
         UserRole userRole = new UserRole();
         userRole.setUserId(userCreateDTO.getUserId());
-        userRole.setRoleId(userRole.getRoleId());
+        userRole.setRoleId(userCreateDTO.getRoleId());
         userRole.setCreateBy(userId);
+        userRole.setId(idGenerate.nextUUID(userRole));
+        userRole.setCreateTime(LocalDateTime.now());
         int rows = userRoleMapper.insert(userRole);
         if(rows>=1){
             return true;

@@ -6,9 +6,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/hospital
+    url: jdbc:mysql://localhost:3306/hospital2
     username: root
-    password: 1234
+    password: 060601hyz
 
 mybatis-plus:
   configuration:

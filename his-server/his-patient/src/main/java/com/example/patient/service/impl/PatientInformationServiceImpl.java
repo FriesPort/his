@@ -31,9 +31,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
@@ -64,6 +62,7 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
 
     private static Logger logger = LoggerFactory.getLogger(PatientInformationServiceImpl.class);
 
+    @Transactional
     @Override // 筛选患者
     public List<Patient> patientList(PatientQueryDTO patientQueryDTO) {
         LambdaQueryWrapper<Patient> patientInformationLambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -125,14 +124,16 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
 
 
 
+    @Transactional
     @Override   // 查看患者
-    public Result<List<PatientVo>> patientQuery(PatientQueryDTO patientQueryDTO) {
-        Result<List<PatientVo>> result = new Result<>();
+    public Result<Map<String, List<PatientVo>>> patientQuery(PatientQueryDTO patientQueryDTO) {
+        Result<Map<String, List<PatientVo>>> result = new Result<>();
         List<Patient> patients = patientList(patientQueryDTO);
-        List<PatientVo> patientVos = new ArrayList<>();
+        List<PatientVo> inpatientVos = new ArrayList<>();   // 存储住院
+        List<PatientVo> outpatientVos = new ArrayList<>();  // 存储不住院
+        List<PatientVo> leavepatientVos = new ArrayList<>();// 存储出院
 
-
-        // 处理，拷贝患者信息
+        // 处理并拷贝患者信息
         for (Patient patient : patients) {
             PatientVo patientVo = new PatientVo();
             BeanUtils.copyProperties(patient, patientVo);
@@ -150,71 +151,127 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
             if (patient.getIsInhospital() == 0) { // 判断是否在住院
                 long day = ChronoUnit.DAYS.between(patient.getCreateTime(), LocalDateTime.now());
                 patientVo.setWaitDay((int) day);
+                outpatientVos.add(patientVo);
             } else {
                 patientVo.setWaitDay(0); // 非待入院患者等待天数设置为0
+                inpatientVos.add(patientVo);
             }
 
-            patientVos.add(patientVo);
+            if(patient.getDischargeTime()!=null){
+                leavepatientVos.add(patientVo);
+            }
+
         }
 
-        // 排序逻辑：先按是否住院排序，再按急重症和等待时间排序
-        patientVos.sort(Comparator
-                .comparing(PatientVo::getIsInhospital)  // 按是否在住院排序
-                .thenComparing((PatientVo p) -> {
+        // 排序逻辑：先按急重症和等待时间排序
+        Comparator<PatientVo> comparator = Comparator
+                .comparing((PatientVo p) -> {
                     if (p.getIsemergency() == 1) return 1;  // 急诊优先
                     if (p.getIsacute() == 1) return 2;      // 重症其次
                     return 3;                               // 其他排最后
                 })
-                .thenComparing(PatientVo::getWaitDay, Comparator.reverseOrder())  // 按等待时间降序
-        );
+                .thenComparing(PatientVo::getWaitDay, Comparator.reverseOrder());  // 按等待时间降序
 
-        result.setMessage(patientVos);
+        inpatientVos.sort(comparator);
+        outpatientVos.sort(comparator);
+
+        // 将两个列表封装到结果Map中
+        Map<String, List<PatientVo>> patientMap = new HashMap<>();
+        patientMap.put("outHospital", outpatientVos);     // 未住院患者
+        patientMap.put("inHospital", inpatientVos);       // 住院患者
+        patientMap.put("leaveHospital", leavepatientVos); // 出院患者
+
+
+        result.setMessage(patientMap);
         result.setStatus(true);
+
         return result;
     }
 
-    @Override
-    public Result<String> patientAdd(String userId,PatientAlterDTO patientAlterDTO) {
-        Result<String> result = new Result<>();
-        LambdaQueryWrapper<Patient> patientInformationLambdaQueryWrapper = new LambdaQueryWrapper<>();
 
-        // 初始化患者信息
-        Patient patient = new Patient();
-        BeanUtils.copyProperties(patientAlterDTO, patient);
-
-        if(patientAlterDTO.getName()==null){
-            result.setMessage("请填写名字");
-            return result;
-        }
-
-        if(patientAlterDTO.getIdentity()!=null){
-            patientInformationLambdaQueryWrapper.eq(Patient::getIdentity,patientAlterDTO.getIdentity());
-            if(getOne(patientInformationLambdaQueryWrapper)!=null){
-                result.setMessage("患者(身份证号码为" + patientAlterDTO.getIdentity() + "）已被创建");
-                return result;
-            }
-        }
-
-        // 使用 IdGenerate 生成 UUID 作为主键
-        String generatedId = idGenerate.nextUUID(patient);
-        patient.setId(generatedId);  // 假设 Patient 有 id 字段
-
-        // 设置当前时间为创建时间
-        LocalDateTime localDateTime = LocalDateTime.now();
-        patient.setCreateTime(localDateTime);
-        patient.setUpdateTime(localDateTime);
-        patient.setCreateby(userId);
-        patient.setUpdateBy(userId);
-
-
-
-        // 保存患者信息
-        save(patient);
-
-        result.setMessage("创建成功");
-        result.setStatus(true);
-        return result;
-    }
+//    @Transactional
+//    @Override
+//    public Result<String> patientAdd(String userId,PatientAlterDTO patientAlterDTO) {
+//        Result<String> result = new Result<>();
+//        LambdaQueryWrapper<Patient> patientInformationLambdaQueryWrapper = new LambdaQueryWrapper<>();
+//        LambdaQueryWrapper<Patient> patientInformationLambdaQueryWrapper1 = new LambdaQueryWrapper<>();
+//        LambdaQueryWrapper<Patient> patientInformationLambdaQueryWrapper2 = new LambdaQueryWrapper<>();
+//
+//        // 初始化患者信息
+//        Patient patient = new Patient();
+//
+//
+//        if(patientAlterDTO.getName()==null){
+//            result.setMessage("请填写名字");
+//            return result;
+//        }
+//
+//        patientInformationLambdaQueryWrapper.eq(Patient::getIdentity,patientAlterDTO.getIdentity())
+//                .isNull(Patient::getDischargeTime);
+//
+//        if(patientAlterDTO.getIdentity()!=null&&getOne(patientInformationLambdaQueryWrapper)!=null){
+//            result.setMessage("患者(身份证号码为" + patientAlterDTO.getIdentity() + "）已被创建");
+//            return result;
+//        }
+//
+//
+//
+//        if(patientAlterDTO.getIdentity()!=null){
+//            patientInformationLambdaQueryWrapper1.eq(Patient::getIdentity,patientAlterDTO.getIdentity())
+//                    .isNotNull(Patient::getDischargeTime);
+//            Patient existingPatient = getOne(patientInformationLambdaQueryWrapper1);
+//            if(existingPatient!=null){
+//                LambdaUpdateWrapper<Patient> updateWrapper = new LambdaUpdateWrapper<>();
+//                updateWrapper.eq(Patient::getId, existingPatient.getId())
+//                        .set(Patient::getAdmissionnumber, null)
+//                        .set(Patient::getAdmissiontype, null)
+//                        .set(Patient::getAdmissiontime, null)
+//                        .set(Patient::getDischargeTime, null)
+//                        .set(Patient::getBedId, null)
+//                        .set(Patient::getBooktype, null)
+//                        .set(Patient::getIsemergency, 0)
+//                        .set(Patient::getIsvip, 0)
+//                        .set(Patient::getIsacute, 0)
+//                        .set(Patient::getIsInhospital, 0)
+//                        .set(Patient::getPreassignbed, null)
+//                        .set(Patient::getIllness, null);
+//                update(existingPatient, updateWrapper);
+//                patientInformationLambdaQueryWrapper2.eq(Patient::getIdentity,patientAlterDTO.getIdentity());
+//                patient=getOne(patientInformationLambdaQueryWrapper2);
+//                BeanUtils.copyProperties(patientAlterDTO, patient);
+//                LocalDateTime localDateTime = LocalDateTime.now();
+//                patient.setUpdateTime(localDateTime);
+//                patient.setUpdateBy(userId);
+//                updateById(patient);
+//                result.setMessage("创建成功");
+//                result.setStatus(true);
+//                return result;
+//            }
+//        }
+//
+//        BeanUtils.copyProperties(patientAlterDTO, patient);
+//
+//
+//
+//        // 设置当前时间为创建时间
+//        LocalDateTime localDateTime = LocalDateTime.now();
+//        patient.setCreateTime(localDateTime);
+//        patient.setUpdateTime(localDateTime);
+//        patient.setCreateby(userId);
+//        patient.setUpdateBy(userId);
+//
+//        // 使用 IdGenerate 生成 UUID 作为主键
+//        String generatedId = idGenerate.nextUUID(patient);
+//        patient.setId(generatedId);  // 假设 Patient 有 id 字段
+//
+//
+//        // 保存患者信息
+//        save(patient);
+//
+//        result.setMessage("创建成功");
+//        result.setStatus(true);
+//        return result;
+//    }
 
     @Transactional
     @Override
@@ -222,34 +279,75 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
         Result<String> result = new Result<>();
 
         for (PatientAlterDTO patientAlterDTO : patientList) {
-            // 检查是否已存在相同身份证号的患者
 
-            if(patientAlterDTO.getName()==null){
-                throw new RuntimeException("请填写名字，请重新导入这一批数据");
-            }
-
-            if(patientAlterDTO.getIdentity()!=null){
-                LambdaQueryWrapper<Patient> patientInformationLambdaQueryWrapper = new LambdaQueryWrapper<>();
-                patientInformationLambdaQueryWrapper.eq(Patient::getIdentity,patientAlterDTO.getIdentity());
-                if(getOne(patientInformationLambdaQueryWrapper)!=null){
-                    throw new RuntimeException("患者(身份证号码为" + patientAlterDTO.getIdentity() + "）已被创建，请重新导入这一批数据");
-                }
-            }
-
+            LambdaQueryWrapper<Patient> patientInformationLambdaQueryWrapper = new LambdaQueryWrapper<>();
+            LambdaQueryWrapper<Patient> patientInformationLambdaQueryWrapper1 = new LambdaQueryWrapper<>();
+            LambdaQueryWrapper<Patient> patientInformationLambdaQueryWrapper2 = new LambdaQueryWrapper<>();
 
             // 初始化患者信息
             Patient patient = new Patient();
+
+
+            if(patientAlterDTO.getName()==null){
+                result.setMessage("请填写名字");
+                return result;
+            }
+
+            patientInformationLambdaQueryWrapper.eq(Patient::getIdentity,patientAlterDTO.getIdentity())
+                    .isNull(Patient::getDischargeTime);
+
+            if(patientAlterDTO.getIdentity()!=null&&getOne(patientInformationLambdaQueryWrapper)!=null){
+                result.setMessage("患者(身份证号码为" + patientAlterDTO.getIdentity() + "）已被创建");
+                return result;
+            }
+
+
+
+            if(patientAlterDTO.getIdentity()!=null){
+                patientInformationLambdaQueryWrapper1.eq(Patient::getIdentity,patientAlterDTO.getIdentity())
+                        .isNotNull(Patient::getDischargeTime);
+                Patient existingPatient = getOne(patientInformationLambdaQueryWrapper1);
+                if(existingPatient!=null){
+                    LambdaUpdateWrapper<Patient> updateWrapper = new LambdaUpdateWrapper<>();
+                    updateWrapper.eq(Patient::getId, existingPatient.getId())
+                            .set(Patient::getAdmissionnumber, null)
+                            .set(Patient::getAdmissiontype, null)
+                            .set(Patient::getAdmissiontime, null)
+                            .set(Patient::getDischargeTime, null)
+                            .set(Patient::getBedId, null)
+                            .set(Patient::getBooktype, null)
+                            .set(Patient::getIsemergency, 0)
+                            .set(Patient::getIsvip, 0)
+                            .set(Patient::getIsacute, 0)
+                            .set(Patient::getIsInhospital, 0)
+                            .set(Patient::getPreassignbed, null)
+                            .set(Patient::getIllness, null);
+                    update(existingPatient, updateWrapper);
+                    patientInformationLambdaQueryWrapper2.eq(Patient::getIdentity,patientAlterDTO.getIdentity());
+                    patient=getOne(patientInformationLambdaQueryWrapper2);
+                    BeanUtils.copyProperties(patientAlterDTO, patient);
+                    LocalDateTime localDateTime = LocalDateTime.now();
+                    patient.setUpdateTime(localDateTime);
+                    patient.setUpdateBy(userId);
+                    updateById(patient);
+                }
+            }
+
             BeanUtils.copyProperties(patientAlterDTO, patient);
 
-            // 生成 UUID 作为主键
-            String generatedId = idGenerate.nextUUID(patient);
-            patient.setId(generatedId);
 
-            LocalDateTime now = LocalDateTime.now();
-            patient.setCreateTime(now);
-            patient.setUpdateTime(now);
+
+            // 设置当前时间为创建时间
+            LocalDateTime localDateTime = LocalDateTime.now();
+            patient.setCreateTime(localDateTime);
+            patient.setUpdateTime(localDateTime);
             patient.setCreateby(userId);
             patient.setUpdateBy(userId);
+
+            // 使用 IdGenerate 生成 UUID 作为主键
+            String generatedId = idGenerate.nextUUID(patient);
+            patient.setId(generatedId);  // 假设 Patient 有 id 字段
+
 
             // 保存患者信息
             save(patient);
@@ -304,6 +402,7 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
         return result;
     }
 
+    @Transactional
     @Override   //患者删除
     public Result<String> patientDelete(PatientDeleteDTO patientDeleteDTO) {
         Result<String> result = new Result<>();
@@ -311,12 +410,17 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
         Patient patient = new Patient();
         BeanUtils.copyProperties(patientDeleteDTO, patient);
         String patientId=patient.getId();
-        logger.info("要删除的ID:{}",patientId);
+        logger.info("要释放的ID:{}",patientId);
         //获取患者信息
         patient=getById(patientId);
 
         if (patient == null) {
             result.setMessage("找不到指定患者");
+            return result;
+        }
+
+        if(patient.getDischargeTime()!=null){
+            result.setMessage("该患者已出院");
             return result;
         }
 
@@ -408,7 +512,7 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
             // 将删除的患者信息插入到 patientrecode 表中
             boolean saved = patientrecodeService.save(patientrecode);
             if (!saved) {
-                result.setMessage("保存删除的患者信息失败");
+                result.setMessage("保存释放的患者信息失败");
                 result.setStatus(false);
                 return result;
             }
@@ -417,9 +521,12 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
         //删除患者
         LambdaUpdateWrapper<Patient> patientInformationLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         patientInformationLambdaUpdateWrapper.eq(Patient::getId,patientId);
-        remove(patientInformationLambdaUpdateWrapper);
+        patientInformationLambdaUpdateWrapper.set(Patient::getDischargeTime,LocalDateTime.now());
+        update(patientInformationLambdaUpdateWrapper);
 
-        result.setMessage("删除成功");
+
+
+        result.setMessage("释放成功");
         result.setStatus(true);
         return result;
     }

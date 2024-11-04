@@ -54,6 +54,8 @@ export default {
   flex-direction: row;
   align-items: center;
   margin: auto;
+  background-color: #f5f5f5;
+  box-shadow: 0.25rem 0.25rem 0.625rem rgba(107, 107, 107, 0.5); /* 添加阴影 */
 }
 .leftpart {
   width: 20%;
@@ -65,6 +67,7 @@ export default {
 }
 .rightpart {
   width: 80%;
+  height: 100%;
 }
 /* #myCheckbox {
   display: none;

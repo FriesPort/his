@@ -10,6 +10,7 @@ import com.example.vo.patient.Result;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -25,9 +26,9 @@ public interface IPatientInformationService extends IService<Patient> {
     List<Patient> patientList(PatientQueryDTO patientQueryDTO);
 
     //患者查看
-    Result<List<PatientVo>> patientQuery(PatientQueryDTO patientQueryDTO);
+    Result<Map<String, List<PatientVo>>> patientQuery(PatientQueryDTO patientQueryDTO);
 
-    Result<String> patientAdd(String userId,PatientAlterDTO patientAlterDTO);
+//    Result<String> patientAdd(String userId,PatientAlterDTO patientAlterDTO);
 
     Result<String> patientsAdd(String userId,List<PatientAlterDTO> patientList);
 

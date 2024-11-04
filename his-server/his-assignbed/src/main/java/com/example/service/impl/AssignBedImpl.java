@@ -5,8 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.dto.patientChangeBedDTO;
-import com.example.dto.patientInformationDTO;
+
+import com.example.dto.assignbed.patientChangeBedDTO;
+import com.example.dto.assignbed.patientInformationDTO;
 import com.example.pojo.bed;
 import com.example.pojo.patientInformation;
 import com.example.mapper.AssignBedMapper;
@@ -14,8 +15,9 @@ import com.example.service.AssignBedService;
 import com.example.service.IBedService;
 import com.example.service.IRoomService;
 import com.example.vo.Result;
-import com.example.vo.getOnBed.getOnBedVo;
-import com.example.vo.getOutBed.getOutBedVo;
+
+import com.example.vo.assginbed.getOnBed.getOnBedVo;
+import com.example.vo.assginbed.getOutBed.getOutBedVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

@@ -16,7 +16,9 @@ public class UserAddDTO {
 
     private String password;
 
-    private String name;
+    private String employeeNumber;
+
+    private String employeeName;
 
     private String hospitalId="H789";
 

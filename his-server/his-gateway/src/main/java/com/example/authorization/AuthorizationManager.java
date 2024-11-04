@@ -1,6 +1,7 @@
 package com.example.authorization;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import com.example.constant.AuthConstant;
 import com.example.constant.RedisConstant;
 import com.example.utils.RedisCache;
@@ -60,15 +61,16 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
 
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> authentication, AuthorizationContext authorizationContext) {
-        if(!isOpenAuthorization){
+        //从Redis中获取当前路径可访问角色列表
+        String path = authorizationContext.getExchange().getRequest().getURI().getPath();
+        String role = authorizationContext.getExchange().getRequest().getHeaders().getFirst("role");
+        String token = authorizationContext.getExchange().getRequest().getHeaders().getFirst("Authorization").replace("Bearer ","");
+        if(!isOpenAuthorization|| token.isEmpty() || !StrUtil.isEmpty(role)){
             return Mono.just(new AuthorizationDecision(true));
         }
 
-        //从Redis中获取当前路径可访问角色列表
-        String path = authorizationContext.getExchange().getRequest().getURI().getPath();
-        String token = authorizationContext.getExchange().getRequest().getHeaders().getFirst("Authorization").replace("His_","");
         List<String> authorities = queryPermissionListByPath(path);
-        String relToken=token.replace("Bearer ","");
+
         // 没有查询到结果，尝试查找通配符
         if (authorities.isEmpty()) {
             // 1.1 处理二级地址, 比如：请求地址为 "/fc/get"，此时匹配 "/fc/**"
@@ -81,8 +83,11 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
                 authorities = queryPermissionListByPath(currPath);
             }
         }
+        if(authorities.contains("PERMISSION_admin")){
+            return Mono.just(new AuthorizationDecision(true));
+        }
         log.info("当前请求路径：{}，可访问角色列表：{}", path, authorities);
-        String userId=jwtUtil.parseTokenForUserId(relToken);
+        String userId=jwtUtil.parseTokenForUserId(token);
         String redisKey="login:"+userId;
         LoginUser loginUser=redisCache.getCacheObject(redisKey);
         UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(
@@ -99,7 +104,7 @@ public class AuthorizationManager implements ReactiveAuthorizationManager<Author
                 .flatMapIterable(Authentication::getAuthorities)
                 // 遍历获取权限对象(即：获取单个角色名)
                 .map(GrantedAuthority::getAuthority)
-                // 查看当前路径中是否包对应权限（即：是否包含角色名）
+                // 查看当前路径中是否包对应权限（即：是否包含权限名）
                 .any(authorities::contains)
                 // 根据判断结果构建一个鉴权对象
                 .map(AuthorizationDecision::new)

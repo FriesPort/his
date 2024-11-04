@@ -25,6 +25,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -76,15 +77,16 @@ public class LoginServiceImpl implements LoginService {
         //map.put("token",jwt);
         //把完整的token和用户信息存入redis
         redisCache.setCacheObject("login:"+userid,loginUser);
-        redisTemplate.opsForValue().set(RedisConstant.USER_TOKEN+":"+reljwt,reljwt);
+        redisTemplate.opsForValue().set(RedisConstant.USER_TOKEN+":"+reljwt,reljwt,100, TimeUnit.MINUTES);
         redisTemplate.opsForHash().putAll(RedisConstant.PERMISSION_ROUTE,permissionMap);
         log.info("成功刷新-权限映射hash");
         return new LoginVO(jwt);
     }
 
     @Override
-    public String logout(String userId) {
+    public String logout(String userId,String token) {
         redisCache.deleteObject("login:"+userId);
+        redisTemplate.delete(RedisConstant.USER_TOKEN+":"+token.replace("Bearer ",""));
         return "logout";
     }
 }

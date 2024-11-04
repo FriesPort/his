@@ -10,5 +10,6 @@ import java.util.List;
 @Component
 @ConfigurationProperties(prefix = "secure.white")
 public class WhitePathConfig {
+    private List<String> permissions;
     private List<String> urls;
 }

@@ -6,5 +6,5 @@ import com.example.vo.login.LoginVO;
 public interface LoginService {
     LoginVO login(LoginDTO loginDTO);
 
-    String logout(String userId);
+    String logout(String userId,String token);
 }

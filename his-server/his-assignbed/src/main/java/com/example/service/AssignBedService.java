@@ -1,12 +1,14 @@
 package com.example.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.dto.patientChangeBedDTO;
-import com.example.dto.patientInformationDTO;
+
+import com.example.dto.assignbed.patientChangeBedDTO;
+import com.example.dto.assignbed.patientInformationDTO;
 import com.example.pojo.patientInformation;
 import com.example.vo.Result;
-import com.example.vo.getOnBed.getOnBedVo;
-import com.example.vo.getOutBed.getOutBedVo;
+import com.example.vo.assginbed.getOnBed.getOnBedVo;
+import com.example.vo.assginbed.getOutBed.getOutBedVo;
+
 
 import java.util.List;
 

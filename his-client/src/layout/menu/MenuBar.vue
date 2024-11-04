@@ -38,7 +38,7 @@
       </template>
       <RouterLink to="/bedAllocation">床位分配</RouterLink>
     </a-menu-item>
-    <a-menu-item key="/reportStatistics">
+    <a-menu-item key="/user">
       <template #icon>
         <UserOutlined />
       </template>
@@ -49,6 +49,12 @@
         <solution-outlined />
       </template>
       <RouterLink to="/role">角色管理</RouterLink>
+    </a-menu-item>
+    <a-menu-item key="/permission">
+      <template #icon>
+        <solution-outlined />
+      </template>
+      <RouterLink to="/permission">权限管理</RouterLink>
     </a-menu-item>
   </a-menu>
 </template>
