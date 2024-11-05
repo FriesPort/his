@@ -21,6 +21,6 @@ export const deleteDocterApi = (params: any) => {
 } 
 
 //列表
-export const getDocterListApi = (params: any) => {
+export const getDoctorListApi = (params: any) => {
     return request.get('/system/user/query',{params:params})
 }

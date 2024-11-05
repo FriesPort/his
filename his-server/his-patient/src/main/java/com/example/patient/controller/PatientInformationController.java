@@ -5,7 +5,9 @@ import com.example.dto.patient.PatientDeleteDTO;
 import com.example.dto.patient.PatientEditDTO;
 import com.example.dto.patient.PatientQueryDTO;
 import com.example.patient.entity.Patient;
+import com.example.patient.service.ICampusService;
 import com.example.patient.service.IPatientInformationService;
+import com.example.vo.patient.CampusVO;
 import com.example.vo.patient.PatientVo;
 import com.example.vo.patient.Result;
 import com.example.vo.JsonVO;
@@ -36,7 +38,13 @@ public class PatientInformationController {
     @Autowired
     private IPatientInformationService patientInformationService;
 
+    @Autowired
+    ICampusService campusService;
 
+    @GetMapping("/all")
+    public JsonVO<List<CampusVO>> all(){
+        return JsonVO.success(campusService.all_dep_search());
+    }
 
     @PostMapping("/query")
     public JsonVO<List<Patient>> query(

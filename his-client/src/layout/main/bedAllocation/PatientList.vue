@@ -130,7 +130,7 @@
 import image1 from "@/assets/blockWhiteLeft.png"; // 根据实际路径调整
 import image2 from "@/assets/blockWhiteRight.png"; // 根据实际路径调整
 import image3 from "@/assets/患者查询.png";
-import { getbedRequest } from "@/api/bedAllocation/bedAllocation";
+import { getbedsRequest } from "@/api/bedAllocation/bedAllocation";
 import { getpatientsRequest } from "@/api/bedAllocation/bedAllocation"; // 根据你的项目路径导入函数
 
 export default {

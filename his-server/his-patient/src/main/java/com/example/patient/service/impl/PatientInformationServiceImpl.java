@@ -15,6 +15,7 @@ import com.example.patient.mapper.PatientMapper;
 import com.example.patient.service.IBedService;
 import com.example.patient.service.IPatientInformationService;
 import com.example.patient.service.IPatientrecodeService;
+import com.example.patient.service.IRoomuserService;
 import com.example.utils.IdGenerate;
 import com.example.utils.TimeTrainsform;
 import com.example.vo.patient.PatientVo;
@@ -57,11 +58,15 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
 
     @Autowired
     private AllIdMapper allIdMapper;
+
     @Autowired
     private PatientInformationMapper patientInformationMapper;
 
     @Autowired
     private IBedService bedService;
+
+    @Autowired
+    private IRoomuserService roomuserService;
 
 
     private static Logger logger = LoggerFactory.getLogger(PatientInformationServiceImpl.class);

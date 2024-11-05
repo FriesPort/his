@@ -244,12 +244,12 @@ const patientColumns: TableColumnsType = [
   { title: '性别', width: 100, dataIndex: 'gender', key: 'p2', },
   { title: '年龄', dataIndex: 'age', key: 'p3', width: 100 },
   { title: '联系电话', dataIndex: 'phone', key: 'p4', width: 160 },
-  { title: '医生', dataIndex: 'doctor', key: 'p6', width: 120 },
+  { title: '医生', dataIndex: 'createby', key: 'p6', width: 120 },
   { title: '诊断情况', dataIndex: 'illness', key: 'p7', width: 180 },
   { title: '入院情况', key: 'admissionDetail', width: 150 },
-  { title: '是否急诊', dataIndex: 'isEmergency', key: 'p8', width: 150 },
-  { title: '是否重症', dataIndex: 'isAcute', key: 'p9', width: 150 },
-  { title: '是否VIP', dataIndex: 'isVip', key: 'p10', width: 150 },
+  { title: '是否急诊', dataIndex: 'isemergency', key: 'p8', width: 150 },
+  { title: '是否重症', dataIndex: 'isacute', key: 'p9', width: 150 },
+  { title: '是否VIP', dataIndex: 'isvip', key: 'p10', width: 150 },
   { title: '操作', key: 'delete', width: 172, fixed: 'right', },
 ];
 
