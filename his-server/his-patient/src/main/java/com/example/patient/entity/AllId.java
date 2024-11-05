@@ -53,6 +53,12 @@ public class AllId implements Serializable {
      */
     private String hospital;
 
+    private String roomType;
+
+    private String roomGender;
+
+    private String roomNumber;
+
     /**
      * 创建时间
      */

@@ -1,5 +1,6 @@
 package com.example.patient.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -7,11 +8,10 @@ import com.example.dto.patient.PatientAlterDTO;
 import com.example.dto.patient.PatientDeleteDTO;
 import com.example.dto.patient.PatientEditDTO;
 import com.example.dto.patient.PatientQueryDTO;
-import com.example.patient.entity.Bed;
-import com.example.patient.entity.Patient;
-import com.example.patient.entity.Patientrecode;
-import com.example.patient.entity.Roomuser;
+import com.example.patient.entity.*;
+import com.example.patient.mapper.AllIdMapper;
 import com.example.patient.mapper.PatientInformationMapper;
+import com.example.patient.mapper.PatientMapper;
 import com.example.patient.service.IPatientInformationService;
 import com.example.patient.service.IPatientrecodeService;
 import com.example.utils.IdGenerate;
@@ -55,61 +55,65 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
     private IdGenerate idGenerate;
 
     @Autowired
-    private TimeTrainsform timeTrainsform;
-
+    private AllIdMapper allIdMapper;
     @Autowired
-    private BedServiceImpl bedService;
+    private PatientInformationMapper patientInformationMapper;
 
-    @Autowired
-    private RoomuserServiceImpl roomuserService;
 
     private static Logger logger = LoggerFactory.getLogger(PatientInformationServiceImpl.class);
 
     @Override   //筛选患者
     public List<Patient> patientList(PatientQueryDTO patientQueryDTO) {
+        LambdaQueryWrapper<AllId> allIdLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        allIdLambdaQueryWrapper
+                .select(AllId::getPatientId)
+                .eq(StrUtil.isNotEmpty(patientQueryDTO.getCampusId()),AllId::getCampusId,patientQueryDTO.getCampusId())
+                .eq(StrUtil.isNotEmpty(patientQueryDTO.getWardId()),AllId::getWardId,patientQueryDTO.getWardId())
+                .eq(StrUtil.isNotEmpty(patientQueryDTO.getRoomGenderRequirement()),AllId::getRoomGender,patientQueryDTO.getRoomGenderRequirement())
+                .eq(StrUtil.isNotEmpty(patientQueryDTO.getRoomTypeRequirement()),AllId::getRoomType,patientQueryDTO.getRoomTypeRequirement())
+                .eq(StrUtil.isNotEmpty(patientQueryDTO.getRoomNumberRequirement()),AllId::getRoomNumber,patientQueryDTO.getRoomNumberRequirement());
+        List<String> patientId=allIdMapper.selectObjs(allIdLambdaQueryWrapper);
+
         LambdaQueryWrapper<Patient> patientInformationLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        if(!patientId.isEmpty()){
+            patientInformationLambdaQueryWrapper.in(Patient::getId,patientId);
+        }
+
         //植入查询条件
-        patientInformationLambdaQueryWrapper.eq(patientQueryDTO.getCampusId()!=null, Patient::getCampusId,patientQueryDTO.getCampusId())
-                .eq(patientQueryDTO.getOfficeId()!=null, Patient::getOfficeId,patientQueryDTO.getOfficeId())
-                .eq(patientQueryDTO.getWardId()!=null, Patient::getWardId,patientQueryDTO.getWardId())
+        patientInformationLambdaQueryWrapper
                 .eq(patientQueryDTO.getName()!=null, Patient::getName,patientQueryDTO.getName())
                 .eq(patientQueryDTO.getGender()!=null, Patient::getGender,patientQueryDTO.getGender())
-                .eq(patientQueryDTO.getAdmissionType()!=null, Patient::getAdmissionType,patientQueryDTO.getAdmissionType())
-                .eq(patientQueryDTO.getBookType()!=null, Patient::getBookType,patientQueryDTO.getBookType())
-                .eq(patientQueryDTO.getRoomNumberRequirement()!=null, Patient::getRoomNumberRequirement,patientQueryDTO.getRoomNumberRequirement())
-                .eq(patientQueryDTO.getRoomGenderRequirement()!=null, Patient::getRoomGenderRequirement,patientQueryDTO.getRoomGenderRequirement())
-                .eq(patientQueryDTO.getRoomTypeRequirement()!=null, Patient::getRoomTypeRequirement,patientQueryDTO.getRoomTypeRequirement())
-                .eq(patientQueryDTO.getStatus()!=null, Patient::getStatus,patientQueryDTO.getStatus());
+                .eq(patientQueryDTO.getAdmissionType()!=null, Patient::getAdmissiontype,patientQueryDTO.getAdmissionType())
+                .eq(patientQueryDTO.getStatus()!=null, Patient::getIsInhospital,patientQueryDTO.getStatus());
 
-        List<Patient> list = list(patientInformationLambdaQueryWrapper);
+        List<Patient> list = patientInformationMapper.selectList(patientInformationLambdaQueryWrapper);
         //补充筛选条件
         if (patientQueryDTO.getWaitDay()!=null){
             // 使用 removeIf 方法移除不符合等待天数的患者
             list.removeIf(patient -> {
                 long days = ChronoUnit.DAYS.between(patient.getCreateTime(), LocalDateTime.now());
-                return days < patientQueryDTO.getWaitDay() || !patient.getStatus().equals("待入院");
+                return days < patientQueryDTO.getWaitDay() || !(patient.getIsInhospital()==0);
             });
         }
-        list.stream().sorted(Comparator.comparing(Patient::getIsAcute).reversed())
-                .collect(Collectors.toList());
 
-
-        return list.stream().sorted(Comparator.comparing(Patient::getIsAcute).reversed())
+        return list.stream()
+                .sorted((p1,p2) -> {
+                    int i=Integer.compare(p1.getIsInhospital(),p2.getIsInhospital());
+                    if(i!=0){
+                        return i;
+                    }
+                    return Integer.compare(p1.getIsacute(),p2.getIsacute());
+                })
                 .collect(Collectors.toList());
     }
 
     @Transactional
     @Override   // 查看患者
     public List<PatientVo> patientQuery(PatientQueryDTO patientQueryDTO) {
-        Map<String,String> query = patientQueryDTO.getQuery();
-        if(query.get())
+
 
     }
-    }
 
-
-
-    @Transactional
     @Override
     public Result<String> patientsAdd(String userId,List<PatientAlterDTO> patientList) {
         Result<String> result = new Result<>();
@@ -367,3 +371,7 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
         return result;
     }
 }
+
+
+
+
