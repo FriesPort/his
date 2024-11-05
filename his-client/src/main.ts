@@ -13,9 +13,9 @@ import { createPinia } from 'pinia';
 import { createPersistedState } from 'pinia-persistedstate-plugin';
 import piniaPluginPersist from 'pinia-plugin-persistedstate';
 import emitter from "@/utils/emitter";
-// import ElementPlus from 'element-plus'
-// import locale from 'element-plus/dist/locale/zh-cn.js'
-// import 'element-plus/dist/index.css'
+import ElementPlus from 'element-plus'
+import locale from 'element-plus/dist/locale/zh-cn.js'
+import 'element-plus/dist/index.css'
 
 
 
@@ -36,8 +36,9 @@ const pinia = createPinia();
 const persist = createPersistedState();
 pinia.use(persist);
 pinia.use(piniaPluginPersist);
-// app.use(ElementPlus, { locale });
+app.use(ElementPlus, { locale });
 app.use(Antd);
+// app.use(ElementPlus)
 app.use(router);
 app.use(pinia);
 

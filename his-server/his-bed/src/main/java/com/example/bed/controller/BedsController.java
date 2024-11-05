@@ -61,7 +61,7 @@ public class BedsController {
 
 
     //床位信息显示（床位信息显示应该不包含病房的查询）
-    //todo 显示床位号
+    //todo 显示病房号
     @ApiOperation("床位信息显示")
     @GetMapping("/list")
     public JsonVO<List<BedVo>> list(@ApiParam("检索条件")BedSearchDTO bedSearchDTO) {
@@ -84,9 +84,23 @@ public class BedsController {
         return JsonVO.fail(result.getMessage());
     }
 
+    /**
+     * 获取房间信息列表
+     * @return
+     */
     @GetMapping("/roomList")
     public JsonVO<List<RoomListVO>> roomList() {
         return JsonVO.success(bedsService.getRoomList());
+    }
+
+    /**
+     * 床位删除
+     * @param id
+     * @return
+     */
+    @PostMapping("/delete")
+    public JsonVO<Boolean> bedDelete(@ApiParam("要删除的床位id") @RequestParam String id) {
+        return bedsService.deleteBed(id);
     }
 
 

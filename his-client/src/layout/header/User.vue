@@ -39,10 +39,10 @@ onMounted( async () => {
     name:  'all',
     employeeNumber:  'all'
   }
-  let res = await getListApi(params)
-  userList.users = res.data
-  const user = userList.users.find((item: any) => item.userId === user_id )
-  userName.value = user?.username
+  // let res = await getListApi(params)
+  // userList.users = res.data
+  // const user = userList.users.find((item: any) => item.userId === user_id )
+  // userName.value = user?.username
 })
 const authStore = useAuthStore();
 const router = useRouter();

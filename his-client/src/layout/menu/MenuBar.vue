@@ -38,12 +38,26 @@
       </template>
       <RouterLink to="/bedAllocation">床位分配</RouterLink>
     </a-menu-item>
-    <a-menu-item key="/reportStatistics">
-      <template #icon>
-        <UserOutlined />
-      </template>
-      <RouterLink to="/user">用户管理</RouterLink>
+    <!-- <a-menu-item key="/user">
+    <template #icon>
+      <UserOutlined />
+    </template>
+    <RouterLink to="/user">用户管理</RouterLink>
+  </a-menu-item> -->
+  <a-sub-menu key="/user">
+    <template #icon>
+      <UserOutlined />
+    </template>
+    <template #title>
+      用户管理
+    </template>
+    <a-menu-item key="/user/doctor">
+      <RouterLink to="/user/doctor">医生管理</RouterLink>
     </a-menu-item>
+    <a-menu-item key="/user/nurse">
+      <RouterLink to="/user/nurse">护士管理</RouterLink>
+    </a-menu-item>
+  </a-sub-menu>
     <a-menu-item key="/role">
       <template #icon>
         <solution-outlined />

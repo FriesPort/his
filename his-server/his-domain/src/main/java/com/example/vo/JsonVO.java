@@ -84,4 +84,11 @@ public class JsonVO<T> implements Serializable {
     public static <T> JsonVO<T> fail(T data) {
         return create(data, ResultStatus.FAIL);
     }
+    public static <T> JsonVO<T> fail(String message) {
+        JsonVO<T> result = new JsonVO<>();
+        result.setCode(ResultStatus.FAIL.getCode());
+        result.setMessage(message); // 设置自定义的失败消息
+        return result;
+    }
+
 }

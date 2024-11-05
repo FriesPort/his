@@ -94,23 +94,43 @@ export const routes: Array<RouteRecordRaw> = [
         path: '/user',
         name: 'user',
         component: () => import('@/view/content/User.vue'),
-        beforeEnter: (to, from, next) => {
-          const userStore = useUserStore();
-          const menuStore = useMenuStore();
-          if (userStore.permissions.includes('用户管理')) {
-            next();
-          } else {
-            message.success('权限不足')
-            // 直接更新 Pinia store 的状态
-            menuStore.openKeys = ['/bedView'];
-            next('/bedView'); // 重定向到未授权页面
-          }
-        },
+        // beforeEnter: (to, from, next) => {
+        //   const userStore = useUserStore();
+        //   const menuStore = useMenuStore();
+        //   if (userStore.permissions.includes('用户管理')) {
+        //     next();
+        //   } else {
+        //     message.success('权限不足')
+        //     // 直接更新 Pinia store 的状态
+        //     menuStore.openKeys = ['/bedView'];
+        //     next('/bedView'); // 重定向到未授权页面
+        //   }
+        // },
         meta: {
           title: '用户管理',
-          requiresAuth: true,
+          // requiresAuth: true,
           roles: ["sys:user"],
-        }
+        },
+        children: [
+              {
+                path: '/user/doctor',
+                name: 'doctor',
+                component: () => import('@/layout/main/userManagement/doctor/docter.vue'),
+                meta: {
+                  title: '医生管理',
+                  // requiresAuth: true,
+                }
+              },
+              {
+                path: '/user/nurse',
+                name: 'nurse',
+                component: () => import('@/layout/main/userManagement/nurse/nurse.vue'),
+                meta: {
+                  title: '护士管理',
+                  // requiresAuth: true,
+                }
+              }
+            ]
       },
       {
         path: '/role',
