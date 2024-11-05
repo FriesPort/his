@@ -20,6 +20,7 @@ import com.example.vo.systemmanagement.user.UserDeleteVO;
 import com.example.vo.systemmanagement.user.UserDisplayVO;
 import com.example.vo.systemmanagement.user.UserUpdateVO;
 import com.example.vo.systemmanagement.userrole.UserRoleDisplayVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,6 +39,7 @@ import java.util.List;
  * @author diandian
  * @since 2024-04-13
  */
+@Slf4j
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
@@ -121,8 +123,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 //        }
 //
 //        return displayVOList;
-
-        return  userMapper.userList(userDisplayDTO,page);
+        IPage<UserDisplayVO> re=userMapper.userList(userDisplayDTO,page);
+        log.info("userlist:{}",re);
+        return  re;
     }
     //建议值传入修改的字段，用Map接收，然后拼接sql，不需要每次都传入全部字段
     @Override
