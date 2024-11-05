@@ -14,18 +14,17 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-
--- 导出 hospital2 的数据库结构
-CREATE DATABASE IF NOT EXISTS `hospital2` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `hospital2`;
-
 -- 导出  表 hospital2.all_id 结构
 CREATE TABLE IF NOT EXISTS `all_id` (
   `id` varchar(32) NOT NULL COMMENT '自动递增的主键',
+  `patient_id` varchar(32) NOT NULL COMMENT '患者编号',
   `campus_id` varchar(32) NOT NULL COMMENT '院区编号',
   `office_id` varchar(32) NOT NULL COMMENT '科室编号',
   `ward_id` varchar(32) NOT NULL COMMENT '病区编号',
   `hospital` varchar(32) NOT NULL COMMENT '医院名称',
+  `room_type` varchar(255) DEFAULT '普通病房' COMMENT '房间类型',
+  `room_gender` varchar(255) DEFAULT '混合病房' COMMENT '房间性别',
+  `room_number` varchar(255) DEFAULT '病房人数' COMMENT '房间人数',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `create_by` varchar(50) NOT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
@@ -34,21 +33,22 @@ CREATE TABLE IF NOT EXISTS `all_id` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- 正在导出表  hospital2.all_id 的数据：~5 rows (大约)
-REPLACE INTO `all_id` (`id`, `campus_id`, `office_id`, `ward_id`, `hospital`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-	('1', '第一院区', '内科', '内科一病区', '友好医院', '2024-09-26 12:00:00', '管理员', NULL, NULL),
-	('2', '第二院区', '外科', '外科二病区', '仁爱医院', '2024-09-26 12:01:00', '管理员', NULL, NULL),
-	('3', '第三院区', '妇产科', '妇产科三病区', '协和医院', '2024-09-26 12:02:00', '管理员', NULL, NULL),
-	('4', '第四院区', '儿科', '儿科四病区', '阳光医院', '2024-09-26 12:03:00', '管理员', NULL, NULL),
-	('5', '第五院区', '眼科', '眼科五病区', '中心医院', '2024-09-26 12:04:00', '管理员', NULL, NULL);
+REPLACE INTO `all_id` (`id`, `patient_id`, `campus_id`, `office_id`, `ward_id`, `hospital`, `room_type`, `room_gender`, `room_number`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
+	('1', '5', '第一院区', '内科', '内科一病区', '友好医院', '普通病房', '混合病房', '病房人数', '2024-09-26 12:00:00', '管理员', NULL, NULL),
+	('2', '3', '第二院区', '外科', '外科二病区', '仁爱医院', '普通病房', '混合病房', '病房人数', '2024-09-26 12:01:00', '管理员', NULL, NULL),
+	('3', '4', '第三院区', '妇产科', '妇产科三病区', '协和医院', '普通病房', '混合病房', '病房人数', '2024-09-26 12:02:00', '管理员', NULL, NULL),
+	('4', '1', '第四院区', '儿科', '儿科四病区', '阳光医院', '普通病房', '混合病房', '病房人数', '2024-09-26 12:03:00', '管理员', NULL, NULL),
+	('5', '2', '第五院区', '眼科', '眼科五病区', '中心医院', '普通病房', '混合病房', '病房人数', '2024-09-26 12:04:00', '管理员', NULL, NULL);
 
 -- 导出  表 hospital2.bed 结构
 CREATE TABLE IF NOT EXISTS `bed` (
   `id` varchar(32) NOT NULL COMMENT '自动递增的主键',
-  `patient_id` varchar(32) NOT NULL DEFAULT '0' COMMENT '关联患者编号-外键',
+  `patient_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '关联患者编号-外键',
   `room_id` varchar(32) NOT NULL COMMENT '关联病房编号-外键',
   `type` varchar(255) NOT NULL COMMENT '床位类型',
   `number` varchar(255) NOT NULL COMMENT '床位编号',
-  `is_null` tinyint NOT NULL COMMENT '0表示空闲，1表示占用，默认值为0，表示床位状态',
+  `bednumber` varchar(255) DEFAULT NULL,
+  `is_null` tinyint NOT NULL DEFAULT '0' COMMENT '0表示空闲，1表示占用，默认值为0，表示床位状态',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `create_by` varchar(50) NOT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
@@ -56,13 +56,16 @@ CREATE TABLE IF NOT EXISTS `bed` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 正在导出表  hospital2.bed 的数据：~5 rows (大约)
-REPLACE INTO `bed` (`id`, `patient_id`, `room_id`, `type`, `number`, `is_null`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-	('b1', '0', 'r1', '普通床位', '1 号床', 0, '2024-09-26 12:05:00', '管理员', NULL, NULL),
-	('b2', '0', 'r2', '单人床位', '2 号床', 0, '2024-09-26 12:06:00', '管理员', NULL, NULL),
-	('b3', 'p1', 'r3', '高级床位', '3 号床', 1, '2024-09-26 12:07:00', '管理员', NULL, NULL),
-	('b4', 'p2', 'r4', '重症床位', '4 号床', 1, '2024-09-26 12:08:00', '管理员', NULL, NULL),
-	('b5', '0', 'r5', '儿科床位', '5 号床', 0, '2024-09-26 12:09:00', '管理员', NULL, NULL);
+-- 正在导出表  hospital2.bed 的数据：~8 rows (大约)
+REPLACE INTO `bed` (`id`, `patient_id`, `room_id`, `type`, `number`, `bednumber`, `is_null`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
+	('1ec1e295a20a4c64a26d43f89b1f4768', '3', 'r2', '2gdg', '1112', NULL, 0, '2024-10-31 18:37:58', 'u1', NULL, NULL),
+	('2cb96692aee1440f98ec0cb30d646a64', NULL, 'r1', '混合床位', '99099', NULL, 0, '2024-11-02 16:18:28', 'u1', NULL, NULL),
+	('4c971573370040b88b6bea543640d9af', '', 'r4', '轻度', '51', NULL, 0, '2024-10-31 20:38:40', 'admin', NULL, NULL),
+	('822c3e53ef094ab683839781d853d293', '', 'r2', '轻度', '51', NULL, 0, '2024-10-31 18:34:24', 'admin', NULL, NULL),
+	('b05f7a5cc3dd4f85bd7620acd0210eeb', '', 'r3', '女床', '1001', '1001', 0, '2024-10-31 20:38:40', 'admin', '2024-11-01 21:55:05', ''),
+	('b1', '3', 'r1', '普通床位', '1 号床', NULL, 1, '2024-09-26 12:05:00', '管理员', '2024-10-31 10:42:47', 'u1'),
+	('b2', '2', 'r2', '单人床位', '2 号床', NULL, 1, '2024-09-26 12:06:00', '管理员', '2024-10-31 10:44:26', 'u1'),
+	('cca5c55c5a6040998c59cf3ca9fc4f48', '', 'r1', '轻度', '51', NULL, 0, '2024-10-31 18:34:24', 'admin', NULL, NULL);
 
 -- 导出  表 hospital2.bedlog 结构
 CREATE TABLE IF NOT EXISTS `bedlog` (
@@ -78,8 +81,11 @@ CREATE TABLE IF NOT EXISTS `bedlog` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 正在导出表  hospital2.bedlog 的数据：~5 rows (大约)
+-- 正在导出表  hospital2.bedlog 的数据：~8 rows (大约)
 REPLACE INTO `bedlog` (`id`, `bed_id`, `patient_information_id`, `is_using`, `create_time`, `create_by`, `update_time`, `update_by`, `remark`) VALUES
+	('0568dc3f05d048eaa4bdf9d477b13817', 'ee74bd8b17ad4ad69f23738d7aec0d51', '3', b'1', '2024-10-31 17:40:26', 'u1', NULL, NULL, NULL),
+	('4056b85f30ca4533994dfea9e45966c8', '1ec1e295a20a4c64a26d43f89b1f4768', '3', b'1', '2024-10-31 18:37:58', 'u1', NULL, NULL, NULL),
+	('6edef2c0a8544cfc9c9fdbb19301f87c', 'b29c1e71de8c47a39e939223cc5cd5a0', 'p1', b'1', '2024-10-31 17:43:27', 'admin', NULL, NULL, NULL),
 	('bl1', 'b1', 'p4', b'0', '2024-09-26 13:58:00', '管理员', NULL, NULL, '床位空闲'),
 	('bl2', 'b2', '0', b'0', '2024-09-26 13:59:00', '管理员', NULL, NULL, '床位空闲'),
 	('bl3', 'b3', 'p1', b'1', '2024-09-26 14:00:00', '管理员', NULL, NULL, '床位占用'),
@@ -102,11 +108,11 @@ CREATE TABLE IF NOT EXISTS `building` (
 
 -- 正在导出表  hospital2.building 的数据：~5 rows (大约)
 REPLACE INTO `building` (`id`, `name`, `campus_id`, `is_use`, `total_floor_count`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-	('bld1', '门诊大楼', '第一院区', 1, 10, '2024-09-26 12:10:00', '管理员', NULL, NULL),
-	('bld2', '住院部大楼', '第二院区', 1, 8, '2024-09-26 12:11:00', '管理员', NULL, NULL),
-	('bld3', '医技楼', '第三院区', 0, 6, '2024-09-26 12:12:00', '管理员', NULL, NULL),
-	('bld4', '行政楼', '第四院区', 1, 5, '2024-09-26 12:13:00', '管理员', NULL, NULL),
-	('bld5', '后勤楼', '第五院区', 1, 7, '2024-09-26 12:14:00', '管理员', NULL, NULL);
+	('bld1', '门诊大楼', 'c1', 1, 10, '2024-09-26 12:10:00', '管理员', NULL, NULL),
+	('bld2', '住院部大楼', 'c2', 1, 8, '2024-09-26 12:11:00', '管理员', NULL, NULL),
+	('bld3', '医技楼', 'c3', 0, 6, '2024-09-26 12:12:00', '管理员', NULL, NULL),
+	('bld4', '行政楼', 'c4', 1, 5, '2024-09-26 12:13:00', '管理员', NULL, NULL),
+	('bld5', '后勤楼', 'c5', 1, 7, '2024-09-26 12:14:00', '管理员', NULL, NULL);
 
 -- 导出  表 hospital2.campus 结构
 CREATE TABLE IF NOT EXISTS `campus` (
@@ -125,11 +131,11 @@ CREATE TABLE IF NOT EXISTS `campus` (
 
 -- 正在导出表  hospital2.campus 的数据：~5 rows (大约)
 REPLACE INTO `campus` (`id`, `hospital_id`, `name`, `map_package`, `theme_package`, `is_authorization`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-	('c1', '友好医院', '第一院区', NULL, NULL, 1, '2024-09-26 12:15:00', '管理员', NULL, NULL),
-	('c2', '仁爱医院', '第二院区', NULL, NULL, 0, '2024-09-26 12:16:00', '管理员', NULL, NULL),
-	('c3', '协和医院', '第三院区', NULL, NULL, 1, '2024-09-26 12:17:00', '管理员', NULL, NULL),
-	('c4', '阳光医院', '第四院区', NULL, NULL, 1, '2024-09-26 12:18:00', '管理员', NULL, NULL),
-	('c5', '中心医院', '第五院区', NULL, NULL, 0, '2024-09-26 12:19:00', '管理员', NULL, NULL);
+	('c1', 'h1', '第一院区', NULL, NULL, 1, '2024-09-26 12:15:00', '管理员', NULL, NULL),
+	('c2', 'h1', '第二院区', NULL, NULL, 0, '2024-09-26 12:16:00', '管理员', NULL, NULL),
+	('c3', 'h1', '第三院区', NULL, NULL, 1, '2024-09-26 12:17:00', '管理员', NULL, NULL),
+	('c4', 'h1', '第四院区', NULL, NULL, 1, '2024-09-26 12:18:00', '管理员', NULL, NULL),
+	('c5', 'h1', '第五院区', NULL, NULL, 0, '2024-09-26 12:19:00', '管理员', NULL, NULL);
 
 -- 导出  表 hospital2.customer 结构
 CREATE TABLE IF NOT EXISTS `customer` (
@@ -324,11 +330,13 @@ CREATE TABLE IF NOT EXISTS `office` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 正在导出表  hospital2.office 的数据：~3 rows (大约)
+-- 正在导出表  hospital2.office 的数据：~5 rows (大约)
 REPLACE INTO `office` (`id`, `name`, `campus_id`, `create_time`, `create_by`, `update_time`, `update_by`, `remark`, `phone`) VALUES
-	('o1', '内科', '第一院区', '2024-09-26 12:55:00', '管理员', NULL, NULL, '内科疾病诊治', '1234567890'),
-	('o2', '外科', '第二院区', '2024-09-26 12:56:00', '管理员', NULL, NULL, '外科手术治疗', '2345678901'),
-	('o3', '妇产科', '第三院区', '2024-09-26 12:57:00', '管理员', NULL, NULL, '妇产科专科', '3456789012');
+	('o1', '内科', 'c1', '2024-09-26 12:55:00', '管理员', NULL, NULL, '内科疾病诊治', '1234567890'),
+	('o2', '外科', 'c2', '2024-09-26 12:56:00', '管理员', NULL, NULL, '外科手术治疗', '2345678901'),
+	('o3', '妇产科', 'c3', '2024-09-26 12:57:00', '管理员', NULL, NULL, '妇产科专科', '3456789012'),
+	('o4', '眼科', 'c4', '2024-11-01 11:10:43', 'admin', NULL, NULL, '眼科诊断', '18923348771'),
+	('o5', '耳鼻喉科', 'c5', '2024-11-01 11:19:49', 'admin', NULL, NULL, NULL, '123456787901');
 
 -- 导出  表 hospital2.patient_hospitalization_record 结构
 CREATE TABLE IF NOT EXISTS `patient_hospitalization_record` (
@@ -373,8 +381,8 @@ CREATE TABLE IF NOT EXISTS `patient_information` (
   `is_emergency` tinyint NOT NULL DEFAULT '0' COMMENT '默认值为 0，表示是否急诊（0 否，1 是）',
   `is_vip` tinyint NOT NULL DEFAULT '0' COMMENT '默认值为 0，表示是否 vip（0 否，1 是）',
   `is_acute` tinyint NOT NULL DEFAULT '0' COMMENT '默认值为 0，表示是否重症',
-  `is_inHospital` tinyint NOT NULL DEFAULT '0' COMMENT '默认值为0，表示是否在住院（0是，1否）',
-  `preAssignBed` tinyint DEFAULT NULL COMMENT '预分配床位号,为0表示未进行预分配',
+  `is_inHospital` tinyint NOT NULL DEFAULT '0' COMMENT '默认值为0，表示是否在住院（0待入院，1已入院，2已出院）',
+  `preAssignBed` tinyint DEFAULT '0' COMMENT '预分配床位号,为0表示未进行预分配',
   `illness` varchar(30) DEFAULT NULL COMMENT '疾病类型',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `create_by` varchar(50) NOT NULL COMMENT '创建人',
@@ -383,14 +391,21 @@ CREATE TABLE IF NOT EXISTS `patient_information` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 正在导出表  hospital2.patient_information 的数据：~0 rows (大约)
+-- 正在导出表  hospital2.patient_information 的数据：~6 rows (大约)
+REPLACE INTO `patient_information` (`id`, `name`, `gender`, `age`, `address`, `identity`, `phone`, `admission_number`, `admission_type`, `admission_time`, `discharge_time`, `bed_id`, `book_type`, `is_emergency`, `is_vip`, `is_acute`, `is_inHospital`, `preAssignBed`, `illness`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
+	('1', '张三', 1, 30, '北京市朝阳区', '123456789012345678', '13812345678', '20241001', '常规', '2024-10-01 08:00:00', NULL, 'b2', 0, 0, 0, 0, 0, 0, '感冒', '2024-10-01 07:00:00', '管理员', '2024-10-31 10:40:16', 'u1'),
+	('2', '李四', 0, 25, '上海市浦东新区', '234567890123456789', '13912345678', '20241002', '急诊', '2024-10-02 09:00:00', NULL, 'b1', 1, 1, 0, 0, 0, 0, '发烧', '2024-10-02 08:00:00', '医生', '2024-10-31 10:42:47', 'u1'),
+	('3', '王五', 1, 40, '广州市天河区', '345678901234567890', '13612345678', '20241003', '常规', '2024-10-03 10:00:00', NULL, 'b1', 0, 0, 0, 0, 0, 0, '咳嗽', '2024-10-03 09:00:00', '护士', '2024-10-31 10:44:26', 'u1'),
+	('4', '赵六', 0, 35, '深圳市福田区', '456789012345678901', '13712345678', '20241004', '急诊', '2024-10-04 11:00:00', NULL, '104', 1, 0, 0, 0, 0, 0, '肺炎', '2024-10-04 10:00:00', '管理员', NULL, NULL),
+	('5', 'string', 0, 0, 'string', '567890123456789012', '13512345678', '20241005', '常规', '2024-10-05 12:00:00', NULL, '105', 0, 0, 0, 0, 2, 0, '感冒', '2024-10-05 11:00:00', '医生', '2024-10-31 12:36:13', ''),
+	('cf6cc7946a8a4c858531b75b6a852fef', 'dd', 1, 13, 'fadfava', 'st462562534ring', '12345678901', 'string', 'string', NULL, NULL, NULL, 0, 0, 0, 0, 0, NULL, 'string', '2024-10-31 11:06:15', 'u1', '2024-10-31 11:06:15', 'u1');
 
 -- 导出  表 hospital2.permission 结构
 CREATE TABLE IF NOT EXISTS `permission` (
   `id` varchar(32) NOT NULL COMMENT '主键',
   `name` varchar(32) NOT NULL,
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '权限名称',
-  `is_datarule` tinyint NOT NULL DEFAULT (1) COMMENT '是否启用数据权限，0为否，1为是，默认为0',
+  `is_datarule` tinyint NOT NULL DEFAULT '0' COMMENT '是否启用数据权限，0为否，1为是，默认为0',
   `is_use` tinyint NOT NULL DEFAULT (1) COMMENT '权限是否可用，0为否，1为是，默认为1',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `create_by` varchar(50) NOT NULL COMMENT '创建人',
@@ -400,45 +415,44 @@ CREATE TABLE IF NOT EXISTS `permission` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 正在导出表  hospital2.permission 的数据：~13 rows (大约)
+-- 正在导出表  hospital2.permission 的数据：~36 rows (大约)
 REPLACE INTO `permission` (`id`, `name`, `description`, `is_datarule`, `is_use`, `create_time`, `create_by`, `update_time`, `update_by`, `route`) VALUES
-	('2ebdc3b294d811efa2e3b40ede391d71', 'assign:inHospital', 'Patient admission related permission', 1, 1, '2024-10-28 10:56:08', 'admin', NULL, NULL, '/assign/inHospital'),
-	('2ec0e1df94d811efa2e3b40ede391d71', 'assign:discharge', 'Patient discharge related permission', 1, 1, '2024-10-28 10:56:09', 'admin', NULL, NULL, '/assign/discharge'),
-	('2ec58c7194d811efa2e3b40ede391d71', 'assign:preassign', 'Preassign bed related permission', 1, 1, '2024-10-28 10:56:09', 'admin', NULL, NULL, '/assign/preassign'),
-	('2ecadf3494d811efa2e3b40ede391d71', 'assign:getOutBed', 'Get empty bed related permission', 1, 1, '2024-10-28 10:56:09', 'admin', NULL, NULL, '/assign/getOutBed'),
-	('2ed10ed194d811efa2e3b40ede391d71', 'assign:getOnBed', 'Get occupied bed related permission', 1, 1, '2024-10-28 10:56:09', 'admin', NULL, NULL, '/assign/getOnBed'),
-	('2ed807ed94d811efa2e3b40ede391d71', 'assign:changeBed', 'Patient change bed related permission', 1, 1, '2024-10-28 10:56:09', 'admin', NULL, NULL, '/assign/changeBed'),
-	('72fc1a9194d811efa2e3b40ede391d71', 'beds:add', 'Add bed related permission', 1, 1, '2024-10-28 10:58:03', 'admin', NULL, NULL, '/beds/add'),
-	('73017e7894d811efa2e3b40ede391d71', 'beds:update', 'Update bed related permission', 1, 1, '2024-10-28 10:58:03', 'admin', NULL, NULL, '/beds/update'),
-	('7307873494d811efa2e3b40ede391d71', 'beds:list', 'List beds related permission', 1, 1, '2024-10-28 10:58:03', 'admin', NULL, NULL, '/beds/list'),
-	('730df60394d811efa2e3b40ede391d71', 'beds:addBatch', 'Add batch of beds related permission', 1, 1, '2024-10-28 10:58:03', 'admin', NULL, NULL, '/beds/addBatch'),
-	('79ac6a9294d911efa2e3b40ede391d71', 'system:user:msg:add', 'Add system user message related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/msg/add'),
-	('79ae593494d911efa2e3b40ede391d71', 'system:user:msg:delete', 'Delete system user message related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/msg/delete'),
-	('79af4f1e94d911efa2e3b40ede391d71', 'system:user:msg:update', 'Update system user message related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/msg/update'),
-	('79b6173894d911efa2e3b40ede391d71', 'system:user:msg:display', 'Display system user message related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/msg/display'),
-	('79be01d394d911efa2e3b40ede391d71', 'system:user:role:allocation', 'Allocation of system user role related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/role/allocation'),
-	('79c691be94d911efa2e3b40ede391d71', 'system:user:role:delete', 'Delete system user role related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/role/delete'),
-	('79cfe52b94d911efa2e3b40ede391d71', 'system:user:role:getOwnedRole', 'Get owned role of system user related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/role/getOwnedRole'),
-	('79d99ac994d911efa2e3b40ede391d71', 'system:user:role:getUnownedRole', 'Get unowned role of system user related permission', 1, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/role/qetUnownedRole'),
-	('84d5d11394da11efa2e3b40ede391d71', 'role:register', 'System role register related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/role/register'),
-	('84d7725a94da11efa2e3b40ede391d71', 'role:allocation', 'System role allocation related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/role/allocation'),
-	('84d9008594da11efa2e3b40ede391d71', 'role:permissiondisplay', 'System role permission display related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/role/permissiondisplay'),
-	('84e0095d94da11efa2e3b40ede391d71', 'role:search', 'System role search related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/role/search'),
-	('84e7877694da11efa2e3b40ede391d71', 'permission:register', 'System permission register related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/register'),
-	('84ef35eb94da11efa2e3b40ede391d71', 'permission:delete', 'System permission delete related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/delete'),
-	('84f0075794da11efa2e3b40ede391d71', 'permission:update', 'System permission update related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/update'),
-	('84f0f37f94da11efa2e3b40ede391d71', 'permission:search', 'System permission search related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/search'),
-	('84fa95bf94da11efa2e3b40ede391d71', 'datarule:update', 'System permission datarule update related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/datarule/update'),
-	('84fbaaf994da11efa2e3b40ede391d71', 'datarule:insert', 'System permission datarule insert related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/datarule/insert'),
-	('84fc738494da11efa2e3b40ede391d71', 'datarule:delete', 'System permission datarule delete related permission', 1, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/datarule/delete'),
-	('e06e56a894d811efa2e3b40ede391d71', 'patient:add', 'Add patient information related permission', 1, 1, '2024-10-28 11:01:07', 'admin', NULL, NULL, '/patient/add'),
-	('e06f8f2794d811efa2e3b40ede391d71', 'patient:add_batch', 'Batch add patient information related permission', 1, 1, '2024-10-28 11:01:07', 'admin', NULL, NULL, '/patient/adds'),
-	('e071013b94d811efa2e3b40ede391d71', 'patient:delete', 'Delete patient information related permission', 1, 1, '2024-10-28 11:01:07', 'admin', NULL, NULL, '/patient/delete'),
-	('e0783dc094d811efa2e3b40ede391d71', 'patient:edit', 'Edit patient information related permission', 1, 1, '2024-10-28 11:01:07', 'admin', NULL, NULL, '/patient/edit'),
-	('e0793ce294d811efa2e3b40ede391d71', 'patient:view', 'View patient information related permission', 1, 1, '2024-10-28 11:01:07', 'admin', NULL, NULL, '/patient/query'),
-	('perm3', 'admin', NULL, 0, 1, '2024-10-15 09:57:58', '管理员', NULL, NULL, '/**'),
-	('perm999', 'user-role-permission:search', NULL, 0, 1, '2024-10-15 09:46:47', '管理员', NULL, NULL, '/users/roleandpermission/search'),
-	('pppee', 'everyone', NULL, 1, 1, '2024-10-28 10:40:19', 'u1', NULL, NULL, '/security/logout');
+	('2ebdc3b294d811efa2e3b40ede391d71', 'assign:inHospital', 'Patient admission related permission', 0, 1, '2024-10-28 10:56:08', 'admin', NULL, NULL, '/assign/inHospital'),
+	('2ec0e1df94d811efa2e3b40ede391d71', 'assign:discharge', 'Patient discharge related permission', 0, 1, '2024-10-28 10:56:09', 'admin', NULL, NULL, '/assign/discharge'),
+	('2ec58c7194d811efa2e3b40ede391d71', 'assign:preassign', 'Preassign bed related permission', 0, 1, '2024-10-28 10:56:09', 'admin', NULL, NULL, '/assign/preassign'),
+	('2ecadf3494d811efa2e3b40ede391d71', 'assign:getOutBed', 'Get empty bed related permission', 0, 1, '2024-10-28 10:56:09', 'admin', NULL, NULL, '/assign/getOutBed'),
+	('2ed10ed194d811efa2e3b40ede391d71', 'assign:getOnBed', 'Get occupied bed related permission', 0, 1, '2024-10-28 10:56:09', 'admin', NULL, NULL, '/assign/getOnBed'),
+	('2ed807ed94d811efa2e3b40ede391d71', 'assign:changeBed', 'Patient change bed related permission', 0, 1, '2024-10-28 10:56:09', 'admin', NULL, NULL, '/assign/changeBed'),
+	('72fc1a9194d811efa2e3b40ede391d71', 'beds:add', 'Add bed related permission', 0, 1, '2024-10-28 10:58:03', 'admin', NULL, NULL, '/beds/add'),
+	('73017e7894d811efa2e3b40ede391d71', 'beds:update', 'Update bed related permission', 0, 1, '2024-10-28 10:58:03', 'admin', NULL, NULL, '/beds/update'),
+	('7307873494d811efa2e3b40ede391d71', 'beds:list', 'List beds related permission', 0, 1, '2024-10-28 10:58:03', 'admin', NULL, NULL, '/beds/list'),
+	('730df60394d811efa2e3b40ede391d71', 'beds:addBatch', 'Add batch of beds related permission', 0, 1, '2024-10-28 10:58:03', 'admin', NULL, NULL, '/beds/addBatch'),
+	('79ac6a9294d911efa2e3b40ede391d71', 'system:user:msg:add', 'Add system user message related permission', 0, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/msg/add'),
+	('79ae593494d911efa2e3b40ede391d71', 'system:user:msg:delete', 'Delete system user message related permission', 0, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/msg/delete'),
+	('79af4f1e94d911efa2e3b40ede391d71', 'system:user:msg:update', 'Update system user message related permission', 0, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/msg/update'),
+	('79b6173894d911efa2e3b40ede391d71', 'system:user:msg:display', 'Display system user message related permission', 0, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/msg/display'),
+	('79be01d394d911efa2e3b40ede391d71', 'system:user:role:allocation', 'Allocation of system user role related permission', 0, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/role/allocation'),
+	('79c691be94d911efa2e3b40ede391d71', 'system:user:role:delete', 'Delete system user role related permission', 0, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/role/delete'),
+	('79cfe52b94d911efa2e3b40ede391d71', 'system:user:role:getOwnedRole', 'Get owned role of system user related permission', 0, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/role/getOwnedRole'),
+	('79d99ac994d911efa2e3b40ede391d71', 'system:user:role:getUnownedRole', 'Get unowned role of system user related permission', 0, 1, '2024-10-28 11:05:24', 'admin', NULL, NULL, 'system/user/role/qetUnownedRole'),
+	('84d5d11394da11efa2e3b40ede391d71', 'role:register', 'System role register related permission', 0, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/role/register'),
+	('84d7725a94da11efa2e3b40ede391d71', 'role:allocation', 'System role allocation related permission', 0, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/role/allocation'),
+	('84d9008594da11efa2e3b40ede391d71', 'role:permissiondisplay', 'System role permission display related permission', 0, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/role/permissiondisplay'),
+	('84e0095d94da11efa2e3b40ede391d71', 'role:search', 'System role search related permission', 0, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/role/search'),
+	('84e7877694da11efa2e3b40ede391d71', 'permission:register', 'System permission register related permission', 0, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/register'),
+	('84ef35eb94da11efa2e3b40ede391d71', 'permission:delete', 'System permission delete related permission', 0, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/delete'),
+	('84f0075794da11efa2e3b40ede391d71', 'permission:update', 'System permission update related permission', 0, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/update'),
+	('84f0f37f94da11efa2e3b40ede391d71', 'permission:search', 'System permission search related permission', 0, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/search'),
+	('84fa95bf94da11efa2e3b40ede391d71', 'datarule:update', 'System permission datarule update related permission', 0, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/datarule/update'),
+	('84fbaaf994da11efa2e3b40ede391d71', 'datarule:insert', 'System permission datarule insert related permission', 0, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/datarule/insert'),
+	('84fc738494da11efa2e3b40ede391d71', 'datarule:delete', 'System permission datarule delete related permission', 0, 1, '2024-10-28 11:12:52', 'admin', NULL, NULL, '/system/permission/datarule/delete'),
+	('e06e56a894d811efa2e3b40ede391d71', 'patient:add', 'Add patient information related permission', 0, 1, '2024-10-28 11:01:07', 'admin', NULL, NULL, '/patient/add'),
+	('e06f8f2794d811efa2e3b40ede391d71', 'patient:add_batch', 'Batch add patient information related permission', 0, 1, '2024-10-28 11:01:07', 'admin', NULL, NULL, '/patient/adds'),
+	('e071013b94d811efa2e3b40ede391d71', 'patient:delete', 'Delete patient information related permission', 0, 1, '2024-10-28 11:01:07', 'admin', NULL, NULL, '/patient/delete'),
+	('e0783dc094d811efa2e3b40ede391d71', 'patient:edit', 'Edit patient information related permission', 0, 1, '2024-10-28 11:01:07', 'admin', NULL, NULL, '/patient/edit'),
+	('e0793ce294d811efa2e3b40ede391d71', 'patient:view', 'View patient information related permission', 0, 1, '2024-10-28 11:01:07', 'admin', NULL, NULL, '/patient/query'),
+	('perm3', 'admin', NULL, 1, 1, '2024-10-15 09:57:58', '管理员', NULL, NULL, '/**'),
+	('perm999', 'user-role-permission:search', '哈哈哈哈哈', 1, 1, '2024-10-15 09:46:47', '管理员', '2024-11-05 09:53:46', 'u1', '/users/roleandpermission/search');
 
 -- 导出  表 hospital2.permission_data_rule 结构
 CREATE TABLE IF NOT EXISTS `permission_data_rule` (
@@ -455,14 +469,10 @@ CREATE TABLE IF NOT EXISTS `permission_data_rule` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 正在导出表  hospital2.permission_data_rule 的数据：~6 rows (大约)
+-- 正在导出表  hospital2.permission_data_rule 的数据：~2 rows (大约)
 REPLACE INTO `permission_data_rule` (`id`, `permission_id`, `rule_name`, `rule_column`, `rule_conditions`, `rule_value`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
 	('66650db2cb3346279aebb741443919b9', 'perm999', '限制100', 'id', '>=', '100', '2024-10-24 15:49:35', 'u1', NULL, NULL),
-	('pdr1', 'permperm1', '患者信息查看规则', 'patient_id', '=', '特定患者 ID', '2024-09-26 13:15:00', '管理员', NULL, NULL),
-	('pdr2', 'perm2', '患者信息修改规则', 'patient_id', '=', '有权限修改的患者 ID', '2024-09-26 13:16:00', '管理员', NULL, NULL),
-	('pdr3', 'perm3', '床位分配规则', 'bed_id', '=', '空闲床位 ID', '2024-09-26 13:17:00', '管理员', NULL, NULL),
-	('pdr4', 'perm4', '医疗记录查看规则', 'patient_id', '=', '可查看医疗记录的患者 ID', '2024-09-26 13:18:00', '管理员', NULL, NULL),
-	('pdr5', 'perm5', '科室管理规则', 'office_id', '=', '负责管理的科室 ID', '2024-09-26 13:19:00', '管理员', NULL, NULL);
+	('pdr3', 'perm3', '床位分配规则', 'bed_id', '=', '空闲床位 ID', '2024-09-26 13:17:00', '管理员', NULL, NULL);
 
 -- 导出  表 hospital2.role 结构
 CREATE TABLE IF NOT EXISTS `role` (
@@ -476,8 +486,11 @@ CREATE TABLE IF NOT EXISTS `role` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 正在导出表  hospital2.role 的数据：~5 rows (大约)
+-- 正在导出表  hospital2.role 的数据：~8 rows (大约)
 REPLACE INTO `role` (`id`, `name`, `description`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
+	('74722f47650744e1a8ec6bdb500f6808', '啊啊啊啊', '2323232', '2024-10-29 22:59:32', 'u1', NULL, NULL),
+	('a8e8686286314be9bcd1e8dd85dca1aa', ' 测试', '测的是', '2024-10-29 22:53:22', 'u1', NULL, NULL),
+	('c1f7338346704912852f49cca5598000', ' 测试', '测的是', '2024-10-29 22:58:43', 'u1', NULL, NULL),
 	('c4e9101694f911efa2e3b40ede391d71', 'doctor', '负责查看自己负责的患者信息，了解床位的占用和空出情况，以便合理安排患者的治疗计划。', '2024-10-28 14:56:34', 'admin', NULL, NULL),
 	('c4efea4694f911efa2e3b40ede391d71', 'nurse', '负责新入院患者信息的初步录入工作，在患者入院和出院时进行床位的安排和整理，确保患者的顺利入住和出院。', '2024-10-28 14:56:34', 'admin', NULL, NULL),
 	('c4f11aac94f911efa2e3b40ede391d71', 'chief_physician', '除了拥有普通医生查看患者信息和了解床位情况的权限外，还能对患者治疗方案等信息进行调整以及根据患者病情提前规划床位，为患者提供更优质的医疗服务。', '2024-10-28 14:56:34', 'admin', NULL, NULL),
@@ -496,8 +509,35 @@ CREATE TABLE IF NOT EXISTS `role_permission` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 正在导出表  hospital2.role_permission 的数据：~1 rows (大约)
+-- 正在导出表  hospital2.role_permission 的数据：~28 rows (大约)
 REPLACE INTO `role_permission` (`id`, `role_id`, `permission_id`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
+	('252b1760c51c4b3fa87122e6e6f83ed7', 'c4efea4694f911efa2e3b40ede391d71', '2ecadf3494d811efa2e3b40ede391d71', '2024-10-30 23:37:27', 'u1', NULL, NULL),
+	('27c1e850646d4db595285143904dae14', 'c4efea4694f911efa2e3b40ede391d71', '2ed807ed94d811efa2e3b40ede391d71', '2024-10-30 23:37:27', 'u1', NULL, NULL),
+	('33076580b83a413fb6ec37ea0554f50b', 'c4efea4694f911efa2e3b40ede391d71', '2ec58c7194d811efa2e3b40ede391d71', '2024-10-30 23:37:27', 'u1', NULL, NULL),
+	('4f3285e098474fe48da9b779d3fa7dca', 'c4efea4694f911efa2e3b40ede391d71', '72fc1a9194d811efa2e3b40ede391d71', '2024-10-30 23:37:27', 'u1', NULL, NULL),
+	('7bea3fbf94fa11efa2e3b40ede391d71', 'c4e9101694f911efa2e3b40ede391d71', 'e0793ce294d811efa2e3b40ede391d71', '2024-10-28 15:01:41', 'admin', NULL, NULL),
+	('7beb9b2d94fa11efa2e3b40ede391d71', 'c4e9101694f911efa2e3b40ede391d71', '2ed10ed194d811efa2e3b40ede391d71', '2024-10-28 15:01:41', 'admin', NULL, NULL),
+	('7bec8f6494fa11efa2e3b40ede391d71', 'c4e9101694f911efa2e3b40ede391d71', '2ecadf3494d811efa2e3b40ede391d71', '2024-10-28 15:01:41', 'admin', NULL, NULL),
+	('9c9af636c7474817800ae89cf9f01b43', 'c4efea4694f911efa2e3b40ede391d71', '73017e7894d811efa2e3b40ede391d71', '2024-10-30 23:37:27', 'u1', NULL, NULL),
+	('a4eb36fd39a04fc1a3daa837037526a4', 'c4efea4694f911efa2e3b40ede391d71', '2ecadf3494d811efa2e3b40ede391d71', '2024-10-30 23:36:53', 'u1', NULL, NULL),
+	('ac1e6b6e94fa11efa2e3b40ede391d71', 'c4efea4694f911efa2e3b40ede391d71', 'e06e56a894d811efa2e3b40ede391d71', '2024-10-28 15:03:02', 'admin', NULL, NULL),
+	('b2bb33a694fa11efa2e3b40ede391d71', 'c4f11aac94f911efa2e3b40ede391d71', 'e0793ce294d811efa2e3b40ede391d71', '2024-10-28 15:03:13', 'admin', NULL, NULL),
+	('b2bd141694fa11efa2e3b40ede391d71', 'c4f11aac94f911efa2e3b40ede391d71', '2ed10ed194d811efa2e3b40ede391d71', '2024-10-28 15:03:13', 'admin', NULL, NULL),
+	('b2bdf96994fa11efa2e3b40ede391d71', 'c4f11aac94f911efa2e3b40ede391d71', '2ecadf3494d811efa2e3b40ede391d71', '2024-10-28 15:03:13', 'admin', NULL, NULL),
+	('b2c6e8dc94fa11efa2e3b40ede391d71', 'c4f11aac94f911efa2e3b40ede391d71', 'e0783dc094d811efa2e3b40ede391d71', '2024-10-28 15:03:13', 'admin', NULL, NULL),
+	('b2c81a7694fa11efa2e3b40ede391d71', 'c4f11aac94f911efa2e3b40ede391d71', '2ec58c7194d811efa2e3b40ede391d71', '2024-10-28 15:03:13', 'admin', NULL, NULL),
+	('b40696c4a5074615a78bce077a758b62', 'c4efea4694f911efa2e3b40ede391d71', '2ec58c7194d811efa2e3b40ede391d71', '2024-10-30 23:36:53', 'u1', NULL, NULL),
+	('b92ea65394fa11efa2e3b40ede391d71', 'c4f2d9c194f911efa2e3b40ede391d71', '79ae593494d911efa2e3b40ede391d71', '2024-10-28 15:03:24', 'admin', NULL, NULL),
+	('b92fbb9b94fa11efa2e3b40ede391d71', 'c4f2d9c194f911efa2e3b40ede391d71', '79af4f1e94d911efa2e3b40ede391d71', '2024-10-28 15:03:24', 'admin', NULL, NULL),
+	('b930a56094fa11efa2e3b40ede391d71', 'c4f2d9c194f911efa2e3b40ede391d71', '79b6173894d911efa2e3b40ede391d71', '2024-10-28 15:03:24', 'admin', NULL, NULL),
+	('b93f489194fa11efa2e3b40ede391d71', 'c4f2d9c194f911efa2e3b40ede391d71', '73017e7894d811efa2e3b40ede391d71', '2024-10-28 15:03:24', 'admin', NULL, NULL),
+	('b94048c894fa11efa2e3b40ede391d71', 'c4f2d9c194f911efa2e3b40ede391d71', '7307873494d811efa2e3b40ede391d71', '2024-10-28 15:03:24', 'admin', NULL, NULL),
+	('c424baba0bf44137a51fbb0d52fff5ce', 'c4efea4694f911efa2e3b40ede391d71', '2ed807ed94d811efa2e3b40ede391d71', '2024-10-30 23:36:53', 'u1', NULL, NULL),
+	('ca08bf26b37b47f4ba1eaf6873744995', 'c4efea4694f911efa2e3b40ede391d71', '72fc1a9194d811efa2e3b40ede391d71', '2024-10-30 23:36:53', 'u1', NULL, NULL),
+	('e0998f49e0714b8b82ee4b940906e757', 'c4efea4694f911efa2e3b40ede391d71', '2ed10ed194d811efa2e3b40ede391d71', '2024-10-30 23:37:27', 'u1', NULL, NULL),
+	('e0e2ac2fa7f5443a8b6dfd6e92169aa5', 'c4efea4694f911efa2e3b40ede391d71', '2ed10ed194d811efa2e3b40ede391d71', '2024-10-30 23:36:53', 'u1', NULL, NULL),
+	('e926ed812cc745edb91661e767cb0baf', 'c4efea4694f911efa2e3b40ede391d71', '730df60394d811efa2e3b40ede391d71', '2024-10-30 23:37:27', 'u1', NULL, NULL),
+	('fdbeb78984444c5ba9b0c856d437a2d8', 'c4efea4694f911efa2e3b40ede391d71', '7307873494d811efa2e3b40ede391d71', '2024-10-30 23:37:27', 'u1', NULL, NULL),
 	('rp5', 'role3', 'perm3', '2024-09-26 13:27:00', '管理员', NULL, NULL);
 
 -- 导出  表 hospital2.room 结构
@@ -517,11 +557,11 @@ CREATE TABLE IF NOT EXISTS `room` (
 
 -- 正在导出表  hospital2.room 的数据：~5 rows (大约)
 REPLACE INTO `room` (`id`, `number`, `type`, `gender`, `bed_count`, `foreign_id`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-	('r1', '101 病房', '普通病房', '不限', 4, 'ward1-office1-campus1-floor1', '2024-09-26 13:28:00', '管理员', NULL, NULL),
-	('r2', '102 病房', '单人病房', '男', 1, 'ward2-office2-campus2-floor2', '2024-09-26 13:29:00', '管理员', NULL, NULL),
-	('r3', '103 病房', '高级病房', '女', 2, 'ward3-office3-campus3-floor3', '2024-09-26 13:30:00', '管理员', NULL, NULL),
-	('r4', '104 病房', '儿科病房', '不限', 3, 'ward4-office4-campus4-floor4', '2024-09-26 13:31:00', '管理员', NULL, NULL),
-	('r5', '105 病房', '眼科病房', '不限', 2, 'ward5-office5-campus5-floor5', '2024-09-26 13:32:00', '管理员', NULL, NULL);
+	('r1', '101 病房', '普通病房', '不限', 26, 'ward1-o1-c1-f1', '2024-09-26 13:28:00', '管理员', '2024-11-02 16:18:28', 'u1'),
+	('r2', '102 病房', '单人病房', '男', 16, 'ward2-o2-c2-f2', '2024-09-26 13:29:00', '管理员', '2024-10-31 18:37:58', 'u1'),
+	('r3', '103 病房', '高级病房', '女', 3, 'ward3-o3-c3-f3', '2024-09-26 13:30:00', '管理员', '2024-10-31 20:38:40', NULL),
+	('r4', '104 病房', '儿科病房', '不限', 4, 'ward4-o4-c4-f4', '2024-09-26 13:31:00', '管理员', '2024-10-31 20:38:40', NULL),
+	('r5', '105 病房', '眼科病房', '不限', 3, 'ward5-o5-c5-f5', '2024-09-26 13:32:00', '管理员', '2024-10-31 20:39:11', NULL);
 
 -- 导出  表 hospital2.room_user 结构
 CREATE TABLE IF NOT EXISTS `room_user` (
@@ -577,22 +617,23 @@ CREATE TABLE IF NOT EXISTS `user` (
   `hospital_id` varchar(32) DEFAULT NULL COMMENT '关联医院编号-外键',
   `campus_id` varchar(32) DEFAULT NULL COMMENT '院区编号-外键',
   `user_type` varchar(255) DEFAULT NULL COMMENT '用户类型（医生、护士）',
-  `is_use` int DEFAULT NULL COMMENT '是否可用，是否可用的字段可以改为tinyint,，只有0和1的状态，节省内存空间',
+  `is_use` int DEFAULT '1' COMMENT '是否可用，是否可用的字段可以改为tinyint,，只有0和1的状态，节省内存空间',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `create_by` varchar(50) NOT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `索引 2` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- 正在导出表  hospital2.user 的数据：~6 rows (大约)
 REPLACE INTO `user` (`id`, `username`, `employee_number`, `password`, `employee_name`, `hospital_id`, `campus_id`, `user_type`, `is_use`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-	('cc58c5da54fe483fb67dd1cd2a74f9db', 'as', '2323', '23313', 'gggg', '2323', '2323', '2323', 33, '2024-10-06 10:13:56', 'ggg', '2024-10-06 10:14:03', NULL),
-	('u1', 'user1', 'EN1', '$2a$10$TEktTCDPeYtgTUsHJ7bGJO00dQEyPvSirPaNJ9asgqHyPr5Bjg0Lq', '李医生', 'h1', '第一院区', '医生', 1, '2024-09-26 13:43:00', '管理员', '2024-10-06 10:14:02', NULL),
-	('u2', 'user2', 'EN2', 'password2', '张医生', 'h2', '第二院区', '医生', 1, '2024-09-26 13:44:00', '管理员', NULL, NULL),
-	('u3', 'user3', 'EN3', 'password3', '王医生', 'h3', '第三院区', '医生', 1, '2024-09-26 13:45:00', '管理员', NULL, NULL),
-	('u4', 'user4', 'EN4', 'password4', '刘护士', 'h4', '第四院区', '护士', 1, '2024-09-26 13:46:00', '管理员', NULL, NULL),
-	('u5', 'user5', 'EN5', 'password5', '陈护士', 'h5', '第五院区', '护士', 1, '2024-09-26 13:47:00', '管理员', NULL, NULL);
+	('cc58c5da54fe483fb67dd1cd2a74f9db', 'as', '2323', '23313', 'gggg', '2323', '2323', 'nurse', 33, '2024-10-06 10:13:56', 'ggg', '2024-10-06 10:14:03', NULL),
+	('u1', 'user1', 'EN1', '$2a$10$TEktTCDPeYtgTUsHJ7bGJO00dQEyPvSirPaNJ9asgqHyPr5Bjg0Lq', '李医生', 'h1', 'c1', 'doctor', 1, '2024-09-26 13:43:00', '管理员', '2024-10-06 10:14:02', NULL),
+	('u2', 'user2', 'EN2', 'password2', '张医生', 'h2', 'c2', 'doctor', 1, '2024-09-26 13:44:00', '管理员', NULL, NULL),
+	('u3', 'user3', 'EN3', 'password3', '王医生', 'h3', 'c3', 'doctor', 1, '2024-09-26 13:45:00', '管理员', NULL, NULL),
+	('u4', 'user4', 'EN4', 'password4', '刘护士', 'h4', 'c4', 'nurse', 1, '2024-09-26 13:46:00', '管理员', NULL, NULL),
+	('u5', 'user5', 'EN5', 'password5', '陈护士', 'h5', 'c5', 'nurse', 1, '2024-09-26 13:47:00', '管理员', NULL, NULL);
 
 -- 导出  表 hospital2.user_role 结构
 CREATE TABLE IF NOT EXISTS `user_role` (
@@ -606,13 +647,8 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 正在导出表  hospital2.user_role 的数据：~5 rows (大约)
+-- 正在导出表  hospital2.user_role 的数据：~1 rows (大约)
 REPLACE INTO `user_role` (`user_id`, `role_id`, `id`, `create_time`, `create_by`, `update_time`, `update_by`) VALUES
-	('u1', 'role1', 'ur1', '2024-09-26 13:48:00', '管理员', NULL, NULL),
-	('u2', 'role1', 'ur2', '2024-09-26 13:49:00', '管理员', NULL, NULL),
-	('u3', 'role1', 'ur3', '2024-09-26 13:50:00', '管理员', NULL, NULL),
-	('u4', 'role2', 'ur4', '2024-09-26 13:51:00', '管理员', NULL, NULL),
-	('u5', 'role2', 'ur5', '2024-09-26 13:52:00', '管理员', NULL, NULL),
 	('u1', 'role3', 'ur6', '2024-10-15 09:57:12', '管理员', NULL, NULL);
 
 -- 导出  表 hospital2.ward 结构
@@ -634,11 +670,11 @@ CREATE TABLE IF NOT EXISTS `ward` (
 
 -- 正在导出表  hospital2.ward 的数据：~5 rows (大约)
 REPLACE INTO `ward` (`id`, `name`, `code`, `office_id`, `room_count`, `bed_count`, `create_time`, `create_by`, `update_time`, `update_by`, `remark`, `location`) VALUES
-	('ward1', '内科一病区', 'ICD1', '内科', 5, 20, '2024-09-26 13:53:00', '管理员', NULL, NULL, '内科普通病区', '医院大楼 A 座 3 楼'),
-	('ward2', '外科二病区', 'ICD2', '外科', 4, 15, '2024-09-26 13:54:00', '管理员', NULL, NULL, '外科手术病区', '医院大楼 B 座 4 楼'),
-	('ward3', '妇产科三病区', 'ICD3', '妇产科', 3, 12, '2024-09-26 13:55:00', '管理员', NULL, NULL, '妇产科母婴病区', '医院大楼 C 座 2 楼'),
-	('ward4', '儿科四病区', 'ICD4', '儿科', 4, 18, '2024-09-26 13:56:00', '管理员', NULL, NULL, '儿科综合病区', '医院大楼 D 座 5 楼'),
-	('ward5', '眼科五病区', 'ICD5', '眼科', 3, 10, '2024-09-26 13:57:00', '管理员', NULL, NULL, '眼科专科病区', '医院大楼 E 座 6 楼');
+	('ward1', '内科一病区', 'ICD1', 'o1', 5, 20, '2024-09-26 13:53:00', '管理员', NULL, NULL, '内科普通病区', '医院大楼 A 座 3 楼'),
+	('ward2', '外科二病区', 'ICD2', 'o2', 4, 15, '2024-09-26 13:54:00', '管理员', NULL, NULL, '外科手术病区', '医院大楼 B 座 4 楼'),
+	('ward3', '妇产科三病区', 'ICD3', 'o3', 3, 12, '2024-09-26 13:55:00', '管理员', NULL, NULL, '妇产科母婴病区', '医院大楼 C 座 2 楼'),
+	('ward4', '儿科四病区', 'ICD4', 'o4', 4, 18, '2024-09-26 13:56:00', '管理员', NULL, NULL, '儿科综合病区', '医院大楼 D 座 5 楼'),
+	('ward5', '耳鼻喉科五病区', 'ICD5', 'o5', 3, 10, '2024-09-26 13:57:00', '管理员', NULL, NULL, '眼科专科病区', '医院大楼 E 座 6 楼');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

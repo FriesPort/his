@@ -12,6 +12,7 @@ import com.example.patient.entity.*;
 import com.example.patient.mapper.AllIdMapper;
 import com.example.patient.mapper.PatientInformationMapper;
 import com.example.patient.mapper.PatientMapper;
+import com.example.patient.service.IBedService;
 import com.example.patient.service.IPatientInformationService;
 import com.example.patient.service.IPatientrecodeService;
 import com.example.utils.IdGenerate;
@@ -59,6 +60,9 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
     @Autowired
     private PatientInformationMapper patientInformationMapper;
 
+    @Autowired
+    private IBedService bedService;
+
 
     private static Logger logger = LoggerFactory.getLogger(PatientInformationServiceImpl.class);
 
@@ -105,13 +109,6 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
                     return Integer.compare(p1.getIsacute(),p2.getIsacute());
                 })
                 .collect(Collectors.toList());
-    }
-
-    @Transactional
-    @Override   // 查看患者
-    public List<PatientVo> patientQuery(PatientQueryDTO patientQueryDTO) {
-
-
     }
 
     @Override
