@@ -62,6 +62,8 @@
         :selectedBeds="selectedBeds"
         @update:selectedRow="handleSelectedRow"
         :rowdata="rowdata"
+        :cancelID="cancelID"
+        :change-time="changeTime"
       />
       <div class="operate-area">
         <div class="shang">
@@ -91,9 +93,16 @@
             >
               {{ selectedBed.id }}
 
-              <span v-if="selectedBed.rowData">{{
-                selectedBed.rowData.name
-              }}</span>
+              <span v-if="selectedBed.rowData"
+                >{{ selectedBed.rowData.name }}-{{ selectedBed.rowData.id }}
+                <img
+                  :src="image2"
+                  alt="描述图片1"
+                  class="close-btn"
+                  @click="
+                    handleClick(selectedBed.rowData, selectedBed.rowData.id)
+                  "
+              /></span>
             </div>
           </div>
           <div class="selectoperate"></div>
@@ -107,7 +116,7 @@
 import PatientList from "./PatientList.vue";
 import BedCard from "./BedCard.vue";
 import image1 from "@/assets/病房患者.png";
-
+import image2 from "@/assets/取消.png";
 export default {
   components: {
     PatientList,
@@ -128,8 +137,11 @@ export default {
     return {
       /*       这个数组用于存放分配患者
        */
+      changeTime: 0, // 记录更改次数
+      cancelID: null, // 用于保存要传递给子组件的 ID
       rowdata: Array(10).fill(null), // 初始化为包含 10 个 null 的数组
       image1,
+      image2,
       selectedOption1: "",
       selectedOption2: "",
       selectedOption3: "",
@@ -147,6 +159,29 @@ export default {
     };
   },
   methods: {
+    handleClick(rowd, bedpId) {
+      // 将传递的 bedId 赋值给 cancelID
+      this.cancelID = bedpId;
+      // 增加更改次数
+      this.changeTime += 1;
+      const rowIndex = this.rowdata.findIndex((item) => item === rowd);
+      this.rowdata[rowIndex] = null;
+      const bed = this.selectedBeds.find((bed) => bed.rowData === rowd);
+      if (bed) {
+        // 在这里可以对找到的 bed 做操作，例如清除 rowData 或做其他更新
+        console.log("Found bed:", bed);
+        // 如果你需要清空该行的数据
+        bed.rowData = null;
+
+        // 可选：在控制台输出当前的 cancelID 和 changeTime 以便调试
+        console.log("cancelID:", this.cancelID);
+        console.log("changeTime:", this.changeTime);
+      } else {
+        console.log("未找到对应的床位数据");
+      }
+      //
+    },
+
     handleSelectedRow(selectedRow) {
       const index = this.rowdata.findIndex(
         (item) => item && item.id === selectedRow.id
@@ -171,6 +206,7 @@ export default {
       this.rowdata = [...this.rowdata];
     },
 
+    //处理床位添加
     updateSelectedBeds(bed) {
       const idx = this.selectedBeds.findIndex(
         (selectedBed) => selectedBed.id === bed.id
@@ -181,12 +217,14 @@ export default {
         if (removedBed.rowData !== null) {
           console.log("移除的 rowData:", removedBed.rowData); // 输出 rowData
           console.log(removedBed.rowData.id);
-          console.log(this.rowdata);
           const indexToRemove = this.rowdata.findIndex(
-            (item) => item.id === removedBed.rowData.id
+            (item) => item && item.id === removedBed.rowData.id
           );
+          console.log("索引", indexToRemove);
           // 如果找到索引，则移除该元素
           if (indexToRemove !== -1) {
+            this.cancelID = this.rowdata[indexToRemove].id;
+            this.changeTime += 1; // 增加更改次数
             console.log(
               "移除成功，当前 rowData:",
               this.rowdata[indexToRemove].id
@@ -197,7 +235,6 @@ export default {
           }
         }
         this.selectedBeds.splice(idx, 1);
-        console.log("取消了");
       } else {
         // 如果没有选中，添加到数组，并将 rowData 默认为 null
         this.selectedBeds.push({
@@ -403,23 +440,35 @@ select {
   background-color: hsl(0, 0%, 95%);
 }
 .selectbed {
+  background-color: hwb(0 95% 4%);
+  box-shadow: 0.25rem 0.25rem 0.625rem rgba(43, 43, 43, 0.5); /* 添加阴影 */
+
   height: 100%;
   width: 9%;
-  border: 1px solid #e62971;
+  border: 1px solid hsl(220, 3%, 83%);
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 水平居中 */
+  justify-content: space-evenly; /* 水平居中 */
   align-items: center; /* 垂直居中 */
-  cursor: grab;
+  /*   cursor: grab;
+ */
   text-align: center;
 }
-.selectbed:active {
-  /* 修改这里 */
-  cursor: grabbing; /* 拖拽状态 */
-}
+
 .selectoperate {
   border: 5px solid rgb(237 237 237 / 76%);
   width: 11%;
   height: 100%;
+}
+.close-btn {
+  border: none;
+  width: 30%;
+  color: #333;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  filter: brightness(0.5) sepia(1) hue-rotate(90deg); /* 调整颜色的滤镜 */
+  width: 50%;
 }
 </style>
