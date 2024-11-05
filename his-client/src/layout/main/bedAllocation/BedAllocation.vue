@@ -132,7 +132,9 @@ export default {
       immediate: true,
     },
   },
-
+  mounted() {
+    this.getBedRequest();
+  },
   data() {
     return {
       /*       这个数组用于存放分配患者
@@ -159,6 +161,50 @@ export default {
     };
   },
   methods: {
+    //床位获取
+    async getBedRequest() {
+      this.loading = true; // 开始加载
+      this.error = null; // 清除之前的错误信息
+
+      const params = {
+        campusId: "c1",
+        officeId: "o1",
+        wardId: "ward1",
+        bedType: "null",
+        bedStatus: 0,
+        roomType: "null",
+        roomGender: "null",
+      };
+
+      // 构建查询字符串
+      const queryString = new URLSearchParams(params).toString();
+
+      try {
+        // 使用 fetch 发送 GET 请求，只传递查询参数（不传请求头）
+        const response = await fetch(`/beds/list?${queryString}`, {
+          method: "GET", // 请求方法
+        });
+
+        // 检查响应是否正常
+        if (!response.ok) {
+          throw new Error("网络响应失败");
+        }
+
+        // 解析 JSON 数据
+        const data = await response.json();
+
+        // 将获取到的数据存储到 beds 中
+        this.beds = data;
+      } catch (err) {
+        // 捕获并处理错误
+        this.error = `获取床位信息失败：${err.message}`;
+        console.error(err);
+      } finally {
+        // 无论成功还是失败，加载状态都要设置为 false
+        this.loading = false;
+      }
+    },
+
     handleClick(rowd, bedpId) {
       // 将传递的 bedId 赋值给 cancelID
       this.cancelID = bedpId;
