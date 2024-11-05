@@ -130,6 +130,7 @@
 import image1 from "@/assets/blockWhiteLeft.png"; // 根据实际路径调整
 import image2 from "@/assets/blockWhiteRight.png"; // 根据实际路径调整
 import image3 from "@/assets/患者查询.png";
+
 import { getpatientsRequest } from "@/api/bedAllocation/bedAllocation"; // 根据你的项目路径导入函数
 
 export default {
@@ -389,7 +390,8 @@ export default {
       }
       // 移除已添加的患者
       this.ipatients = this.ipatients.filter((patient) => !patient.selected);
-      this.dialogVisible = false;
+      /*       this.dialogVisible = false;
+       */
     },
 
     viewPatientInfo(patient) {
