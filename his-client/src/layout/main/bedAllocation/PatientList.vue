@@ -296,7 +296,7 @@ export default {
     };
   },
   mounted() {
-    this.fetchPatients(); // 组件加载时调用获取患者的函数
+    // this.fetchPatients(); // 组件加载时调用获取患者的函数
     this.startCountdown();
     // 假设这是从服务器获取的数据，这里直接赋值
     this.patientdata[0] = {
@@ -356,16 +356,16 @@ export default {
       this.$emit("update:selectedRow", row);
     },
 
-     async fetchPatients() {
-      try {
-        console.log("被调用了");
-        const response = await getpatientsRequest({}); // 根据需要传入参数
+    //  async fetchPatients() {
+    //   try {
+    //     console.log("被调用了");
+    //     const response = await getpatientsRequest({}); // 根据需要传入参数
 
-        this.patients = response.data; // 假设返回的数据在 response.data 中
-      } catch (error) {
-        console.error("获取患者列表失败", error);
-      }
-    },
+    //     this.patients = response.data; // 假设返回的数据在 response.data 中
+    //   } catch (error) {
+    //     console.error("获取患者列表失败", error);
+    //   }
+    // },
 
     addPatients() {
       const selectedPatients = this.ipatients.filter(

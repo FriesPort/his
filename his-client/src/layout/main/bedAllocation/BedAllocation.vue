@@ -159,6 +159,7 @@ export default {
       showCheckboxes: Array(8).fill(false), // 初始状态为不显示
       checkboxVisible: false,
       selectedBeds: [],
+      beds:[],
     };
   },
   methods: {
@@ -181,23 +182,13 @@ export default {
       // const queryString = new URLSearchParams(params).toString();
 
       try {
-        // 使用 fetch 发送 GET 请求，只传递查询参数（不传请求头）
-        // const response = await fetch(`/api/beds/list?${queryString}`, {
-        //   method: "GET", // 请求方法
-        // });
-
-        // 检查响应是否正常
-        // if (!response.ok) {
-        //   throw new Error("网络响应失败");
-        // }
-
-        // 解析 JSON 数据
-        // const data = await response.json();
+      
         let response = await getbedsRequest(params)
         let {data} = response.data
-
+        
         // 将获取到的数据存储到 beds 中
-        this.beds = data;
+        this.beds = response.data;
+        console.log( this.beds)
       } catch (err) {
         // 捕获并处理错误
         this.error = `获取床位信息失败：${err.message}`;
