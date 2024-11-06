@@ -15,5 +15,6 @@ public class patientChangeBedDTO {
     private String patientId1;
     //患者2id
     private String patientId2;
-
+    //更新时间
+    private String localDateTime;
 }

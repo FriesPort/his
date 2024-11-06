@@ -1,9 +1,7 @@
 package com.example.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.example.dto.assignbed.patientChangeBedDTO;
@@ -14,18 +12,16 @@ import com.example.mapper.AssignBedMapper;
 import com.example.service.AssignBedService;
 import com.example.service.IBedService;
 import com.example.service.IRoomService;
-import com.example.vo.Result;
 
+import com.example.vo.assginbed.Result;
 import com.example.vo.assginbed.getOnBed.getOnBedVo;
 import com.example.vo.assginbed.getOutBed.getOutBedVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.LinkedList;
+
 import java.util.List;
 
 /**
@@ -108,13 +104,15 @@ public class AssignBedImpl extends ServiceImpl<AssignBedMapper,patientInformatio
         Result<String> result = new Result<>();
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-        //修改patient_information表中的信息
+        patientInformationDTO.setLocalDateTime(formatter.format(now));
+        int change = assignBedMapper.preAssignBed(patientInformationDTO);
+/*        //修改patient_information表中的信息
         LambdaUpdateWrapper<patientInformation> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.set(patientInformation::getBed_id,patientInformationDTO.getBedId())
                            .set(patientInformation::getUpdate_by,patientInformationDTO.getName())
                            .set(patientInformation::getUpdate_time,formatter.format(now))
                            .eq(patientInformation::getId,patientInformationDTO.getId());
+
         assignBedMapper.update(lambdaUpdateWrapper);
 
         //修改bed表中的信息
@@ -124,8 +122,13 @@ public class AssignBedImpl extends ServiceImpl<AssignBedMapper,patientInformatio
                             .set(bed::getUpdate_by,patientInformationDTO.getName())
                             .set(bed::getUpdate_time,formatter.format(now))
                             .eq(bed::getId,assignBedMapper.getBedId(patientInformationDTO.getId()));
-        iBedService.update(lambdaUpdateWrapper1);
-        result.setStatus(true);
+        iBedService.update(lambdaUpdateWrapper1);*/
+
+        if(change==0){
+            result.setStatus(false);
+        }else{
+            result.setStatus(true);
+        }
         return result;
     }
 
@@ -147,6 +150,10 @@ public class AssignBedImpl extends ServiceImpl<AssignBedMapper,patientInformatio
     @Override
     public Result<String> changeBed(patientChangeBedDTO patientChangeBedDTO) {
         Result<String> result = new Result<>();
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        patientChangeBedDTO.setLocalDateTime(formatter.format(now));
+
         assignBedMapper.changeBed(patientChangeBedDTO);
         assignBedMapper.changePatient(patientChangeBedDTO);
         result.setStatus(true);
