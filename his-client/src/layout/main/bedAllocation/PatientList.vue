@@ -356,7 +356,7 @@ export default {
       this.$emit("update:selectedRow", row);
     },
 
-    /* async fetchPatients() {
+    async fetchPatients() {
       try {
         console.log("被调用了");
         const response = await getpatientsRequest({}); // 根据需要传入参数
@@ -366,7 +366,7 @@ export default {
         console.error("获取患者列表失败", error);
       }
     },
- */
+
     addPatients() {
       const selectedPatients = this.ipatients.filter(
         (patient) => patient.selected
