@@ -12,12 +12,12 @@ export const addNurseApi = (params: any) => {
  * 编辑
  * */
 export const editNurseApi = (params: any) => {
-    return request.put('/system/user/register', params)
+    return request.post('/system/user/register', params)
 }
 
 //删除
 export const deleteNurseApi = (params: any) => {
-    return request.delete('/system/user/delete',  {params:params} )
+    return request.post('/system/user/delete',  {params:params} )
 } 
 
 //列表

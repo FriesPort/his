@@ -1,19 +1,19 @@
 package com.example.mapper;
 
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.entity.Customers;
+import com.example.entity.HisDictItem;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
- *  Mapper 接口
+ * 数据字典子项表 Mapper 接口
  * </p>
  *
  * @author diandian
- * @since 2024-04-06
+ * @since 2024-11-07
  */
 @Mapper
-public interface CustomersMapper extends BaseMapper<Customers> {
-
+public interface HisDictItemMapper extends BaseMapper<HisDictItem> {
 
 }
