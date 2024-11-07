@@ -14,12 +14,10 @@
               @keyup.enter="handleSearch"
             />
           </div>
-
-          <button class="sou" @click="Search">搜索</button>
         </div>
       </div>
       <div class="patients">
-        <table>
+        <table v-if="filteredPatients.length > 0">
           <thead>
             <tr>
               <th style="width: 60px; text-align: center; cursor: pointer">
@@ -32,7 +30,7 @@
           </thead>
           <tbody>
             <!-- 创建10行空数据 -->
-            <tr v-for="(row, index) in currentPatientData" :key="index">
+            <tr v-for="(row, index) in filteredPatients" :key="index">
               <td>
                 <input
                   type="checkbox"
@@ -72,8 +70,19 @@
         </div>
       </div>
       <div class="turn">
-        <img :src="image1" alt="描述图片1" />
-        <img :src="image2" alt="描述图片2" />
+        <img
+          :src="image1"
+          alt="描述图片1"
+          @click="goToPreviousPage"
+          :disabled="currentpage === 1"
+        />
+        {{ currentpage }} / {{ totalpage }}
+        <img
+          :src="image2"
+          alt="描述图片2"
+          @click="goToNextPage"
+          :disabled="currentpage === totalpage"
+        />
       </div>
     </div>
     <div class="control">
@@ -83,6 +92,7 @@
       <div v-if="dialogVisible" class="dialog-overlay">
         <div class="dialog">
           <h3>待入院患者</h3>
+          <button @click="selectAllPatients">全选</button>
           <table>
             <thead>
               <tr>
@@ -154,6 +164,44 @@ export default {
     },
   },
   computed: {
+    /* filteredPatients() {
+      // 先过滤出符合搜索条件的患者
+      const filtered = this.currentPatientData.filter((patient) =>
+        patient.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+
+      // 如果筛选结果大于 10 行，取前 10 行
+      const limitedResult = filtered.slice(0, 10);
+
+      // 如果筛选结果小于 10 行，使用空对象填充
+      const paddingCount = 10 - limitedResult.length;
+      const paddedResult = limitedResult.concat(
+        new Array(paddingCount).fill({})
+      );
+
+      return paddedResult;
+    }, */
+    filteredPatients() {
+      // 先过滤出符合搜索条件的患者
+      const filtered = this.currentPatientData.filter((patient) =>
+        patient.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+
+      // 计算当前页的起始和结束索引
+      const startIndex = (this.currentpage - 1) * this.limitnum;
+      const endIndex = startIndex + this.limitnum;
+
+      // 获取当前页的数据
+      const currentPageData = filtered.slice(startIndex, endIndex);
+
+      // 如果筛选结果小于 limitNum 行，使用空对象填充
+      const paddingCount = this.limitnum - currentPageData.length;
+      const paddedResult = currentPageData.concat(
+        new Array(paddingCount).fill({})
+      );
+
+      return paddedResult;
+    },
     selectedBeds() {
       // 当前的选中床位数据
       const newBeds = this.selectedBeds;
@@ -211,6 +259,10 @@ export default {
   },
   data() {
     return {
+      currentpage: 1,
+      totalpage: 1,
+      limitnum: 10,
+      searchQuery: "",
       previousRowdata: [], // 用于存储上一次的 rowdata
       previousSelectedBeds: [],
       dialogVisible: false,
@@ -255,6 +307,136 @@ export default {
           admitted: false,
           selected: false,
         }, // 2分钟后到期
+        {
+          id: "105",
+          name: "詹姆斯",
+          age: 15,
+          gender: "男",
+          phone: "12345648713",
+          preassignbed: "0",
+          is_emergency: "0",
+          is_vip: "0",
+          deadline: new Date(Date.now() + 170000),
+          admitted: false,
+          selected: false,
+        },
+        {
+          id: "106",
+          name: "张姆斯",
+          age: 15,
+          gender: "男",
+          phone: "17345648713",
+          preassignbed: "0",
+          is_emergency: "0",
+          is_vip: "0",
+          deadline: new Date(Date.now() + 170000),
+          admitted: false,
+          selected: false,
+        },
+        {
+          id: "107",
+          name: "张母斯",
+          age: 15,
+          gender: "男",
+          phone: "12300648713",
+          preassignbed: "0",
+          is_emergency: "0",
+          is_vip: "0",
+          deadline: new Date(Date.now() + 170000),
+          admitted: false,
+          selected: false,
+        },
+        {
+          id: "108",
+          name: "李姆斯",
+          age: 15,
+          gender: "男",
+          phone: "18845648713",
+          preassignbed: "0",
+          is_emergency: "0",
+          is_vip: "0",
+          deadline: new Date(Date.now() + 170000),
+          admitted: false,
+          selected: false,
+        },
+        {
+          id: "109",
+          name: "洪姆斯",
+          age: 15,
+          gender: "男",
+          phone: "12345478713",
+          preassignbed: "0",
+          is_emergency: "0",
+          is_vip: "0",
+          deadline: new Date(Date.now() + 170000),
+          admitted: false,
+          selected: false,
+        },
+        {
+          id: "110",
+          name: "王姆斯",
+          age: 15,
+          gender: "男",
+          phone: "12342248713",
+          preassignbed: "0",
+          is_emergency: "0",
+          is_vip: "0",
+          deadline: new Date(Date.now() + 170000),
+          admitted: false,
+          selected: false,
+        },
+        {
+          id: "111",
+          name: "李姆斯",
+          age: 15,
+          gender: "男",
+          phone: "12945648713",
+          preassignbed: "0",
+          is_emergency: "0",
+          is_vip: "0",
+          deadline: new Date(Date.now() + 170000),
+          admitted: false,
+          selected: false,
+        },
+        {
+          id: "112",
+          name: "林姆斯",
+          age: 15,
+          gender: "男",
+          phone: "12920248713",
+          preassignbed: "0",
+          is_emergency: "0",
+          is_vip: "0",
+          deadline: new Date(Date.now() + 170000),
+          admitted: false,
+          selected: false,
+        },
+        {
+          id: "113",
+          name: "吴姆斯",
+          age: 15,
+          gender: "男",
+          phone: "12936948713",
+          preassignbed: "0",
+          is_emergency: "0",
+          is_vip: "0",
+          deadline: new Date(Date.now() + 170000),
+          admitted: false,
+          selected: false,
+        },
+        {
+          id: "114",
+          name: "陈姆斯",
+          age: 15,
+          gender: "男",
+          phone: "12945222713",
+          preassignbed: "0",
+          is_emergency: "0",
+          is_vip: "0",
+          deadline: new Date(Date.now() + 170000),
+          admitted: false,
+          selected: false,
+        },
       ],
       buttonText: "未预分配",
       searchQuery: "", // 用于绑定输入框的值
@@ -319,6 +501,40 @@ export default {
   },
 
   methods: {
+    // 跳转到上一页
+    goToPreviousPage() {
+      if (this.currentpage > 1) {
+        this.currentpage--;
+      }
+    },
+
+    // 跳转到下一页
+    goToNextPage() {
+      // 判断是否有下一页
+      const totalFiltered = this.currentPatientData.filter((patient) =>
+        patient.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+      const totalPages = Math.ceil(totalFiltered.length / this.limitnum);
+
+      if (this.currentpage < totalPages) {
+        this.currentpage++;
+      }
+    },
+
+    selectAllPatients() {
+      this.ipatients.forEach((patient) => {
+        // 只有当 patient.admitted 为 true 时才勾选
+        if (patient.admitted) {
+          patient.selected = true;
+        }
+      });
+    },
+
+    handlefilter() {
+      // 如果需要额外操作，可以在这里处理，例如请求接口
+      console.log("搜索关键词:", this.searchQuery);
+    },
+
     deselectPatient(cancelID) {
       const patient = this.currentPatientData.find((p) => p.id === cancelID);
       if (patient) {
@@ -390,8 +606,64 @@ export default {
       }
       // 移除已添加的患者
       this.ipatients = this.ipatients.filter((patient) => !patient.selected);
-      /*       this.dialogVisible = false;
-       */
+    },
+
+    addPatients() {
+      const selectedPatients = this.ipatients.filter(
+        (patient) => patient.selected
+      );
+
+      // 遍历选中的患者
+      for (const patient of selectedPatients) {
+        // 查找第一个 name 为空的索引
+        let firstEmptyIndex = this.patientdata.findIndex(
+          (patient) => patient.name === ""
+        );
+
+        // 如果没有空位，则扩容 patientdata（将 patientdata 长度加倍）
+        if (firstEmptyIndex === -1) {
+          console.warn("没有空位，可以扩容 patientdata");
+
+          // 扩容 patientdata，将长度加倍，但不覆盖原数据
+          const currentLength = this.patientdata.length;
+          const newCapacity = currentLength * 2;
+
+          // 保留原数据并扩展空位
+          this.patientdata.length = newCapacity;
+
+          // 只对新增的空位进行填充
+          for (let i = currentLength; i < newCapacity; i++) {
+            this.patientdata[i] = {
+              preassignbed: "0",
+              name: "",
+              age: "",
+              gender: "",
+              phone: "",
+              is_emergency: "",
+              is_vip: "",
+              checked: false,
+            };
+          }
+
+          // 重新查找空位
+          firstEmptyIndex = this.patientdata.findIndex(
+            (patient) => patient.name === ""
+          );
+        }
+
+        // 在找到的空位处添加患者
+        if (firstEmptyIndex !== -1) {
+          this.patientdata[firstEmptyIndex] = { ...patient };
+        }
+      }
+
+      // 更新 totalpage，使用新长度的 patientdata 重新计算
+      const limitnum = 10; // 每页的患者数量
+      this.totalpage = Math.ceil(this.patientdata.length / limitnum);
+
+      // 移除已添加的患者
+      this.ipatients = this.ipatients.filter((patient) => !patient.selected);
+      // this.dialogVisible = false;  // 根据需求控制
     },
 
     viewPatientInfo(patient) {
@@ -490,9 +762,9 @@ export default {
 }
 
 .group {
-  width: 65%;
+  width: 60%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 .group img {
   width: auto;
@@ -514,17 +786,11 @@ export default {
 
 .lg {
   display: flex;
-  width: 60%;
+  justify-content: flex-end;
+  width: 100%;
   font-size: calc(100vw * 18 / 1920);
 }
-.sou {
-  cursor: pointer;
-  width: calc(100vw * 70 / 1920);
-  font-size: calc(100vw * 12 / 1920);
-  font-weight: bold;
-  text-align: center;
-  border: 1px solid #a2a7b0;
-}
+
 .list {
   width: 100%;
   height: 86%;
@@ -544,6 +810,8 @@ export default {
   border: 1px solid #a2a7b0;
   background-color: hsl(0, 0%, 91%);
   align-items: center;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 .turn img {
   width: 20px;
@@ -637,7 +905,9 @@ th {
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 400px;
+  width: 800px;
+  height: 500px;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
