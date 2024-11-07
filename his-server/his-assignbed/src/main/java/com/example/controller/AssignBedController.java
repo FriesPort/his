@@ -3,17 +3,16 @@ package com.example.controller;
 
 import com.example.dto.assignbed.patientChangeBedDTO;
 import com.example.dto.assignbed.patientInformationDTO;
-import com.example.pojo.patientInformation;
 import com.example.service.AssignBedService;
 import com.example.vo.JsonVO;
-import com.example.vo.Result;
 
+
+import com.example.vo.assginbed.Result;
 import com.example.vo.assginbed.getOnBed.getOnBedVo;
 import com.example.vo.assginbed.getOutBed.getOutBedVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

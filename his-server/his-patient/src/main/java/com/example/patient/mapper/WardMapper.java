@@ -1,7 +1,7 @@
 package com.example.patient.mapper;
 
-import com.example.patient.entity.Ward;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.patient.entity.Ward;
 
 /**
  * <p>

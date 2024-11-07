@@ -1,30 +1,71 @@
 package com.example.patient.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * <p>
  * 
  * </p>
  *
- * @author xw
- * @since 2024-05-09
+ * @author diandian
+ * @since 2024-11-05
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@TableName("office")
+@Getter
+@Setter
 public class Office implements Serializable {
-    @TableId(value = "office_id", type = IdType.AUTO)
-    private Long officeId;
-    @TableField("name")
-    private String officeName;
-    private Long campusId;
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 自动递增的主键
+     */
+    private String id;
+
+    /**
+     * 科室名称
+     */
+    private String name;
+
+    /**
+     * 关联院区编号-外键
+     */
+    private String campusId;
+
+    /**
+     * 创建时间
+     */
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+
+    /**
+     * 创建人
+     */
+    private String createBy;
+
+    /**
+     * 更新时间
+     */
+    private LocalDateTime updateTime;
+
+    /**
+     * 更新人
+     */
+    private String updateBy;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
+    /**
+     * 科室电话
+     */
+    private String phone;
+
+
 }

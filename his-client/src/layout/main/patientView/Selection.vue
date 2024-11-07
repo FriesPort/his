@@ -568,12 +568,12 @@ const patientsData = ref<Patient[]>([
 provide('patientsData', patientsData)
 onMounted(async () => {
   // let { data } = await axios.get('http://localhost:3000/beds');
-  let { data } = await getWardsData();
-  campusData.splice(0, campusData.length, ...data); // 替换现有数据
-  selectedCampusName.value = campusData[0].campusName;
-  recordCampusId.value = campusData[0].campusId;
-  recordOfficeId.value = campusData[0].offices[0].officeId;
-  recordWardId.value = campusData[0].offices[0].wards[0].wardId;
+  // let { data } = await getWardsData();
+  // campusData.splice(0, campusData.length, ...data); // 替换现有数据
+  // selectedCampusName.value = campusData[0].campusName;
+  // recordCampusId.value = campusData[0].campusId;
+  // recordOfficeId.value = campusData[0].offices[0].officeId;
+  // recordWardId.value = campusData[0].offices[0].wards[0].wardId;
   let params = {
     campusId: recordCampusId.value === -1 ? null : recordCampusId.value,
     officeId: null,

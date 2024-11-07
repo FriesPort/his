@@ -4,7 +4,10 @@ import com.example.dto.patient.PatientAlterDTO;
 import com.example.dto.patient.PatientDeleteDTO;
 import com.example.dto.patient.PatientEditDTO;
 import com.example.dto.patient.PatientQueryDTO;
+import com.example.patient.entity.Patient;
+import com.example.patient.service.ICampusService;
 import com.example.patient.service.IPatientInformationService;
+import com.example.vo.patient.CampusVO;
 import com.example.vo.patient.PatientVo;
 import com.example.vo.patient.Result;
 import com.example.vo.JsonVO;
@@ -35,22 +38,22 @@ public class PatientInformationController {
     @Autowired
     private IPatientInformationService patientInformationService;
 
+    @Autowired
+    ICampusService campusService;
 
+    @GetMapping("/all")
+    public JsonVO<List<CampusVO>> all(){
+        return JsonVO.success(campusService.all_dep_search());
+    }
 
     @PostMapping("/query")
-    public JsonVO<Map<String, List<PatientVo>>> query(
+    public JsonVO<List<Patient>> query(
             @RequestBody PatientQueryDTO patientQueryDTO) {
-        try {
-
-        // 调用服务查询逻辑
-        Result<Map<String, List<PatientVo>>> result = patientInformationService.patientQuery(patientQueryDTO);
-
-        if (result.isStatus()) {
-            return JsonVO.success(result.getMessage());
-        }
-        return JsonVO.fail(result.getMessage());
-        } catch (Exception e) {
-            return JsonVO.fail(e.getMessage());
+        List<Patient> result=patientInformationService.patientList(patientQueryDTO);
+        if(result.isEmpty()){
+            return JsonVO.fail("没有查询到数据");
+        }else{
+            return JsonVO.success(result);
         }
     }
 

@@ -1,7 +1,7 @@
 package com.example.patient.service;
 
-import com.example.patient.entity.Ward;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.patient.entity.Ward;
 
 /**
  * <p>

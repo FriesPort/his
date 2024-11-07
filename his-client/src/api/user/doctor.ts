@@ -12,15 +12,15 @@ export const addDocterApi = (params: any) => {
  * 编辑
  * */
 export const editDocterApi = (params: any) => {
-    return request.put('/system/user/register', params)
+    return request.post('/system/user/register', params)
 }
 
 //删除
 export const deleteDocterApi = (params: any) => {
-    return request.delete('/system/user/delete',  {params:params} )
+    return request.post('/system/user/delete',  {params:params} )
 } 
 
 //列表
-export const getDocterListApi = (params: any) => {
-    return request.get('/system/user/query',{params:params})
+export const getDoctorListApi = (params: any) => {
+    return request.get('/system/user/msg/display',{params:params})
 }

@@ -3,6 +3,7 @@ package com.example.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import com.example.dto.assignbed.patientChangeBedDTO;
+import com.example.dto.assignbed.patientInformationDTO;
 import com.example.pojo.patientInformation;
 
 import com.example.vo.assginbed.getOnBed.getOnBedVo;
@@ -23,6 +24,9 @@ public interface AssignBedMapper extends BaseMapper<patientInformation> {
 
     //获取占用床位，并映射到getOnBedVo
     public List<getOnBedVo> selectOnBed();
+
+    //预分配床位
+    public int preAssignBed(patientInformationDTO patientInformationDTO);
 
     //更改床位——更改床位表
     public void changeBed(patientChangeBedDTO patientChangeBedDTO);

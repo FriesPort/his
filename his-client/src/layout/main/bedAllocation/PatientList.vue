@@ -140,7 +140,7 @@
 import image1 from "@/assets/blockWhiteLeft.png"; // 根据实际路径调整
 import image2 from "@/assets/blockWhiteRight.png"; // 根据实际路径调整
 import image3 from "@/assets/患者查询.png";
-import { getbedRequest } from "@/api/bedAllocation/bedAllocation";
+import { getbedsRequest } from "@/api/bedAllocation/bedAllocation";
 import { getpatientsRequest } from "@/api/bedAllocation/bedAllocation"; // 根据你的项目路径导入函数
 
 export default {
@@ -478,8 +478,8 @@ export default {
     };
   },
   mounted() {
-    /*     this.fetchPatients(); // 组件加载时调用获取患者的函数
-     */ this.startCountdown();
+    // this.fetchPatients(); // 组件加载时调用获取患者的函数
+    this.startCountdown();
     // 假设这是从服务器获取的数据，这里直接赋值
     this.patientdata[0] = {
       id: "101",
@@ -572,18 +572,18 @@ export default {
       this.$emit("update:selectedRow", row);
     },
 
-    async fetchPatients() {
-      try {
-        console.log("被调用了");
-        const response = await getpatientsRequest({}); // 根据需要传入参数
+    //  async fetchPatients() {
+    //   try {
+    //     console.log("被调用了");
+    //     const response = await getpatientsRequest({}); // 根据需要传入参数
 
-        this.patients = response.data; // 假设返回的数据在 response.data 中
-      } catch (error) {
-        console.error("获取患者列表失败", error);
-      }
-    },
+    //     this.patients = response.data; // 假设返回的数据在 response.data 中
+    //   } catch (error) {
+    //     console.error("获取患者列表失败", error);
+    //   }
+    // },
 
-    /*  addPatients() {
+    addPatients() {
       const selectedPatients = this.ipatients.filter(
         (patient) => patient.selected
       );

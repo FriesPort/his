@@ -16,7 +16,7 @@ export const getBedRequest = (wardId: number) => {
 // }
 
 //获取占用床位的数据
-export const getbedRequest =(params: any)=>{
+export const getbedsRequest =(params: any)=>{
   return request.get(`/beds/list`,params)
 }
 

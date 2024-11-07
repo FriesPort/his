@@ -14,38 +14,38 @@ import lombok.Setter;
  * </p>
  *
  * @author diandian
- * @since 2024-11-05
+ * @since 2024-11-06
  */
 @Getter
 @Setter
-public class Campus implements Serializable {
+public class Hospital implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 自动递增的主键
+     * 主键
      */
     private String id;
 
     /**
-     * 关联医院编号-外键
-     */
-    private String hospitalId;
-
-    /**
-     * 院区名称
+     * 医院名称
      */
     private String name;
 
     /**
-     * 二进制大对象
+     * 医院所在地区
      */
-    private Blob mapPackage;
+    private String region;
 
     /**
-     * 二进制大对象
+     * 医院标志
      */
-    private Blob themePackage;
+    private String logo;
+
+    /**
+     * 配额
+     */
+    private Integer quota;
 
     /**
      * 布尔类型授权状态

@@ -12,8 +12,10 @@ import com.example.patient.entity.*;
 import com.example.patient.mapper.AllIdMapper;
 import com.example.patient.mapper.PatientInformationMapper;
 import com.example.patient.mapper.PatientMapper;
+import com.example.patient.service.IBedService;
 import com.example.patient.service.IPatientInformationService;
 import com.example.patient.service.IPatientrecodeService;
+import com.example.patient.service.IRoomuserService;
 import com.example.utils.IdGenerate;
 import com.example.utils.TimeTrainsform;
 import com.example.vo.patient.PatientVo;
@@ -27,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -56,8 +59,15 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
 
     @Autowired
     private AllIdMapper allIdMapper;
+
     @Autowired
     private PatientInformationMapper patientInformationMapper;
+
+    @Autowired
+    private IBedService bedService;
+
+    @Autowired
+    private IRoomuserService roomuserService;
 
 
     private static Logger logger = LoggerFactory.getLogger(PatientInformationServiceImpl.class);
@@ -105,13 +115,6 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
                     return Integer.compare(p1.getIsacute(),p2.getIsacute());
                 })
                 .collect(Collectors.toList());
-    }
-
-    @Transactional
-    @Override   // 查看患者
-    public List<PatientVo> patientQuery(PatientQueryDTO patientQueryDTO) {
-
-
     }
 
     @Override
@@ -201,45 +204,29 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
     @Transactional
     @Override   //编辑患者
     public Result<String> patientEdit(String userId,PatientEditDTO patientEditDTO) {
-        Result<String> result = new Result<>();
-        Patient patient = getById(patientEditDTO.getId());
-        if (patient == null) {
-            result.setMessage("未找到该患者");
-            return result;
-        }
-
-        if(patientEditDTO.getIdentity()!=null) {
-            LambdaQueryWrapper<Patient> patientLambdaQueryWrapper = new LambdaQueryWrapper<>();
-            patientLambdaQueryWrapper.eq(Patient::getIdentity, patientEditDTO.getIdentity())
-                    .ne(Patient::getId, patient.getId());
-            if (getOne(patientLambdaQueryWrapper) != null) {
-                result.setMessage("该患者已被创建");
-                return result;
+        Patient patient=new Patient();
+        Map<String,String> map=patientEditDTO.getPatient();
+        Class<?> clazz=patient.getClass();
+        for(Map.Entry<String, String> entry : map.entrySet()){
+            try{
+                Field field=clazz.getDeclaredField(entry.getKey());
+                field.setAccessible(true);
+                field.set(patient,entry.getValue());
+            }catch (Exception e){
+                e.printStackTrace();
             }
-        }
 
-        BeanUtils.copyProperties(patientEditDTO,patient);
+        }
+        patient.setId(patientEditDTO.getId());
         patient.setUpdateTime(LocalDateTime.now());
-
-        // 将字符串格式的入院时间转换为 LocalDateTime
-        if (patientEditDTO.getAdmissiontime() != null) {
-            try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime admissionTime = LocalDateTime.parse(patientEditDTO.getAdmissiontime(), formatter);
-                patient.setAdmissiontime(admissionTime); // 设置入院时间
-            } catch (DateTimeParseException e) {
-                result.setMessage("入院时间格式错误，请提供正确的格式 (yyyy-MM-dd HH:mm:ss)");
-                result.setStatus(false);
-                return result;
-            }
-        }
-
         patient.setUpdateBy(userId);
-
-        updateById(patient);
-        result.setMessage("编辑成功");
-        result.setStatus(true);
-        return result;
+        try{
+            int i=patientInformationMapper.updateById(patient);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result<>(false,"更新失败");
+        }
+        return new Result<>(true,"更新成功");
     }
 
     @Transactional

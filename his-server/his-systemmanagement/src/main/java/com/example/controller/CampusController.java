@@ -3,16 +3,14 @@ package com.example.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.dto.systemmanagement.hospital.HospitalUpdateDTO;
+import com.example.dto.systemmanagement.campus.CampusUpdateDTO;
+import com.example.entity.Campus;
 import com.example.entity.Hospital;
-import com.example.service.IHospitalService;
+import com.example.service.ICampusService;
 import com.example.vo.JsonVO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -20,36 +18,36 @@ import java.util.Map;
  * </p>
  *
  * @author diandian
- * @since 2024-04-07
+ * @since 2024-11-05
  */
 @RestController
-@RequestMapping("/system/hospital")
-@Api(tags = "hospital")
-public class HospitalsController {
+@RequestMapping("/system/campus")
+@Api(tags = "campus")
+public class CampusController {
     @Autowired
-    IHospitalService hospitalService;
+    ICampusService campusService;
 
     /**
-     * 医院信息查询
+     * 院区信息查询
      * @param current
      * @param size
      * @return
      */
     @GetMapping("/list")
-    public JsonVO<List<Hospital>> searchHospital(@RequestParam long current, @RequestParam long size){
-        IPage<Hospital> page= new Page<>(current,size);
-        return JsonVO.success(hospitalService.list(page));
+    public JsonVO<?> searchCampus(@RequestParam long current, @RequestParam long size){
+        IPage<Campus> page= new Page<>(current,size);
+        return JsonVO.success(campusService.list(page));
     }
 
     /**
-     * 医院信息添加
-     * @param hospital
+     * 院区信息添加
+     * @param campus
      * @param userId
      * @return
      */
     @PostMapping("/insert")
-    public JsonVO<?> addHospital(@RequestBody Hospital hospital, @RequestHeader("userId") String userId){
-        if(hospitalService.add(hospital,userId)){
+    public JsonVO<?> addCampus(@RequestBody Campus campus, @RequestHeader("userId") String userId){
+        if(campusService.add(campus,userId)){
             return JsonVO.success(true);
         }else {
             return JsonVO.fail(false);
@@ -58,13 +56,13 @@ public class HospitalsController {
     }
 
     /**
-     * 医院信息删除
+     *  院区信息删除
      * @param id
      * @return
      */
     @PostMapping("/delete")
-    public JsonVO<?> deleteHospital(@RequestParam String id){
-        if(hospitalService.removeById(id)){
+    public JsonVO<?> deleteCampus(@RequestParam String id){
+        if(campusService.removeById(id)){
             return JsonVO.success(true);
         }else {
             return JsonVO.fail(false);
@@ -72,19 +70,18 @@ public class HospitalsController {
     }
 
     /**
-     * 医院信息修改
+     * 院区信息修改
      * @param dto
      * @param userId
      * @return
      */
     @PostMapping("/update")
-    public JsonVO<?> updateHospital(@RequestBody HospitalUpdateDTO dto,@RequestHeader("userId") String userId){
-        if(hospitalService.update(dto,userId)){
+    public JsonVO<?> updateCampus(@RequestBody CampusUpdateDTO dto, @RequestHeader("userId") String userId){
+        if(campusService.update(dto,userId)){
             return JsonVO.success(true);
         }else {
             return JsonVO.fail(false);
         }
     }
-
 }
 
