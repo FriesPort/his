@@ -242,6 +242,7 @@ export default {
   },
   data() {
     return {
+      importdata:[],
       currentpage: 1,
       totalpage: 1,
       limitnum: 10,
@@ -489,22 +490,16 @@ export default {
 
     async getpatientsRequest() {
       const params = {
-        campusId: "string",
-        wardId: "string",
-        name: "string",
-        gender: "string",
-        admissionType: "string",
-        roomNumberRequirement: "string",
-        roomGenderRequirement: "string",
-        roomTypeRequirement: "string",
-        waitDay: 0,
-        status: "string",
+
       };
       try {
         let newresponse = await getpatientsRequest(params);
-        let { data } = newresponse.data;
+        this.importdata = newresponse.data;
 
         console.log(newresponse.data);
+        console.log(this.importdata)
+        //需要
+        this.ipatients = [...this.ipatients,...this.importdata];
       } catch (err) {
         // 捕获并处理错误
         this.error = `获取床位信息失败：${err.message}`;
@@ -585,16 +580,7 @@ export default {
       this.$emit("update:selectedRow", row);
     },
 
-    //  async fetchPatients() {
-    //   try {
-    //     console.log("被调用了");
-    //     const response = await getpatientsRequest({}); // 根据需要传入参数
-
-    //     this.patients = response.data; // 假设返回的数据在 response.data 中
-    //   } catch (error) {
-    //     console.error("获取患者列表失败", error);
-    //   }
-    // },
+  
 
     addPatients() {
       const selectedPatients = this.ipatients.filter(
@@ -882,8 +868,8 @@ td {
   border: 1px solid #ccc; /* 边框样式 */
   padding: auto;
   text-align: center;
-  height: 34.75px;
-  max-height: 34.75px;
+  height: calc(100vw * 34 / 1920);
+  max-height: calc(100vw * 34 / 1920);
 }
 
 th {
@@ -891,7 +877,7 @@ th {
 }
 .check {
   max-height: 34.75px;
-  height: 30px;
+  height: calc(100vw * 30 / 1920);;
   font-size: 12px;
   width: 40px;
   padding: 0; /* 去掉内边距 */
