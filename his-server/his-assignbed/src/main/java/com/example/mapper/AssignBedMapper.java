@@ -29,7 +29,7 @@ public interface AssignBedMapper extends BaseMapper<patientInformation> {
     public int preAssignBed(patientInformationDTO patientInformationDTO);
 
     //更改床位——更改床位表
-    public void changeBed(patientChangeBedDTO patientChangeBedDTO);
+    public int changeBed(patientChangeBedDTO patientChangeBedDTO);
     //更改床位——更改患者表
-    public void changePatient(patientChangeBedDTO patientChangeBedDTO);
+    public int changePatient(patientChangeBedDTO patientChangeBedDTO);
 }
