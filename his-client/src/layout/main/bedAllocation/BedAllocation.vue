@@ -165,7 +165,7 @@ export default {
       showCheckboxes: Array(10).fill(false), // 初始状态为不显示
       checkboxVisible: false,
       selectedBeds: [],
-      beds:[],
+      beds: [],
     };
   },
   methods: {
@@ -184,17 +184,13 @@ export default {
         roomGender: "null",
       };
 
-      // 构建查询字符串
-      // const queryString = new URLSearchParams(params).toString();
-
       try {
-      
-        let response = await getbedsRequest(params)
-        let {data} = response.data
-        
+        let response = await getbedsRequest(params);
+        let { data } = response.data;
+
         // 将获取到的数据存储到 beds 中
         this.beds = response.data;
-        console.log( this.beds)
+        console.log(this.beds);
       } catch (err) {
         // 捕获并处理错误
         this.error = `获取床位信息失败：${err.message}`;

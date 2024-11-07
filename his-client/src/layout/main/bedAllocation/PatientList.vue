@@ -164,23 +164,6 @@ export default {
     },
   },
   computed: {
-    /* filteredPatients() {
-      // 先过滤出符合搜索条件的患者
-      const filtered = this.currentPatientData.filter((patient) =>
-        patient.name.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
-
-      // 如果筛选结果大于 10 行，取前 10 行
-      const limitedResult = filtered.slice(0, 10);
-
-      // 如果筛选结果小于 10 行，使用空对象填充
-      const paddingCount = 10 - limitedResult.length;
-      const paddedResult = limitedResult.concat(
-        new Array(paddingCount).fill({})
-      );
-
-      return paddedResult;
-    }, */
     filteredPatients() {
       // 先过滤出符合搜索条件的患者
       const filtered = this.currentPatientData.filter((patient) =>
@@ -478,6 +461,7 @@ export default {
     };
   },
   mounted() {
+    this.getpatientsRequest();
     // this.fetchPatients(); // 组件加载时调用获取患者的函数
     this.startCountdown();
     // 假设这是从服务器获取的数据，这里直接赋值
@@ -502,6 +486,23 @@ export default {
 
   methods: {
     // 跳转到上一页
+
+    async getpatientsRequest() {
+      try {
+        let response = await getpatientsRequest();
+        let { data } = response.data;
+
+        console.log(response.data);
+      } catch (err) {
+        // 捕获并处理错误
+        this.error = `获取床位信息失败：${err.message}`;
+        console.error(err);
+      } finally {
+        // 无论成功还是失败，加载状态都要设置为 false
+        this.loading = false;
+      }
+    },
+
     goToPreviousPage() {
       if (this.currentpage > 1) {
         this.currentpage--;
