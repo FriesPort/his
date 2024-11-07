@@ -48,16 +48,26 @@
         <result column="bed_count" property="bedCount"/>
     </resultMap>
 
+    <!--预分配床位-->
+    <update id="preAssignBed">
+        update patient_information as pi inner join bed as b
+        on b.id = #{bedId} and b.is_null = 0 set pi.update_by = #{name}, pi.update_time = #{localDateTime},
+            pi.bed_id = #{bedId}, b.is_null = 1, b.patient_id = #{id}
+        where pi.id = #{id}
+    </update>
+
     <!--更改床位——更改床位表-->
     <update id="changeBed" >
         update bed as b1 join bed as b2 on
             b1.id = (select bed_id from patient_information where id = #{patientId1}) and
             b2.id = (select bed_id from patient_information where id = #{patientId2})
-            set b1.patient_id = b2.patient_id, b2.patient_id = b1.patient_id;
+            set b1.patient_id = b2.patient_id, b2.patient_id = b1.patient_id,b1.update_by = #{name},b2.update_by = #{name}
+                    ,b1.update_time = #{localDateTime},b2.update_time = #{localDateTime};
     </update>
     <!--更改床位——更改患者表-->
     <update id="changePatient">
         update patient_information as p1 join patient_information as p2 on p1.id= #{patientId1} and p2.id = #{patientId2}
-            set p1.bed_id = p2.bed_id , p2.bed_id = p1.bed_id;
+            set p1.bed_id = p2.bed_id , p2.bed_id = p1.bed_id,p1.update_by = #{name},p2.update_by = #{name}
+                    ,p1.update_time = #{localDateTime},p2.update_time = #{localDateTime};
     </update>
 </mapper>

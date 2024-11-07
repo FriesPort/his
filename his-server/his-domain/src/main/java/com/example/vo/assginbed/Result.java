@@ -1,4 +1,4 @@
-package com.example.vo;
+package com.example.vo.assginbed;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.dto.assignbed.patientChangeBedDTO;
 import com.example.dto.assignbed.patientInformationDTO;
 import com.example.pojo.patientInformation;
-import com.example.vo.Result;
+import com.example.vo.assginbed.Result;
 import com.example.vo.assginbed.getOnBed.getOnBedVo;
 import com.example.vo.assginbed.getOutBed.getOutBedVo;
 
