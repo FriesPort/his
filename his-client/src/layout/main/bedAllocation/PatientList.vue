@@ -606,8 +606,7 @@ export default {
       }
       // 移除已添加的患者
       this.ipatients = this.ipatients.filter((patient) => !patient.selected);
-     
-    }, */
+    },
 
     addPatients() {
       const selectedPatients = this.ipatients.filter(
