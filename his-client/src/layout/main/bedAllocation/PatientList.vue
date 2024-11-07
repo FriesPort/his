@@ -488,11 +488,23 @@ export default {
     // 跳转到上一页
 
     async getpatientsRequest() {
+      const params = {
+        campusId: "string",
+        wardId: "string",
+        name: "string",
+        gender: "string",
+        admissionType: "string",
+        roomNumberRequirement: "string",
+        roomGenderRequirement: "string",
+        roomTypeRequirement: "string",
+        waitDay: 0,
+        status: "string",
+      };
       try {
-        let response = await getpatientsRequest();
-        let { data } = response.data;
+        let newresponse = await getpatientsRequest(params);
+        let { data } = newresponse.data;
 
-        console.log(response.data);
+        console.log(newresponse.data);
       } catch (err) {
         // 捕获并处理错误
         this.error = `获取床位信息失败：${err.message}`;
