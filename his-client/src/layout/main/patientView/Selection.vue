@@ -123,7 +123,7 @@
         <div class="bed-type-color2"></div><span>待入院</span>
         <div class="bed-type-color3"></div><span>已出院</span>
       </div>
-      <a-button type="primary" @click="patientAdd"  :disabled="!hasPermission('患者管理')">
+      <a-button type="primary" @click="patientAdd" >
         <template #icon>
           <plus-outlined />
         </template>

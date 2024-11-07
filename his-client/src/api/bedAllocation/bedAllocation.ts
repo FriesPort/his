@@ -61,5 +61,5 @@ export const informRequest=(parames:any)=>{
 
 //查找患者信息（导入患者）
 export const getpatientsRequest=(parames:any)=>{
-  return request.get(`/patient/query`,parames)
+  return request.post(`/patient/query`,parames)
 }

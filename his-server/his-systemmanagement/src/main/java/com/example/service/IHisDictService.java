@@ -1,7 +1,7 @@
 package com.example.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.entity.Customers;
+import com.example.entity.HisDict;
 
 /**
  * <p>
@@ -9,8 +9,8 @@ import com.example.entity.Customers;
  * </p>
  *
  * @author diandian
- * @since 2024-04-06
+ * @since 2024-11-07
  */
-public interface ICustomersService extends IService<Customers> {
+public interface IHisDictService extends IService<HisDict> {
 
 }
