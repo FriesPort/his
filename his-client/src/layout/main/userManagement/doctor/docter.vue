@@ -51,7 +51,7 @@ interface Model {
 
 const model: UnwrapRef<Model> = reactive({
     name: '',
-    userType: '',
+    userType: 'doctor',
     employeeNumber: '',
 })
 const labelCol = {span: 5}
@@ -112,10 +112,11 @@ const loadData = (current=1,pageSize=5) => {
 
     let param = {...model}
     param['current']= current
-    param['pageSize'] = pageSize
+    param['size'] = pageSize
 
     getDoctorListApi(param).then((res: any) => {
-        if (res.code === 1) {
+        if (res.status === 200) {
+            console.log('res.data.records',res.data.records)
             dataSource.value = res.data.records
         }
     }).finally(() => {
