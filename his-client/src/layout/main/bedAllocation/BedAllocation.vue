@@ -7,6 +7,10 @@
             <img :src="image1" alt="描述图片1" />
             <h3>床位分配</h3>
           </div>
+          <!-- <div class="guide">
+            <img :src="image3" alt="描述图片1" />
+            <h2>操作指南</h2>
+          </div> -->
           <div class="right-section">
             <h2>院区</h2>
             <select v-model="selectedOption1">
@@ -69,7 +73,7 @@
         <div class="shang">
           <div class="bedarea">
             <BedCard
-              v-for="index in 8"
+              v-for="index in 10"
               :key="index"
               :index="index"
               :id="'bed-' + (100 + index)"
@@ -117,6 +121,7 @@ import PatientList from "./PatientList.vue";
 import BedCard from "./BedCard.vue";
 import image1 from "@/assets/病房患者.png";
 import image2 from "@/assets/取消.png";
+import image3 from "@/assets/操作指引.png";
 export default {
   components: {
     PatientList,
@@ -144,6 +149,7 @@ export default {
       rowdata: Array(10).fill(null), // 初始化为包含 10 个 null 的数组
       image1,
       image2,
+      image3,
       selectedOption1: "",
       selectedOption2: "",
       selectedOption3: "",
@@ -155,7 +161,7 @@ export default {
         选项A: ["内科1区", "内科2区", "内科3区"],
         选项B: ["外科1区", "外科2区", "外科3区"],
       },
-      showCheckboxes: Array(8).fill(false), // 初始状态为不显示
+      showCheckboxes: Array(10).fill(false), // 初始状态为不显示
       checkboxVisible: false,
       selectedBeds: [],
     };
@@ -367,6 +373,24 @@ export default {
   box-shadow: 0.25rem 0.25rem 0.625rem rgba(0, 0, 0, 0.5); /* 添加阴影 */
   margin-bottom: 0;
 }
+.guide {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 20%;
+}
+.guide img {
+  width: calc(100vw * 20 / 1920);
+  cursor: pointer;
+}
+.guide h2 {
+  font-size: calc(100vw * 20 / 1920);
+}
+.guide img:hover {
+  filter: brightness(0.5) sepia(1) hue-rotate(90deg); /* 调整颜色的滤镜 */
+  width: calc(100vw * 50 / 1920);
+}
 .left-section h3 {
   margin: 0; /* 去掉默认边距 */
   text-align: center; /* 水平居中 */
@@ -384,8 +408,8 @@ export default {
   /* 使右侧的选择框也横向排列 */
   justify-content: space-evenly;
   flex-direction: row;
-  gap: 2vw;
-  width: 80%;
+  gap: 5px;
+  width: 60%;
   height: 100%;
   border: 1px solid #dad2d2;
   box-shadow: 0.25rem 0.25rem 0.625rem rgba(0, 0, 0, 0.5); /* 添加阴影 */
@@ -400,7 +424,7 @@ export default {
 }
 select {
   margin: 5px 0;
-  width: 15%;
+  width: 20%;
 }
 .operate-area {
   width: 60%;
@@ -426,6 +450,7 @@ select {
   align-items: center;
 }
 .bedarea {
+  overflow: auto;
   background-color: #f5f5f5;
   border-bottom: 1px solid #ccc;
   width: 85%;
@@ -433,11 +458,11 @@ select {
   display: flex;
   flex-wrap: wrap;
   padding: 10px;
+  gap: 10px;
 }
 .bedoperate {
   border: 5px solid rgb(237 237 237 / 76%);
   box-shadow: 0.25rem 0.25rem 0.625rem rgba(43, 43, 43, 0.5); /* 添加阴影 */
-
   width: 11%;
   height: 95%;
   display: flex;
@@ -454,6 +479,9 @@ select {
   cursor: pointer;
   color: white;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .shifang {
   width: 80%;
@@ -464,6 +492,9 @@ select {
   cursor: pointer;
   color: white;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .xia {
   width: 100%;
