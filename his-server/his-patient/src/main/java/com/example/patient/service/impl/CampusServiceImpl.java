@@ -45,19 +45,22 @@ public class CampusServiceImpl extends ServiceImpl<CampusMapper, Campus> impleme
         List<CampusVO> campusVOList=new ArrayList<>();
         for(Campus campus:campusList){
             CampusVO vo=new CampusVO();
-            BeanUtil.copyProperties(campus,vo);
+            vo.setCampusId(campus.getId());
+            vo.setCampusName(campus.getName());
             List<Office> officeList=officeMapper.selectList(new LambdaQueryWrapper<Office>()
                     .eq(Office::getCampusId,campus.getId()));
             List<OfficeVo> officeVoList=new ArrayList<>();
             for(Office office:officeList){
                 OfficeVo officeVo=new OfficeVo();
-                BeanUtil.copyProperties(office,officeVo);
+                officeVo.setOfficeId(office.getId());
+                officeVo.setOfficeName(office.getName());
                 List<Ward> wardList=wardMapper.selectList(new LambdaQueryWrapper<Ward>()
                         .eq(Ward::getOfficeId,office.getId()));
                 List<WardVo> wardVoList=new ArrayList<>();
                 for (Ward ward:wardList){
                     WardVo wardVo=new WardVo();
-                    BeanUtil.copyProperties(ward,wardVo);
+                    wardVo.setWardId(ward.getId());
+                    wardVo.setWardName(ward.getName());
                     wardVoList.add(wardVo);
                 }
                 officeVo.setWards(wardVoList);

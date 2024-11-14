@@ -19,6 +19,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WardVo implements Serializable {
-    private String id;
-    private String name;
+    private String wardId;
+    private String wardName;
 }

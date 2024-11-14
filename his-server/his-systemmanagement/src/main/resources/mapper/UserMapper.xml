@@ -3,18 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.UserMapper">
-    <select id="userList" resultType="com.example.vo.systemmanagement.user.UserDisplayVO">
-        select user.id,
-        user.username,
-        user.employee_number,
-        user.employee_name,
-        user.user_type,
-        user.is_use,
-        camp.name campus_name
+    <select id="userList" resultType="com.example.entity.User">
+        select *
         from user user
         left join campus camp on user.campus_id = camp.id
         <where>
-            user.is_use = 1 and user.user_type = #{userDisplayDTO.userType}
+            user.is_use = 1
+            <if test="userDisplayDTO.userType!=null and userDisplayDTO.userType!=''">
+                and user.user_type = #{userDisplayDTO.userType}
+            </if>
             <if test="userDisplayDTO.name!=null and userDisplayDTO.name!=''">
                 and user.employee_name=#{userDisplayDTO.name}
             </if>

@@ -8,7 +8,7 @@ spring:
     password: 060601hyz
   data:
     redis:
-      host: localhost
+      host: 8.138.173.253
       port: 6379
       password: 060601hyz
   cloud:

@@ -81,6 +81,7 @@ public class JwtUtil {
         } catch (RuntimeException e) {
             // 数据格式有误
             throw new RuntimeException("无效的token");
+
         }
     }
     /**
@@ -99,6 +100,7 @@ public class JwtUtil {
             jwt = JWT.of(token).setSigner(jwtSigner);
         } catch (Exception e) {
             throw new RuntimeException("无效的token", e);
+
         }
         // 2.校验jwt是否有效
         if (!jwt.verify()) {

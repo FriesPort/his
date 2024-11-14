@@ -24,7 +24,7 @@ import java.util.List;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 
-    IPage<UserDisplayVO> userList(UserDisplayDTO userDisplayDTO, Page page);
+    IPage<User> userList(UserDisplayDTO userDisplayDTO, Page page);
 
     List<UserRoleDisplayVo> userRoleDisplay(String userId);
 

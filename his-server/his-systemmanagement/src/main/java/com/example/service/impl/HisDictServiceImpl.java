@@ -18,4 +18,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class HisDictServiceImpl extends ServiceImpl<HisDictMapper, HisDict> implements IHisDictService {
 
+    @Override
+    public Boolean editDict(HisDict hisDict, String userId) {
+        return null;
+    }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CampusVO {
-    String id;
-    String name;
+    String campusId;
+    String campusName;
     List<OfficeVo> offices = new ArrayList<>();
 }

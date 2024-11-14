@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.dto.systemmanagement.userrole.UserCreateDTO;
 import com.example.dto.systemmanagement.user.*;
+import com.example.entity.User;
 import com.example.entity.Ward;
 import com.example.service.IUserService;
 import com.example.service.WardService;
@@ -109,7 +110,7 @@ public class UserController {
      */
     //todo 查询结果为null
     @GetMapping("/msg/display")
-    public JsonVO<IPage<UserDisplayVO>> UserList(UserDisplayDTO userDisplayDTO, @RequestParam long current, @RequestParam long size) {
+    public JsonVO<IPage<User>> UserList(UserDisplayDTO userDisplayDTO, @RequestParam long current, @RequestParam long size) {
         Page<UserDisplayVO> page = new Page<>(current, size);
         if(page!=null){
             return JsonVO.success(iUserService.userlist(userDisplayDTO,page));
