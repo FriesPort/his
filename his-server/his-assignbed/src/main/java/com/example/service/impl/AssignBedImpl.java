@@ -126,8 +126,10 @@ public class AssignBedImpl extends ServiceImpl<AssignBedMapper,patientInformatio
 
         if(change==0){
             result.setStatus(false);
+            result.setMessage("预分配床位失败，该床位已被占用");
         }else{
             result.setStatus(true);
+            result.setMessage("预分配床位成功");
         }
         return result;
     }
@@ -154,9 +156,16 @@ public class AssignBedImpl extends ServiceImpl<AssignBedMapper,patientInformatio
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         patientChangeBedDTO.setLocalDateTime(formatter.format(now));
 
-        assignBedMapper.changeBed(patientChangeBedDTO);
-        assignBedMapper.changePatient(patientChangeBedDTO);
-        result.setStatus(true);
+        int change1 = assignBedMapper.changeBed(patientChangeBedDTO);
+        int change2 = assignBedMapper.changePatient(patientChangeBedDTO);
+
+        if(change1 == 2 && change2 ==2){
+            result.setStatus(true);
+            result.setMessage("床位更改成功");
+        }else{
+            result.setStatus(false);
+            result.setMessage("床位更改失败");
+        }
         return result;
     }
 
