@@ -242,7 +242,7 @@ export default {
   },
   data() {
     return {
-      importdata:[],
+      importdata: [],
       currentpage: 1,
       totalpage: 1,
       limitnum: 10,
@@ -489,17 +489,15 @@ export default {
     // 跳转到上一页
 
     async getpatientsRequest() {
-      const params = {
-
-      };
+      const params = {};
       try {
         let newresponse = await getpatientsRequest(params);
         this.importdata = newresponse.data;
 
         console.log(newresponse.data);
-        console.log(this.importdata)
+        console.log(this.importdata);
         //需要
-        this.ipatients = [...this.ipatients,...this.importdata];
+        this.ipatients = [...this.ipatients, ...this.importdata];
       } catch (err) {
         // 捕获并处理错误
         this.error = `获取床位信息失败：${err.message}`;
@@ -579,8 +577,6 @@ export default {
       // Emit the selected row data to the parent
       this.$emit("update:selectedRow", row);
     },
-
-  
 
     addPatients() {
       const selectedPatients = this.ipatients.filter(
@@ -877,8 +873,8 @@ th {
 }
 .check {
   max-height: 34.75px;
-  height: calc(100vw * 30 / 1920);;
-  font-size: 12px;
+  height: calc(100vw * 30 / 1920);
+  font-size: calc(100vw * 12 / 1920);
   width: 40px;
   padding: 0; /* 去掉内边距 */
   border: 1px solid #a2a7b0;
