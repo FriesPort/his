@@ -1,8 +1,11 @@
 package com.example.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.dto.systemmanagement.dict.HisDictItemAddDTO;
 import com.example.dto.systemmanagement.dict.HisDictItemEditDTO;
+import com.example.entity.HisDict;
 import com.example.entity.HisDictItem;
 import com.example.service.IHisDictItemService;
 import com.example.service.IHisDictService;
@@ -27,6 +30,28 @@ public class HisDictController {
     private IHisDictService hisDictService;
     @Autowired
     private IHisDictItemService hisDictItemService;
+
+    @GetMapping("/")
+    public JsonVO<?> list(@RequestParam long current, @RequestParam long size){
+        IPage<HisDict> page=new Page<>(current,size);
+        return JsonVO.success(hisDictService.list(page));
+    }
+
+    @PostMapping("/delete")
+    public JsonVO<?> delete(String id){
+        if(hisDictService.removeById(id)){
+            return JsonVO.success("删除成功");
+        }
+        return JsonVO.fail("删除失败");
+    }
+
+    @PostMapping("/edit")
+    public JsonVO<?> edit(@RequestBody HisDict hisDict,@RequestHeader("userId")String userId){
+        if(hisDictService.editDict(hisDict,userId)){
+            return JsonVO.success("修改成功");
+        }else{}
+        return null;
+    }
 
     /**
      * 根据字典id查询字典子项

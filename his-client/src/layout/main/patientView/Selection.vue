@@ -132,6 +132,14 @@
       <a-modal v-model:visible="bedAddVisible" title="新增患者" @ok="patientAddOk" @cancel="patientAddCancel" ok-text="增加"
         cancel-text="取消" :afterClose="patientAddCancel" width="520px">
         <a-form>
+              <a-form-item label="院区" style="width: 200px">
+                <a-select v-model:value="selectedCampusName0">
+                  <a-select-option v-for="campus in campusData0" :key="campus.campusId"
+                    :value="campus.campusName">
+                    <span>{{ campus.campusName }}</span>
+                  </a-select-option>
+                </a-select>
+              </a-form-item>
           <a-row :gutter="16">
             <a-col :span="11">
               <a-form-item label="科室：" style="width: 200px">
@@ -184,12 +192,12 @@
           </a-row>
           <a-row :gutter="16">
             <a-col :span="11">
-              <a-form-item label="医生：" style="width: 200px;">
+              <a-form-item label="身份证：" style="width: 200px;">
                 <a-input v-model:value="addDoctor" placeholder="请输入"></a-input>
               </a-form-item>
             </a-col>
             <a-col :span="11" :offset="2">
-              <a-form-item label="诊断情况：" style="width: 200px;">
+              <a-form-item label="疾病：" style="width: 200px;">
                 <a-input v-model:value="addIllness" placeholder="请输入"></a-input>
               </a-form-item>
             </a-col>
@@ -314,8 +322,10 @@ const recordCampusId = ref<number>()
 const recordOfficeId = ref<number>()
 const recordWardId = ref<number>()
 const campusData = reactive<Campus[]>([])
+  const campusData0 = reactive<Campus[]>([])
 // 用于 v-model 的响应式变量，存储选中的 campusName
 const selectedCampusName = ref('');
+const selectedCampusName0 = ref('');
 // 处理选择变化的函数
 const handleChange = (value: string) => {
   // 找到匹配选中 campusName 的 campusItem
@@ -331,13 +341,19 @@ const handleChange = (value: string) => {
 // 基于 selectedCampusName 过滤出的 officeList
 const filteredOfficeList = ref<Office[]>([]);
 const filteredOfficeList0 = ref<Office[]>([]);
-
+const selectedCampusId0 = ref()
 // 监听 selectedCampusName 的变化，更新 filteredOfficeList
 watch(selectedCampusName, (newCampusName) => {
+  selectedCampusName0.value = newCampusName
   // 找到匹配 selectedCampusName 的 campus 对象
   const campus = campusData.find(c => c.campusName === newCampusName);
+  selectedCampusId0.value = campus?.campusId
+  console.log(11111,campus);
+  
   // 更新 filteredOfficeList 为该 campus 对象中的 offices 数组
   if (campus) {
+    console.log(campus);
+    
     // 创建一个 '全部' 选项，确保它具有与数组中其他元素相同的结构
     let allOption: Office = {
       officeId: -1, // 假设 -1 是一个无效的 officeId，用来表示 '全部'
@@ -348,10 +364,15 @@ watch(selectedCampusName, (newCampusName) => {
       }]
     };
     // 将 '全部' 选项插入到 filteredOfficeList 的开头
-    filteredOfficeList.value = [allOption, ...campus.offices];
+    if(campus.offices.length > 0){filteredOfficeList.value = [allOption, ...campus.offices];
     filteredOfficeList0.value = [...campus.offices];
+    console.log(campus.offices);
+    console.log(filteredOfficeList.value);
     selectedOfficeName.value = allOption.officeName; // 设置默认选中的 officeName 为 '全部'
-    selectedOfficeName0.value = filteredOfficeList0.value[0].officeName;
+    selectedOfficeName0.value = filteredOfficeList0.value[0].officeName;}
+    
+    console.log(2222222,selectedOfficeName.value);
+    
   } else {
     filteredOfficeList.value = []; // 如果没有匹配的 campus，重置 filteredOfficeList 为空数组
   }
@@ -390,6 +411,35 @@ watch(selectedOfficeName0, (newOfficeName) => {
     selectedWardName0.value = filteredWardList0.value[0].wardName; // 设置默认选中的 wardName
   } else {
     filteredOfficeList.value = []; // 如果没有匹配的 office，重置 filteredWardList 为空数组
+  }
+});
+
+watch(selectedCampusName0, (newCampusName) => {
+  selectedCampusName0.value = newCampusName
+  // 找到匹配 selectedCampusName 的 campus 对象
+  const campus = campusData.find(c => c.campusName === newCampusName);
+  selectedCampusId0.value = campus?.campusId
+  
+  // 更新 filteredOfficeList 为该 campus 对象中的 offices 数组
+  if (campus) {
+    console.log(campus);
+    
+    // 创建一个 '全部' 选项，确保它具有与数组中其他元素相同的结构
+    let allOption: Office = {
+      officeId: -1, // 假设 -1 是一个无效的 officeId，用来表示 '全部'
+      officeName: '全部',
+      wards: [{
+        wardId: -1,
+        wardName: '全部'
+      }]
+    };
+    // 将 '全部' 选项插入到 filteredOfficeList 的开头
+    if(campus.offices.length > 0){filteredOfficeList.value = [allOption, ...campus.offices];
+    filteredOfficeList0.value = [...campus.offices];
+    selectedOfficeName0.value = filteredOfficeList0.value[0].officeName;}
+    
+  } else {
+    filteredOfficeList.value = []; // 如果没有匹配的 campus，重置 filteredOfficeList 为空数组
   }
 });
 const selectedWardName = ref('');
@@ -433,7 +483,7 @@ const defaultViewMode = storedViewMode || viewModeData[0]; // 如果有存储的
 const viewMode = ref(defaultViewMode);
 const currentComponent = shallowRef(defaultViewMode === viewModeData[0] ? List : Card);
 
-watch(viewMode, (newValue) => {
+watch(viewMode, (newValue:any) => {
   if (newValue === viewModeData[0]) {
     currentComponent.value = List;
   } else if (newValue === viewModeData[1]) {
@@ -446,140 +496,46 @@ watch(viewMode, (newValue) => {
 
 // 患者信息
 const patientsData = ref<Patient[]>([
-  // {
-  //   patientId: 1,
-  //   name: '齐一',
-  //   age: 20,
-  //   gender: '男',
-  //   phone: '9090909',
-  //   bookType: '线下预约',
-  //   status: '已入院',
-  //   bedId: 10,
-  //   roomNumber: '201房',
-  //   bedNumber: '01床',
-  //   roomType: '普通病房',
-  //   roomGender: '混合病房',
-  //   bedCount: 6,
-  //   roomNumberRequirement: 3,
-  //   roomGenderRequirement: '男性病房',
-  //   roomTypeRequirement: '普通病房',
-  //   waitDay: null,
-  //   admissionType: '急诊入院',
-  //   admissionTime: '2024/04/01',
-  //   createTime: '2024/03/31',
-  //   dischargeTime: null,
-  //   admissionNumber: '23456A',
-  //   doctor: '老陈',
-  //   illness: '骨折',
-  //   isEmergency: 1,
-  //   isAcute: 1,
-  //   isVip: 1
-  // },
-  // {
-  //   patientId: 2,
-  //   name: '齐二',
-  //   age: 19,
-  //   gender: '男',
-  //   phone: '90909091',
-  //   bookType: '线上预约',
-  //   status: '已入院',
-  //   bedId: 11,
-  //   roomNumber: '201房',
-  //   bedNumber: '02床',
-  //   roomType: '普通病房',
-  //   roomGender: '混合病房',
-  //   bedCount: 6,
-  //   roomNumberRequirement: 3,
-  //   roomGenderRequirement: '男性病房',
-  //   roomTypeRequirement: '普通病房',
-  //   waitDay: null,
-  //   admissionType: '预约入院',
-  //   admissionTime: '2024/04/01',
-  //   createTime: '2024/03/31',
-  //   dischargeTime: null,
-  //   admissionNumber: '23456B',
-  //   doctor: '老赖',
-  //   illness: '骨折',
-  //   isEmergency: 0,
-  //   isAcute: 0,
-  //   isVip: 0
-  // },
-  // {
-  //   patientId: 3,
-  //   name: '齐三',
-  //   age: 18,
-  //   gender: '女',
-  //   phone: '90909092',
-  //   bookType: '线上预约',
-  //   status: '待入院',
-  //   bedId: null,
-  //   roomNumber: null,
-  //   bedNumber: null,
-  //   roomType: '普通病房',
-  //   roomGender: '混合病房',
-  //   bedCount: 6,
-  //   roomNumberRequirement: 3,
-  //   roomGenderRequirement: '女性病房',
-  //   roomTypeRequirement: '普通病房',
-  //   admissionType: '预约入院',
-  //   waitDay: 2,
-  //   admissionTime: null,
-  //   createTime: '2024/04/01',
-  //   dischargeTime: null,
-  //   admissionNumber: '',
-  //   doctor: '老林',
-  //   illness: '公主病',
-  //   isEmergency: 0,
-  //   isAcute: 0,
-  //   isVip: 1
-  // },
-  // {
-  //   patientId: 4,
-  //   name: '齐四',
-  //   age: 28,
-  //   gender: '男',
-  //   phone: '90909093',
-  //   bookType: '线下预约',
-  //   status: '已入院',
-  //   bedId: 15,
-  //   roomNumber: '207房',
-  //   bedNumber: '01床',
-  //   roomType: '普通病房',
-  //   roomGender: '混合病房',
-  //   bedCount: 6,
-  //   roomNumberRequirement: 1,
-  //   roomGenderRequirement: '男性病房',
-  //   roomTypeRequirement: '隔离病房',
-  //   waitDay: null,
-  //   admissionType: '急诊入院',
-  //   admissionTime: '2024/04/01',
-  //   createTime: '2024/03/31',
-  //   dischargeTime: null,
-  //   admissionNumber: '23456D',
-  //   doctor: '老程',
-  //   illness: '感染性疾病',
-  //   isEmergency: 1,
-  //   isAcute: 1,
-  //   isVip: 0
-  // }
 ]
 )
 //提供patientsData给后代组件
 provide('patientsData', patientsData)
 onMounted(async () => {
-  // let { data } = await axios.get('http://localhost:3000/beds');
-  // let { data } = await getWardsData();
-  // campusData.splice(0, campusData.length, ...data); // 替换现有数据
-  // selectedCampusName.value = campusData[0].campusName;
-  // recordCampusId.value = campusData[0].campusId;
-  // recordOfficeId.value = campusData[0].offices[0].officeId;
-  // recordWardId.value = campusData[0].offices[0].wards[0].wardId;
+  let { data } = await getWardsData();
+  let defaultCampus = {
+    campusId: 0,
+    campusName: '全部',
+    offices: [
+      {officeId: 0,
+      officeName: '全部',
+      wards: [
+        {wardId: 0,
+        wardName: '全部'}
+      ]}
+    ]
+  }
+  campusData.splice(0, campusData.length-1, defaultCampus, ...data); // 替换现有数据
+  campusData0.splice(0, campusData0.length-1, ...campusData)
+  selectedCampusName.value = campusData[0].campusName;
+  recordCampusId.value = campusData[0].campusId;
+  recordOfficeId.value = campusData[0].offices[0].officeId;
+  recordWardId.value = campusData[0].offices[0].wards[0].wardId;
+  // if(patientGender.value === '全部' ? null : patientGender.value)
+  switch(patientGender.value){
+    case '全部': patientGender.value = ''
+    break;
+    case '男': patientGender.value = '1'
+    break;
+    case '女': patientGender.value = '0'
+    break
+  }
+
   let params = {
-    campusId: recordCampusId.value === -1 ? null : recordCampusId.value,
+    campusId: recordCampusId.value == 0 ? null : recordCampusId.value,
     officeId: null,
     wardId: null,
     name: patientName.value === '' ? null : patientName.value,
-    gender: patientGender.value === '全部' ? null : patientGender.value,
+    gender: patientGender.value === '' ? null : patientGender.value,
     status: patientStatus.value === '全部' ? null : patientStatus.value,
     admissionType: admissionType.value === '全部' ? null : admissionType.value,
     bookType: bookType.value === '全部' ? null : bookType.value,
@@ -682,29 +638,31 @@ const patientAddOk = async () => {
   else {
     try {
       let params = {
-        campusId: recordCampusId.value,
+        campusId: selectedCampusId0.value,
         officeId: recordOfficeId0.value,
         wardId: recordWardId0.value,
         name: addPatientName.value,
         age: addPatientAge.value,
+        address: '默认地址',
         gender: addPatientGender.value,
         phone: addTelephoneNumber.value,
-        bookType: addBookType.value,
-        roomNumberRequirement: addRoomNumberRequirement.value === '全部' ? null : addRoomNumberRequirement.value,
-        roomGenderRequirement: addRoomGenderRequirement.value,
-        roomTypeRequirement: addRoomTypeRequirement.value,
+        booktype: addBookType.value,
+        roomNumber: addRoomNumberRequirement.value === '全部' ? null : addRoomNumberRequirement.value,
+        roomGender: addRoomGenderRequirement.value,
+        // roomTypeRequirement: addRoomTypeRequirement.value,
         // roomWardRequirement: recordWardId.value,
         // waitDay: addWaitingDay.value,
-        admissionType: addAdmissionType.value,
+        admissiontype: addAdmissionType.value,
         // admissionTime: addAdmissionTimeValue.value,
         // admissionNumber: addAdmissionNumber.value,
-        doctor: addDoctor.value,
+        doctorId: '0',//addDoctor.value
         illness: addIllness.value,
-        isEmergency: addEmergencyValue.value,
-        isAcute: addCuteValue.value,
-        isVip: addVIPValue.value
+        iswmergency: addEmergencyValue.value,
+        isacute: addCuteValue.value,
+        isvip: addVIPValue.value,
+        identity: '12345678910111212'
       }
-      let result = await patientAddRequest(params)
+      let result = await patientAddRequest([params])
       message.warning('新增患者成功')
       //增加成功之后再发一个查询请求更新页面
       await handleSearch()

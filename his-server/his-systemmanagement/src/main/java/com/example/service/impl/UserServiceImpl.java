@@ -45,7 +45,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     private UserMapper userMapper;
-    
+
     @Autowired
     private IdGenerate idGenerate;
 
@@ -92,38 +92,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     //这里展示用户表列表会展示出登录用户自己吗？
     @Override
-    public IPage<UserDisplayVO> userlist(UserDisplayDTO userDisplayDTO, Page page){
-//        List<User> userlist=new ArrayList<>();
-//        List<UsersDisplayVO> displayVOList=new ArrayList<>();
-//        QueryWrapper queryWrapper=new QueryWrapper();
-//
-//        if(!userDisplayDTO.getCampusId().equals("all")){
-//            queryWrapper.eq("campus_id",userDisplayDTO.getCampusId());
-//        }
-//        if(!userDisplayDTO.getName().equals("all")){
-//            queryWrapper.eq("name",userDisplayDTO.getName());
-//        }
-//        if(!userDisplayDTO.getEmployeeNumber().equals("all")){
-//            queryWrapper.eq("employee_number",userDisplayDTO.getEmployeeNumber());
-//        }
-//
-//        if(userDisplayDTO.getEmployeeNumber().equals("all")&&userDisplayDTO.getName().equals("all")&&userDisplayDTO.getCampusId().equals("all")){
-//            userlist= userMapper.selectList(null);
-//
-//        }else{
-//            userlist= userMapper.selectList(queryWrapper);
-//        }
-//        for (User user : userlist) {
-//            UsersDisplayVO displayVO = new UsersDisplayVO();
-//            BeanUtils.copyProperties(user, displayVO);
-//            Campus campus=campusMapper.selectOne(new QueryWrapper<Campus>().eq("campus_id",user.getCampusId()));
-//            displayVO.setIsEnable(user.getEnable());
-//            displayVO.setCampusName(campus.getCampusName());
-//            displayVOList.add(displayVO);
-//        }
-//
-//        return displayVOList;
-        IPage<UserDisplayVO> re=userMapper.userList(userDisplayDTO,page);
+    public IPage<User> userlist(UserDisplayDTO userDisplayDTO, Page page){
+
+        IPage<User> re=userMapper.userList(userDisplayDTO,page);
         log.info("userlist:{}",re);
         return  re;
     }

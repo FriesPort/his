@@ -15,8 +15,8 @@ public class LoginController {
     @Autowired
     LoginService loginService;
     @PostMapping("/login")
-    public JsonVO<LoginVO> login(@RequestBody LoginDTO loginDTO){
-        return JsonVO.success(loginService.login(loginDTO));
+    public JsonVO<?> login(@RequestBody LoginDTO loginDTO){
+        return loginService.login(loginDTO);
     }
 
     @PostMapping("/logout")

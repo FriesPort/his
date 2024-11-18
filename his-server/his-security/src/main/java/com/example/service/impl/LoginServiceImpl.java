@@ -10,6 +10,7 @@ import com.example.mapper.PermissionMapper;
 import com.example.service.LoginService;
 import com.example.utils.JwtUtil;
 import com.example.utils.RedisCache;
+import com.example.vo.JsonVO;
 import com.example.vo.login.LoginVO;
 import lombok.extern.slf4j.Slf4j;
 import com.example.mapper.UserMapper;
@@ -47,13 +48,13 @@ public class LoginServiceImpl implements LoginService {
     private PermissionMapper permissionMapper;
 
     @Override
-    public LoginVO login(LoginDTO loginDTO) {
+    public JsonVO<?> login(LoginDTO loginDTO) {
         UsernamePasswordAuthenticationToken authenticationToken=
                 new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),loginDTO.getPassword());
         Authentication authenticate= authenticationManager.authenticate(authenticationToken);
         //如果认证没通过，给出返回信息
         if(Objects.isNull(authenticate)){
-            throw new RuntimeException("登录失败");
+            return JsonVO.fail("用户名或密码错误");
         }
         //如果认证通过了，使用userid生成一个jwt
         LoginUser loginUser=(LoginUser) authenticate.getPrincipal();
@@ -80,7 +81,7 @@ public class LoginServiceImpl implements LoginService {
         redisTemplate.opsForValue().set(RedisConstant.USER_TOKEN+":"+reljwt,reljwt,100, TimeUnit.MINUTES);
         redisTemplate.opsForHash().putAll(RedisConstant.PERMISSION_ROUTE,permissionMap);
         log.info("成功刷新-权限映射hash");
-        return new LoginVO(jwt);
+        return JsonVO.success(new LoginVO(jwt));
     }
 
     @Override
