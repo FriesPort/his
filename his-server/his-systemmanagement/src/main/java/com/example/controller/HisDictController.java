@@ -50,6 +50,7 @@ public class HisDictController {
         if(hisDictService.editDict(hisDict,userId)){
             return JsonVO.success("修改成功");
         }else{}
+        return null;
     }
 
     /**

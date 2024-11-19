@@ -63,3 +63,6 @@ export const informRequest=(parames:any)=>{
 export const getpatientsRequest=(parames:any)=>{
   return request.post(`/patient/query`,parames)
 }
+export const getcampus=(params:any)=>{
+  return request.get(`patient/all`,params)
+}
