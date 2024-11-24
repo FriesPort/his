@@ -18,5 +18,5 @@ export const patientEditRequest = (params: any) => {
 //患者新增请求
 export const patientAddRequest = (params: any) => {
   console.log('新增',params)
-  return request.post('/patient/add',params)
+  return request.post('/patient/adds',params)
 }

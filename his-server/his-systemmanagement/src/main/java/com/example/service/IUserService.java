@@ -26,7 +26,7 @@ import java.util.List;
 public interface IUserService extends IService<User> {
     Boolean insertUser(UserAddDTO userAddDTO,String userId);
 
-    IPage<UserDisplayVO> userlist(UserDisplayDTO userDisplayDTO, Page page);
+    IPage<User> userlist(UserDisplayDTO userDisplayDTO, Page page);
 
     boolean updateUser(UserUpdateDTO userUpdateDTO,String userId);
 

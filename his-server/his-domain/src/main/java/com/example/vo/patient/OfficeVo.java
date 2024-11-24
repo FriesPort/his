@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OfficeVo {
-    String id;
-    String name;
+    String officeId;
+    String officeName;
     List<WardVo> wards = new ArrayList<>();
 }

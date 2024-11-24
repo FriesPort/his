@@ -342,6 +342,7 @@ REPLACE INTO `office` (`id`, `name`, `campus_id`, `create_time`, `create_by`, `u
 CREATE TABLE IF NOT EXISTS `patient_hospitalization_record` (
   `id` varchar(32) NOT NULL COMMENT '主键',
   `patient_id` varchar(32) NOT NULL COMMENT '患者id-外键',
+  `name` varchar(32) NOT NULL COMMENT '姓名',
   `bed_id` varchar(32) NOT NULL COMMENT '床位id-外键',
   `admission_time` datetime NOT NULL COMMENT '入院时间',
   `discharge_time` datetime DEFAULT NULL COMMENT '出院时间',
@@ -388,6 +389,7 @@ CREATE TABLE IF NOT EXISTS `patient_information` (
   `create_by` varchar(50) NOT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
+  `doctoe` varchar(32) DEFAULT NULL COMMENT '医生',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

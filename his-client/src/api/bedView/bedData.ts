@@ -7,7 +7,7 @@ export const getBedsData = (params: any) => {
 
 //提供调用床位数据的函数
 export const getWardsData = () => {
-  return request.get('/beds')
+  return request.get('/patient/all')
 }
 
 //提供删除床位的函数

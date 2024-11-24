@@ -12,5 +12,5 @@ import com.example.entity.HisDict;
  * @since 2024-11-07
  */
 public interface IHisDictService extends IService<HisDict> {
-
+    Boolean editDict(HisDict hisDict,String userId);
 }
