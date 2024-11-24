@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import com.example.dto.assignbed.patientChangeBedDTO;
 import com.example.dto.assignbed.patientInformationDTO;
+import com.example.dto.assignbed.patientPreassignbedDTO;
 import com.example.pojo.patientInformation;
 
 import com.example.vo.assginbed.getOnBed.getOnBedVo;
