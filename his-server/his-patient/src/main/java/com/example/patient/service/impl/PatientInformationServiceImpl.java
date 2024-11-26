@@ -11,14 +11,11 @@ import com.example.dto.patient.PatientQueryDTO;
 import com.example.patient.entity.*;
 import com.example.patient.mapper.AllIdMapper;
 import com.example.patient.mapper.PatientInformationMapper;
-import com.example.patient.mapper.PatientMapper;
 import com.example.patient.service.IBedService;
 import com.example.patient.service.IPatientInformationService;
 import com.example.patient.service.IPatientrecodeService;
 import com.example.patient.service.IRoomuserService;
 import com.example.utils.IdGenerate;
-import com.example.utils.TimeTrainsform;
-import com.example.vo.patient.PatientVo;
 import com.example.vo.patient.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -32,8 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -78,7 +73,9 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
         allIdLambdaQueryWrapper
                 .select(AllId::getPatientId)
                 .eq(StrUtil.isNotEmpty(patientQueryDTO.getCampusId()),AllId::getCampusId,patientQueryDTO.getCampusId())
+                .eq(StrUtil.isNotEmpty(patientQueryDTO.getOfficeId()),AllId::getOfficeId,patientQueryDTO.getOfficeId())
                 .eq(StrUtil.isNotEmpty(patientQueryDTO.getWardId()),AllId::getWardId,patientQueryDTO.getWardId())
+                .eq(StrUtil.isNotEmpty(patientQueryDTO.getHospital()),AllId::getHospital,patientQueryDTO.getHospital())
                 .eq(StrUtil.isNotEmpty(patientQueryDTO.getRoomGenderRequirement()),AllId::getRoomGender,patientQueryDTO.getRoomGenderRequirement())
                 .eq(StrUtil.isNotEmpty(patientQueryDTO.getRoomTypeRequirement()),AllId::getRoomType,patientQueryDTO.getRoomTypeRequirement())
                 .eq(StrUtil.isNotEmpty(patientQueryDTO.getRoomNumberRequirement()),AllId::getRoomNumber,patientQueryDTO.getRoomNumberRequirement());
@@ -107,13 +104,17 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
         }
 
         return list.stream()
-                .sorted((p1,p2) -> {
-                    int i=Integer.compare(p1.getIsInhospital(),p2.getIsInhospital());
-                    if(i!=0){
-                        return i;
-                    }
-                    return Integer.compare(p1.getIsacute(),p2.getIsacute());
-                })
+                .sorted(Comparator.comparingInt(Patient::getIsInhospital)
+                        .thenComparing((p1, p2) -> Integer.compare(p2.getIsacute(), p1.getIsacute()))
+                        .thenComparing((p1, p2) -> Integer.compare(p2.getIsemergency(), p1.getIsemergency()))
+                        .thenComparing((p1,p2)->{
+                            if(p1.getIsInhospital()==0&&p2.getIsInhospital()==0){
+                                long days1 = ChronoUnit.DAYS.between(p1.getCreateTime(), LocalDateTime.now());
+                                long days2 = ChronoUnit.DAYS.between(p2.getCreateTime(), LocalDateTime.now());
+                                return Long.compare(days2,days1);
+                            }
+                            return 0;
+                        }))
                 .collect(Collectors.toList());
     }
 
@@ -124,61 +125,26 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
         for (PatientAlterDTO patientAlterDTO : patientList) {
 
             LambdaQueryWrapper<Patient> patientInformationLambdaQueryWrapper = new LambdaQueryWrapper<>();
-            LambdaQueryWrapper<Patient> patientInformationLambdaQueryWrapper1 = new LambdaQueryWrapper<>();
-            LambdaQueryWrapper<Patient> patientInformationLambdaQueryWrapper2 = new LambdaQueryWrapper<>();
 
             // 初始化患者信息
             Patient patient = new Patient();
-
+            AllId allId = new AllId();
 
             if(patientAlterDTO.getName()==null){
                 result.setMessage("请填写名字");
                 return result;
             }
 
-            patientInformationLambdaQueryWrapper.eq(Patient::getIdentity,patientAlterDTO.getIdentity())
-                    .isNull(Patient::getDischargeTime);
-
-            if(patientAlterDTO.getIdentity()!=null&&getOne(patientInformationLambdaQueryWrapper)!=null){
-                result.setMessage("患者(身份证号码为" + patientAlterDTO.getIdentity() + "）已被创建");
-                return result;
-            }
-
-
-
-            if(patientAlterDTO.getIdentity()!=null){
-                patientInformationLambdaQueryWrapper1.eq(Patient::getIdentity,patientAlterDTO.getIdentity())
-                        .isNotNull(Patient::getDischargeTime);
-                Patient existingPatient = getOne(patientInformationLambdaQueryWrapper1);
-                if(existingPatient!=null){
-                    LambdaUpdateWrapper<Patient> updateWrapper = new LambdaUpdateWrapper<>();
-                    updateWrapper.eq(Patient::getId, existingPatient.getId())
-                            .set(Patient::getAdmissionnumber, null)
-                            .set(Patient::getAdmissiontype, null)
-                            .set(Patient::getAdmissiontime, null)
-                            .set(Patient::getDischargeTime, null)
-                            .set(Patient::getBedId, null)
-                            .set(Patient::getBooktype, null)
-                            .set(Patient::getIsemergency, 0)
-                            .set(Patient::getIsvip, 0)
-                            .set(Patient::getIsacute, 0)
-                            .set(Patient::getIsInhospital, 0)
-                            .set(Patient::getPreassignbed, null)
-                            .set(Patient::getIllness, null);
-                    update(existingPatient, updateWrapper);
-                    patientInformationLambdaQueryWrapper2.eq(Patient::getIdentity,patientAlterDTO.getIdentity());
-                    patient=getOne(patientInformationLambdaQueryWrapper2);
-                    BeanUtils.copyProperties(patientAlterDTO, patient);
-                    LocalDateTime localDateTime = LocalDateTime.now();
-                    patient.setUpdateTime(localDateTime);
-                    patient.setUpdateBy(userId);
-                    updateById(patient);
+            if (patientAlterDTO.getIdentity() != null) {
+                patientInformationLambdaQueryWrapper.eq(Patient::getIdentity, patientAlterDTO.getIdentity());
+                if (getOne(patientInformationLambdaQueryWrapper) != null) {
+                    result.setMessage("患者(身份证号码为" + patientAlterDTO.getIdentity() + "）已被创建");
+                    return result;
                 }
             }
 
+
             BeanUtils.copyProperties(patientAlterDTO, patient);
-
-
 
             // 设置当前时间为创建时间
             LocalDateTime localDateTime = LocalDateTime.now();
@@ -191,6 +157,19 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
             String generatedId = idGenerate.nextUUID(patient);
             patient.setId(generatedId);  // 假设 Patient 有 id 字段
 
+            //载入all_id表
+allId.setPatientId(patient.getId());
+allId.setHospital(patientAlterDTO.getHospital());
+allId.setCampusId(patientAlterDTO.getCampusId());
+allId.setWardId(patientAlterDTO.getWardId());
+allId.setOfficeId(patientAlterDTO.getOfficeId());
+allId.setCreateTime(localDateTime);
+allId.setUpdateTime(localDateTime);
+allId.setCreateBy(userId);
+allId.setUpdateBy(userId);
+String gId = idGenerate.nextUUID(allId);
+allId.setId(gId);
+allIdMapper.insert(allId);
 
             // 保存患者信息
             save(patient);
@@ -205,23 +184,38 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
     @Override   //编辑患者
     public Result<String> patientEdit(String userId,PatientEditDTO patientEditDTO) {
         Patient patient=new Patient();
+        AllId allId=new AllId();
         Map<String,String> map=patientEditDTO.getPatient();
-        Class<?> clazz=patient.getClass();
+        Class<?> clazz1 =patient.getClass();
+        Class<?> clazz2=allId.getClass();
         for(Map.Entry<String, String> entry : map.entrySet()){
             try{
-                Field field=clazz.getDeclaredField(entry.getKey());
-                field.setAccessible(true);
-                field.set(patient,entry.getValue());
+                Field field1 = clazz1.getDeclaredField(entry.getKey());
+                field1.setAccessible(true);
+                field1.set(patient,entry.getValue());
             }catch (Exception e){
                 e.printStackTrace();
             }
-
+            try{
+                Field field2 = clazz2.getDeclaredField(entry.getKey());
+                field2.setAccessible(true);
+                field2.set(allId,entry.getValue());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         patient.setId(patientEditDTO.getId());
         patient.setUpdateTime(LocalDateTime.now());
         patient.setUpdateBy(userId);
+
+        LambdaUpdateWrapper<AllId> allIdUpdateWrapperupdateWrapper = new LambdaUpdateWrapper<>();
+        allIdUpdateWrapperupdateWrapper.eq(AllId::getPatientId, patient.getId());
+        allId.setUpdateTime(LocalDateTime.now());
+        allId.setUpdateBy(userId);
+
         try{
             int i=patientInformationMapper.updateById(patient);
+            int j=allIdMapper.update(allIdUpdateWrapperupdateWrapper);
         }catch (Exception e){
             e.printStackTrace();
             return new Result<>(false,"更新失败");
@@ -283,6 +277,7 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
             if(patient.getAdmissiontime()!=null) {
                 patientrecode.setAdmissionTime(patient.getAdmissiontime());
             }
+            patientrecode.setName(patient.getName());
             patientrecode.setDischargeTime(LocalDateTime.now()); // 设置出院时间为当前时间
             patientrecode.setAdmissionDiagnosis(patient.getIllness());
             patientrecode.setDischargeDiagnosis(patientDeleteDTO.getDischargeDiagnosis());
@@ -327,8 +322,6 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
                 }
             }
 
-
-
             // 计算住院费用
             if(patient.getAdmissiontime()!=null) {
                 long daysInHospital = ChronoUnit.DAYS.between(patient.getAdmissiontime(), LocalDateTime.now());
@@ -346,12 +339,10 @@ public class PatientInformationServiceImpl extends ServiceImpl<PatientInformatio
         }
 
         //删除患者
-        LambdaUpdateWrapper<Patient> patientInformationLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-        patientInformationLambdaUpdateWrapper.eq(Patient::getId,patientId);
-        patientInformationLambdaUpdateWrapper.set(Patient::getDischargeTime,LocalDateTime.now());
-        update(patientInformationLambdaUpdateWrapper);
-
-
+patientInformationMapper.deleteById(patient.getId());
+LambdaQueryWrapper<AllId> patientrecodeQueryWrapper = new LambdaQueryWrapper<>();
+patientrecodeQueryWrapper.eq(AllId::getPatientId, patient.getId());
+allIdMapper.delete(patientrecodeQueryWrapper);
 
         result.setMessage("释放成功");
         result.setStatus(true);

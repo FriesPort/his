@@ -21,11 +21,8 @@ import java.util.Map;
  * @since 2024-05-09
  */
 public interface IPatientInformationService extends IService<Patient> {
+
     List<Patient> patientList(PatientQueryDTO patientQueryDTO);
-    //患者查看
-
-
-//    Result<String> patientAdd(String userId,PatientAlterDTO patientAlterDTO);
 
     Result<String> patientsAdd(String userId,List<PatientAlterDTO> patientList);
 
