@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.example.dto.assignbed.patientChangeBedDTO;
 import com.example.dto.assignbed.patientInformationDTO;
+import com.example.dto.assignbed.patientPreassignbedDTO;
 import com.example.pojo.bed;
 import com.example.pojo.patientInformation;
 import com.example.mapper.AssignBedMapper;
@@ -16,6 +17,7 @@ import com.example.service.IRoomService;
 import com.example.vo.assginbed.Result;
 import com.example.vo.assginbed.getOnBed.getOnBedVo;
 import com.example.vo.assginbed.getOutBed.getOutBedVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -100,12 +102,22 @@ public class AssignBedImpl extends ServiceImpl<AssignBedMapper,patientInformatio
 
     //预分配床位
     @Override
-    public Result<String> preassign(patientInformationDTO patientInformationDTO) {
+    public Result<String> preassign(patientPreassignbedDTO patientPreassignbedDTO) {
         Result<String> result = new Result<>();
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        patientInformationDTO.setLocalDateTime(formatter.format(now));
-        int change = assignBedMapper.preAssignBed(patientInformationDTO);
+        patientPreassignbedDTO.setLocalDateTime(formatter.format(now));
+        int length = patientPreassignbedDTO.getId().length;
+        patientInformationDTO patientInformationDTO = new patientInformationDTO();
+        int change = 0;
+        for(int i =0;i<length;i++){
+            patientInformationDTO.setBedId(patientPreassignbedDTO.getBedId()[i]);
+            patientInformationDTO.setId(patientPreassignbedDTO.getId()[i]);
+            patientInformationDTO.setName(patientPreassignbedDTO.getName());
+            patientInformationDTO.setLocalDateTime(patientPreassignbedDTO.getLocalDateTime());
+            change += assignBedMapper.preAssignBed(patientInformationDTO);   //返回的是受影响的行数
+        }
+
 /*        //修改patient_information表中的信息
         LambdaUpdateWrapper<patientInformation> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper.set(patientInformation::getBed_id,patientInformationDTO.getBedId())
@@ -124,7 +136,7 @@ public class AssignBedImpl extends ServiceImpl<AssignBedMapper,patientInformatio
                             .eq(bed::getId,assignBedMapper.getBedId(patientInformationDTO.getId()));
         iBedService.update(lambdaUpdateWrapper1);*/
 
-        if(change==0){
+        if(change!=2*length){
             result.setStatus(false);
             result.setMessage("预分配床位失败，该床位已被占用");
         }else{

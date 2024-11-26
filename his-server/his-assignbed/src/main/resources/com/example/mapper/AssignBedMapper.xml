@@ -52,7 +52,7 @@
     <update id="preAssignBed">
         update patient_information as pi inner join bed as b
         on b.id = #{bedId} and b.is_null = 0 set pi.update_by = #{name}, pi.update_time = #{localDateTime},
-            pi.bed_id = #{bedId}, b.is_null = 1, b.patient_id = #{id}
+            pi.bed_id = #{bedId}, b.is_null = 1, b.patient_id = #{id},b.update_by = #{name},b.update_time = #{localDateTime}
         where pi.id = #{id}
     </update>
 

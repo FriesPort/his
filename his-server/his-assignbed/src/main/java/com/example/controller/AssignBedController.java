@@ -3,6 +3,7 @@ package com.example.controller;
 
 import com.example.dto.assignbed.patientChangeBedDTO;
 import com.example.dto.assignbed.patientInformationDTO;
+import com.example.dto.assignbed.patientPreassignbedDTO;
 import com.example.service.AssignBedService;
 import com.example.vo.JsonVO;
 
@@ -73,7 +74,7 @@ public class AssignBedController {
     /**
      * 预分配床位
      *
-     * @param patientInformationDTO the patient information dto
+     * @param patientPreassignbedDTO the patient preassignbed dto
      * @return the json vo
      */
 //预分配床位
@@ -82,8 +83,8 @@ public class AssignBedController {
     //todo 数据库中有一个字段 preAssignBed（预分配床位号,为0表示未进行预分配） 这个字段是用来干嘛的？
     //todo 同时给多个患者分配同一个床位？？？
     @PostMapping("/preassign")
-    public JsonVO<String> preassign(@RequestBody patientInformationDTO patientInformationDTO){
-        Result<String> result = assignBedService.preassign(patientInformationDTO);
+    public JsonVO<String> preassign(@RequestBody patientPreassignbedDTO patientPreassignbedDTO){
+        Result<String> result = assignBedService.preassign(patientPreassignbedDTO);
         if(result.isStatus())return JsonVO.success(result.getMessage());
         return JsonVO.fail(result.getMessage());
     }
