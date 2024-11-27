@@ -389,7 +389,7 @@ CREATE TABLE IF NOT EXISTS `patient_information` (
   `create_by` varchar(50) NOT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `update_by` varchar(50) DEFAULT NULL COMMENT '更新人',
-  `doctoe` varchar(32) DEFAULT NULL COMMENT '医生',
+  `doctor` varchar(32) DEFAULT NULL COMMENT '医生',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
