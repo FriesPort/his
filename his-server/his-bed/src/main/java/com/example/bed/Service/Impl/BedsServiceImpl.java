@@ -228,6 +228,7 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
                 bedVo.setBedNumber(bed.getNumber());
                 bedVo.setBedType(bed.getBedType());
                 bedVo.setBedStatus(bed.getBedStatus());
+                bedVo.setRoomId(bed.getRoomId());
                 //从RoomId中查询此病床的病房数据
                 Room room1 = roomsMapper.selectById(bed.getRoomId());
                 bedVo.setRoomType(room1.getType());
