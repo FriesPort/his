@@ -49,7 +49,9 @@ public class HisDictController {
     public JsonVO<?> edit(@RequestBody HisDict hisDict,@RequestHeader("userId")String userId){
         if(hisDictService.editDict(hisDict,userId)){
             return JsonVO.success("修改成功");
-        }else{}
+        }else{
+            return JsonVO.fail("修改失败");
+        }
     }
 
     /**

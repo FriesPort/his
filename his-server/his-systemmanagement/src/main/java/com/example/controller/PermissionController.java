@@ -22,6 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/system/permission")
+@CrossOrigin(origins = {"http://localhost:8080"}, allowCredentials = "true")
 public class PermissionController {
 
     @Autowired
