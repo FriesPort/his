@@ -13,26 +13,35 @@
           </div> -->
           <div class="right-section">
             <h2>院区</h2>
-            <select v-model="selectedOption1">
+            <select v-model="selectedCampus" @change="updateOffices">
               <option disabled value="">请选择院区</option>
-              <option>广州医院区</option>
-              <option>珠海院区</option>
-              <option>深圳院区</option>
+              <option
+                v-for="campus in campus"
+                :key="campus.campusId"
+                :value="campus.campusId"
+              >
+                {{ campus.campusName }}
+              </option>
             </select>
-            <h2>病区</h2>
-            <select v-model="selectedOption2">
-              <option disabled value="">请选择病区</option>
-              <option value="选项A">内科</option>
-              <option value="选项B">外科</option>
+            <h2>科室</h2>
+            <select v-model="selectedOffice" @change="updateWards">
+              <option disabled value="">请选择科室</option>
+              <option
+                v-for="offices in filteredOffices"
+                :key="offices.officeId"
+                :value="offices.officeId"
+              >
+                {{ offices.officeName }}
+              </option>
             </select>
-            <select v-model="selectedOption3">
+            <select v-model="selectedWard">
               <option disabled value="">请选择选项3</option>
               <option
-                v-for="option in computedOptionsForSelect3"
-                :key="option"
-                :value="option"
+                v-for="ward in filteredWards"
+                :key="ward.wardId"
+                :value="ward.wardId"
               >
-                {{ option }}
+                {{ ward.wardName }}
               </option>
             </select>
             <h2>类型</h2>
@@ -73,19 +82,37 @@
         <div class="shang">
           <div class="bedarea">
             <BedCard
-              v-for="index in 10"
-              :key="index"
-              :index="index"
-              :id="'bed-' + (100 + index)"
-              :show-checkbox="showCheckboxes[index - 1]"
+              v-for="bed in currentBeds"
+              :key="bed.bedId"
+              :id="bed.bedId"
+              :index="bed.bedNumber"
+              :show-checkbox="true"
               @change="
-                updateSelectedBeds({ id: 'bed-' + (100 + index), index })
+                updateSelectedBeds({
+                  id: bed.bedId,
+                  index: bed.bedNumber,
+                  patientId: bed.bedStatus === 1 ? bed.patient.id : null,
+                })
               "
             />
           </div>
           <div class="bedoperate">
             <button class="xuanze" @click="toggleCheckboxes">床位选择</button>
-            <button class="shifang">床位释放</button>
+            <button
+              class="shifang"
+              @click="showPreBeds"
+              :style="{ display: releaseButtonVisible ? 'flex' : 'none' }"
+            >
+              切换到床位释放
+            </button>
+            <!-- 床位分配按钮，默认隐藏，点击床位释放后显示 -->
+            <button
+              class="fenpei"
+              @click="showBeds"
+              :style="{ display: assignButtonVisible ? 'flex' : 'none' }"
+            >
+              切换到床位分配
+            </button>
           </div>
         </div>
         <div class="xia">
@@ -109,7 +136,14 @@
               /></span>
             </div>
           </div>
-          <div class="selectoperate"></div>
+          <div class="selectoperate">
+            <button @click="preassignRequest" v-if="!isReleasing">
+              执行预分配请求
+            </button>
+            <button @click="dischargebedRequest" v-if="isReleasing">
+              执行释放请求
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -119,6 +153,9 @@
 <script>
 import PatientList from "./PatientList.vue";
 import { getbedsRequest } from "@/api/bedAllocation/bedAllocation";
+import { getcampus } from "@/api/bedAllocation/bedAllocation";
+import { preassignRequest } from "@/api/bedAllocation/bedAllocation";
+import { dischargebedRequest } from "@/api/bedAllocation/bedAllocation";
 import BedCard from "./BedCard.vue";
 import image1 from "@/assets/病房患者.png";
 import image2 from "@/assets/取消.png";
@@ -140,19 +177,28 @@ export default {
   },
   mounted() {
     this.getBedRequest();
+    this.getcampus();
   },
   data() {
     return {
       /*       这个数组用于存放分配患者
        */
+      isReleasing: false, // 判断是否正在执行释放请求
+      currentBeds: [], // 当前显示的床位数组
+      releaseButtonVisible: true, // 控制床位释放按钮显示与否
+      assignButtonVisible: false, // 控制床位分配按钮显示与否
+      campus: [],
+      selectedCampus: "", // 存储选中的院区id
+      selectedOffice: "", // 存储选中的科室id
+      selectedWard: "", // 存储选中的病房ID
+      filteredWards: [], // 存储当前选中科室的病房数据
+      filteredOffices: [], // 存储当前院区对应的科室
       changeTime: 0, // 记录更改次数
       cancelID: null, // 用于保存要传递给子组件的 ID
       rowdata: Array(10).fill(null), // 初始化为包含 10 个 null 的数组
       image1,
       image2,
       image3,
-      selectedOption1: "",
-      selectedOption2: "",
       selectedOption3: "",
       selectedOption4: "",
       selectedOption5: "",
@@ -166,9 +212,129 @@ export default {
       checkboxVisible: false,
       selectedBeds: [],
       beds: [],
+      prebeds: [],
     };
   },
   methods: {
+    dischargebedRequest() {
+      const firstBed = this.selectedBeds[0]; // 获取第一个床位
+      const params = {
+        id: firstBed.patientId, // rowData 中的 id
+        name: "tang", // rowData 中的 name
+      };
+      console.log("发送请求，参数为:", params);
+      try {
+        let response = dischargebedRequest(params);
+        console.log(response);
+        this.getBedRequest();
+      } catch (err) {
+        // 捕获并处理错误
+        this.error = `获取床位信息失败：${err.message}`;
+        console.error(err);
+      } finally {
+        // 无论成功还是失败，加载状态都要设置为 false
+        this.loading = false;
+      }
+    },
+
+    showBeds() {
+      this.currentBeds = this.beds;
+      this.selectedBeds = [];
+      this.releaseButtonVisible = true;
+      this.assignButtonVisible = false;
+      this.isReleasing = false; // 设置为预分配状态
+    },
+    showPreBeds() {
+      this.currentBeds = this.prebeds;
+      this.selectedBeds = [];
+
+      this.releaseButtonVisible = false; // 隐藏床位释放按钮
+      this.assignButtonVisible = true; // 显示床位分配按钮
+      this.isReleasing = true; // 设置为释放请求状态
+    },
+    //分配
+    preassignRequest() {
+      // 1. 获取 selectedBeds 中的第一个床位对象
+      const firstBed = this.selectedBeds[0]; // 获取第一个床位
+      console.log("床id", firstBed.id);
+      if (!firstBed) {
+        console.log("没有选中的床位");
+        return;
+      }
+
+      // 2. 获取 rowData 中的 id 和 name
+      const rowId = this.selectedBeds[0].rowData.id; // 假设 rowData.id 是 'row-123'
+      const rowName = this.selectedBeds[0].rowData.name; // 假设 rowData.name 是 'kuli'
+
+      console.log(rowId, rowName);
+      // 3. 构建 params 对象
+      const params = {
+        bedId: firstBed.id, // 从 firstBed 中提取 bedId
+        id: rowId, // rowData 中的 id
+        name: rowName, // rowData 中的 name
+      };
+
+      // 4. 调用 API 或其他操作
+      console.log("发送请求，参数为:", params);
+      try {
+        let response = preassignRequest(params);
+        console.log(response);
+        this.getBedRequest();
+      } catch (err) {
+        // 捕获并处理错误
+        this.error = `获取床位信息失败：${err.message}`;
+        console.error(err);
+      } finally {
+        // 无论成功还是失败，加载状态都要设置为 false
+        this.loading = false;
+      }
+      // 这里可以将 params 传递到 API 请求或其他逻辑中
+      // 示例：this.sendRequest(params);
+    },
+
+    //院区导航
+    updateWards() {
+      const selectedOfficeData = this.filteredOffices.find(
+        (offices) => offices.officeId === this.selectedOffice
+      );
+      console.log(this.selectedOffice);
+      if (selectedOfficeData) {
+        this.filteredWards = selectedOfficeData.wards || []; // 获取对应科室的病房
+      } else {
+        this.filteredWards = [];
+      }
+      this.selectedWard = ""; // 清空选中的病房
+    },
+    updateOffices() {
+      const selectedCampusData = this.campus.find(
+        (campus) => campus.campusId === this.selectedCampus
+      );
+      if (selectedCampusData) {
+        this.filteredOffices = selectedCampusData.offices || []; // 获取对应院区的科室数据
+      } else {
+        this.filteredOffices = []; // 如果没有选中院区，清空科室列表
+      }
+      // 清空科室选择和病房选择
+      this.selectedOffice = ""; // 清空选中的科室
+      this.selectedWard = ""; // 清空选中的病房
+      this.filteredWards = []; // 清空病房选项
+    },
+    async getcampus() {
+      const params = {};
+      try {
+        let response = await getcampus(params);
+        console.log(response);
+        this.campus = response.data;
+      } catch (err) {
+        // 捕获并处理错误
+        this.error = `获取床位信息失败：${err.message}`;
+        console.error(err);
+      } finally {
+        // 无论成功还是失败，加载状态都要设置为 false
+        this.loading = false;
+      }
+    },
+
     //床位获取
     async getBedRequest() {
       this.loading = true; // 开始加载
@@ -186,11 +352,25 @@ export default {
 
       try {
         let response = await getbedsRequest(params);
-        let { data } = response.data;
-
         // 将获取到的数据存储到 beds 中
         this.beds = response.data;
-        console.log(this.beds);
+        console.log("床位", this.beds);
+        // 清空现有的 beds 和 prebeds 数组
+        this.beds = [];
+        this.prebeds = [];
+        // 遍历返回的数据，根据 bedStatus 的值分配到不同的数组
+        response.data.forEach((bed) => {
+          if (bed.bedStatus === 0) {
+            this.beds.push(bed); // 状态为 0 的床位加入 beds 数组
+          } else if (bed.bedStatus === 1) {
+            this.prebeds.push(bed); // 状态为 1 的床位加入 prebeds 数组
+          }
+        });
+
+        // 输出分类后的床位数据
+        console.log("已分配床位", this.beds);
+        console.log("预定床位", this.prebeds);
+        this.showBeds();
       } catch (err) {
         // 捕获并处理错误
         this.error = `获取床位信息失败：${err.message}`;
@@ -253,7 +433,7 @@ export default {
       const idx = this.selectedBeds.findIndex(
         (selectedBed) => selectedBed.id === bed.id
       );
-
+      console.log("要释放的患者id", bed.patientId);
       if (idx > -1) {
         const removedBed = this.selectedBeds[idx];
         if (removedBed.rowData !== null) {
@@ -279,11 +459,22 @@ export default {
         this.selectedBeds.splice(idx, 1);
       } else {
         // 如果没有选中，添加到数组，并将 rowData 默认为 null
-        this.selectedBeds.push({
-          id: bed.id,
-          index: this.selectedBeds.length, // 或者其他合适的索引逻辑
-          rowData: null, // 默认为 null
-        });
+        if (bed.patientId) {
+          // 如果 patient.id 存在，推送包含 patientId 的对象
+          this.selectedBeds.push({
+            id: bed.id,
+            index: this.selectedBeds.length, // 或者其他合适的索引逻辑
+            rowData: null, // 默认为 null
+            patientId: bed.patientId, // 加入 patient.id
+          });
+        } else {
+          // 如果 patient.id 不存在，只推送基本信息
+          this.selectedBeds.push({
+            id: bed.id,
+            index: this.selectedBeds.length, // 或者其他合适的索引逻辑
+            rowData: null, // 默认为 null
+          });
+        }
       }
     },
 
@@ -347,7 +538,7 @@ export default {
 }
 
 .left-section {
-  width: 20%;
+  width: 33%;
   height: 100%;
   margin-right: 10px;
   font-weight: 800;
@@ -384,7 +575,7 @@ export default {
 .left-section h3 {
   margin: 0; /* 去掉默认边距 */
   text-align: center; /* 水平居中 */
-  font-size: calc(100vw * 30 / 1920); /* 设置字体大小 */
+  font-size: calc(100vw * 50 / 1920); /* 设置字体大小 */
   font-weight: 800; /* 设置字体加粗 */
   color: #333; /* 设置字体颜色（可以根据需要修改） */
 }
@@ -415,6 +606,7 @@ export default {
 select {
   margin: 5px 0;
   width: 20%;
+  font-size: calc(100vw * 15 / 1920); /* 设置字体大小 */
 }
 .operate-area {
   width: 60%;
@@ -485,6 +677,21 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: calc(100vw * 15 / 1920); /* 设置字体大小 */
+}
+.fenpei {
+  width: 80%;
+  height: 40%;
+  background-color: hwb(231 24% 8%);
+  border: 1px solid hwb(231 24% 8%);
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: calc(100vw * 16 / 1920); /* 设置字体大小 */
 }
 .xia {
   width: 100%;

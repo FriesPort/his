@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.example.dto.assignbed.patientChangeBedDTO;
 import com.example.dto.assignbed.patientInformationDTO;
+import com.example.dto.assignbed.patientPreassignbedDTO;
 import com.example.pojo.patientInformation;
 import com.example.vo.assginbed.Result;
 import com.example.vo.assginbed.getOnBed.getOnBedVo;
@@ -22,7 +23,7 @@ public interface AssignBedService extends IService<patientInformation> {
     Result<String> discharge(patientInformationDTO patientInformationDTO);
 
     //预分配床位
-    Result<String> preassign(patientInformationDTO patientInformationDTO);
+    Result<String> preassign(patientPreassignbedDTO patientPreassignbedDTO);
 
     //传入空床位
     List<getOutBedVo> getOutBed();

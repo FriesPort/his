@@ -50,6 +50,7 @@ public class Patientrecode implements Serializable {
     @TableField("nurse_id")
     private String nurseId;  // 护士 id (外键)
 
-    private String name;
+    @TableField("name")
+    private String name; //患者姓名
 }
 

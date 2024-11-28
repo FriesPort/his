@@ -140,7 +140,6 @@
 import image1 from "@/assets/blockWhiteLeft.png"; // 根据实际路径调整
 import image2 from "@/assets/blockWhiteRight.png"; // 根据实际路径调整
 import image3 from "@/assets/患者查询.png";
-import { getbedsRequest } from "@/api/bedAllocation/bedAllocation";
 import { getpatientsRequest } from "@/api/bedAllocation/bedAllocation"; // 根据你的项目路径导入函数
 
 export default {
@@ -169,20 +168,19 @@ export default {
       const filtered = this.currentPatientData.filter((patient) =>
         patient.name.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
-
-      // 计算当前页的起始和结束索引
       const startIndex = (this.currentpage - 1) * this.limitnum;
       const endIndex = startIndex + this.limitnum;
-
+      const newnum = filtered.filter((patient) => patient && patient.id).length;
+      console.log("newnum", newnum);
+      const totalPages = Math.ceil(newnum / this.limitnum); // 向上取整，确保有足够页数展示
+      this.totalpage = totalPages;
       // 获取当前页的数据
       const currentPageData = filtered.slice(startIndex, endIndex);
-
       // 如果筛选结果小于 limitNum 行，使用空对象填充
       const paddingCount = this.limitnum - currentPageData.length;
       const paddedResult = currentPageData.concat(
         new Array(paddingCount).fill({})
       );
-
       return paddedResult;
     },
     selectedBeds() {
@@ -242,7 +240,7 @@ export default {
   },
   data() {
     return {
-      importdata:[],
+      importdata: [],
       currentpage: 1,
       totalpage: 1,
       limitnum: 10,
@@ -487,19 +485,20 @@ export default {
 
   methods: {
     // 跳转到上一页
-
+    //获取患者
     async getpatientsRequest() {
-      const params = {
-
-      };
+      const params = {};
       try {
         let newresponse = await getpatientsRequest(params);
         this.importdata = newresponse.data;
-
-        console.log(newresponse.data);
-        console.log(this.importdata)
+        this.importdata = this.importdata.map((patient) => ({
+          ...patient, // 保留原有的属性
+          admitted: true, // 新增 admitted 属性
+          selected: false, // 新增 selected 属性
+        }));
+        console.log(this.importdata);
         //需要
-        this.ipatients = [...this.ipatients,...this.importdata];
+        this.ipatients = [...this.ipatients, ...this.importdata];
       } catch (err) {
         // 捕获并处理错误
         this.error = `获取床位信息失败：${err.message}`;
@@ -523,7 +522,7 @@ export default {
         patient.name.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
       const totalPages = Math.ceil(totalFiltered.length / this.limitnum);
-
+      console.log(totalPages);
       if (this.currentpage < totalPages) {
         this.currentpage++;
       }
@@ -578,33 +577,6 @@ export default {
     handleCheckboxChange(row) {
       // Emit the selected row data to the parent
       this.$emit("update:selectedRow", row);
-    },
-
-  
-
-    addPatients() {
-      const selectedPatients = this.ipatients.filter(
-        (patient) => patient.selected
-      );
-
-      // 遍历选中的患者
-      for (const patient of selectedPatients) {
-        // 查找第一个 name 为空的索引
-        const firstEmptyIndex = this.patientdata.findIndex(
-          (patient) => patient.name === ""
-        );
-
-        // 如果有空位，则添加患者
-        if (firstEmptyIndex !== -1) {
-          this.patientdata[firstEmptyIndex] = { ...patient };
-        } else {
-          // 如果没有空位，停止添加
-          console.warn("没有空位可以添加患者");
-          break;
-        }
-      }
-      // 移除已添加的患者
-      this.ipatients = this.ipatients.filter((patient) => !patient.selected);
     },
 
     addPatients() {
@@ -877,8 +849,8 @@ th {
 }
 .check {
   max-height: 34.75px;
-  height: calc(100vw * 30 / 1920);;
-  font-size: 12px;
+  height: calc(100vw * 30 / 1920);
+  font-size: calc(100vw * 12 / 1920);
   width: 40px;
   padding: 0; /* 去掉内边距 */
   border: 1px solid #a2a7b0;
