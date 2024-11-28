@@ -74,29 +74,46 @@ public class AssignBedImpl extends ServiceImpl<AssignBedMapper,patientInformatio
 
     //患者出院、患者未在规定时间内入院、患者拒绝入院
     @Override
-    public Result<String> discharge(patientInformationDTO patientInformationDTO) {
+    public Result<String> discharge(patientPreassignbedDTO patientPreassignbedDTO) {
         Result<String> result = new Result<>();
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        patientPreassignbedDTO.setLocalDateTime(formatter.format(now));
+        patientInformationDTO patientInformationDTO = new patientInformationDTO();
+        int length = patientPreassignbedDTO.getId().length;
+        int change = 0;
+        boolean update = false;
+        for(int i = 0;i<length;i++){
+            patientInformationDTO.setId(patientPreassignbedDTO.getId()[i]);
+            patientInformationDTO.setBedId(patientPreassignbedDTO.getBedId()[i]);
+            patientInformationDTO.setName(patientPreassignbedDTO.getName());
+            patientInformationDTO.setLocalDateTime(patientPreassignbedDTO.getLocalDateTime());
 
+            LambdaUpdateWrapper<bed> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+            lambdaUpdateWrapper.set(bed::getPatient_id,"0")
+                    .set(bed::getIs_null,"0")
+                    .set(bed::getUpdate_by,patientInformationDTO.getName())
+                    .set(bed::getUpdate_time,formatter.format(now))
+                    .eq(bed::getId,assignBedMapper.getBedId(patientInformationDTO.getId()));
+            update = iBedService.update(lambdaUpdateWrapper);
+
+            //更新patient_information表中的信息
+            LambdaUpdateWrapper<patientInformation> lambdaUpdateWrapper1 = new LambdaUpdateWrapper<>();
+            lambdaUpdateWrapper1.set(patientInformation::getIs_inhospital,0)
+                    .set(patientInformation::getBed_id,"0")
+                    .set(patientInformation::getUpdate_by,patientInformationDTO.getName())
+                    .set(patientInformation::getUpdate_time,formatter.format(now))
+                    .eq(patientInformation::getId,patientInformationDTO.getId());
+            change += assignBedMapper.update(lambdaUpdateWrapper1);
+        }
         //更新bed表中的信息
-        LambdaUpdateWrapper<bed> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-        lambdaUpdateWrapper.set(bed::getPatient_id,"0")
-                           .set(bed::getIs_null,"0")
-                           .set(bed::getUpdate_by,patientInformationDTO.getName())
-                           .set(bed::getUpdate_time,formatter.format(now))
-                                   .eq(bed::getId,assignBedMapper.getBedId(patientInformationDTO.getId()));
-        iBedService.update(lambdaUpdateWrapper);
-
-        //更新patient_information表中的信息
-        LambdaUpdateWrapper<patientInformation> lambdaUpdateWrapper1 = new LambdaUpdateWrapper<>();
-        lambdaUpdateWrapper1.set(patientInformation::getIs_inhospital,0)
-                            .set(patientInformation::getBed_id,"0")
-                            .set(patientInformation::getUpdate_by,patientInformationDTO.getName())
-                            .set(patientInformation::getUpdate_time,formatter.format(now))
-                            .eq(patientInformation::getId,patientInformationDTO.getId());
-        assignBedMapper.update(lambdaUpdateWrapper1);
-        result.setStatus(true);
+        if(update && change == length){
+            result.setStatus(true);
+            result.setMessage("床位释放成功/患者出院成功");
+        }else{
+            result.setStatus(false);
+            result.setMessage("床位释放失败，该床位已被占用");
+        }
         return result;
     }
 

@@ -65,8 +65,8 @@ public class AssignBedController {
     //bed表 patient_id置为0  is_null置为0 update_by  update_time
     //patientInformation表 is_inhospital置为0  bed_id置为0  update_by  update_time
     @PostMapping("/discharge")
-    public JsonVO<String> discharge(@RequestBody patientInformationDTO patientInformationDTO){
-        Result<String> result = assignBedService.discharge(patientInformationDTO);
+    public JsonVO<String> discharge(@RequestBody patientPreassignbedDTO patientPreassignbedDTO){
+        Result<String> result = assignBedService.discharge(patientPreassignbedDTO);
         if(result.isStatus())return JsonVO.success(result.getMessage());
         return JsonVO.fail(result.getMessage());
     }

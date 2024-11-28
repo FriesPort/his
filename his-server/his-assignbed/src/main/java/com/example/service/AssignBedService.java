@@ -20,7 +20,7 @@ public interface AssignBedService extends IService<patientInformation> {
     //患者入院
     Result<String> inHospital(patientInformationDTO patientInformationDTO);
     //患者出院
-    Result<String> discharge(patientInformationDTO patientInformationDTO);
+    Result<String> discharge(patientPreassignbedDTO patientPreassignbedDTO);
 
     //预分配床位
     Result<String> preassign(patientPreassignbedDTO patientPreassignbedDTO);
