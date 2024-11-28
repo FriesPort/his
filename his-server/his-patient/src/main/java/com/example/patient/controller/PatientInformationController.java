@@ -57,8 +57,6 @@ public class PatientInformationController {
         }
     }
 
-
-
 //    @PostMapping("/add")    //新增患者
 //    public JsonVO<String> add(@RequestHeader("userId") String userId, @RequestBody PatientAlterDTO patientAlterDTO){
 //        try {
@@ -81,8 +79,6 @@ public class PatientInformationController {
             return JsonVO.fail(e.getMessage());
         }
     }
-
-
 
     @PostMapping ("/edit")    //编辑患者
     public JsonVO<String> edit(@RequestHeader("userId") String userId,@RequestBody PatientEditDTO patientEditDTO){

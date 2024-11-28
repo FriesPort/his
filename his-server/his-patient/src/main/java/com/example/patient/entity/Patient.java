@@ -88,5 +88,8 @@ public class Patient implements Serializable {
 
     @TableField("update_by") // 映射数据库中的 update_by
     private String updateBy;  // 更新人
+
+    @TableField("doctor")
+    private String doctor;
  }
 

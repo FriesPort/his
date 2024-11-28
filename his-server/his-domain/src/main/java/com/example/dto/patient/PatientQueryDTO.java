@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @AllArgsConstructor
 public class PatientQueryDTO {
     private String campusId;
+    private String officeId;
     private String wardId;
+    private String hospital;
     private String name;
     private String gender;
     private String admissionType;
