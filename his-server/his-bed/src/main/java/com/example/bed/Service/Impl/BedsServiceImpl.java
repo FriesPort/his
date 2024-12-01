@@ -225,12 +225,24 @@ public class BedsServiceImpl extends ServiceImpl<BedsMapper,Bed> implements Beds
                 BedVo bedVo = new BedVo();
                 //将bed中的数据复制到bedVo中
                 bedVo.setBedId(bed.getBedId());
-                bedVo.setBedNumber(bed.getNumber());
+                bedVo.setNumber(bed.getNumber());
                 bedVo.setBedType(bed.getBedType());
                 bedVo.setBedStatus(bed.getBedStatus());
                 bedVo.setRoomId(bed.getRoomId());
-                //从RoomId中查询此病床的病房数据
+                //处理好roomid中的foreignId，将数据放入bedVo中
                 Room room1 = roomsMapper.selectById(bed.getRoomId());
+                String[] foreignId = room1.getForeignId().split("-");
+                //根据切分好的id查询各自类的name
+                Campus campus = campusMapper.selectById(foreignId[2]);
+                Office office = officeMapper.selectById(foreignId[1]);
+                Ward ward = wardMapper.selectById(foreignId[0]);
+                Floor floor = floorMapper.selectById(foreignId[3]);
+                bedVo.setCampusName(campus.getCampusName());
+                bedVo.setOfficeName(office.getOfficeName());
+                bedVo.setWardName(ward.getWardName());
+                bedVo.setFloor(floor.getFloorName());
+                //查询room的相关信息
+                //从RoomId中查询此病床的病房数据
                 bedVo.setRoomType(room1.getType());
                 bedVo.setRoomGender(room1.getGender());
                 bedVo.setRoomNumber(room.getNumber());
