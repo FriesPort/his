@@ -56,21 +56,32 @@ public class AssignBedImpl extends ServiceImpl<AssignBedMapper,patientInformatio
 
     //患者入院
     @Override
-    public Result<String> inHospital(patientInformationDTO patientInformationDTO) {
+    public Result<String> inHospital(patientPreassignbedDTO patientPreassignbedDTO) {
         Result<String> result = new Result<>();
-        LambdaUpdateWrapper<patientInformation> patientInformationLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        patientInformationLambdaUpdateWrapper
-                .eq(patientInformation::getId,patientInformationDTO.getId())
-                .set(patientInformation::getIs_inhospital,1)
-                .set(patientInformation::getUpdate_by,patientInformationDTO.getName())
-                .set(patientInformation::getUpdate_time,formatter.format(now));
-        assignBedMapper.update(patientInformationLambdaUpdateWrapper);
-        result.setStatus(true);
+        patientPreassignbedDTO.setLocalDateTime(formatter.format(now));
+        patientInformationDTO patientInformationDTO = new patientInformationDTO();
+        patientInformationDTO.setName(patientPreassignbedDTO.getName());
+        patientInformationDTO.setLocalDateTime(patientPreassignbedDTO.getLocalDateTime());
+        int length = patientPreassignbedDTO.getId().length;
+        int update = 0;
+        for(int i = 0;i<length;i++){
+            patientInformationDTO.setId(patientPreassignbedDTO.getId()[i]);
+
+            update += assignBedMapper.inHospital(patientInformationDTO);
+        }
+        if(update == patientPreassignbedDTO.getId().length){
+            result.setStatus(true);
+            result.setMessage("患者入院成功");
+        }else {
+            result.setStatus(false);
+            result.setMessage("患者入院失败");
+        }
         return result;
     }
+
 
     //患者出院、患者未在规定时间内入院、患者拒绝入院
     @Override

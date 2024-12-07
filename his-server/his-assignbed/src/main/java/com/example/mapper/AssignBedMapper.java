@@ -11,6 +11,7 @@ import com.example.vo.assginbed.getOnBed.getOnBedVo;
 import com.example.vo.assginbed.getOutBed.getOutBedVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -28,6 +29,10 @@ public interface AssignBedMapper extends BaseMapper<patientInformation> {
 
     //预分配床位
     public int preAssignBed(patientInformationDTO patientInformationDTO);
+
+    //患者批量入院
+    @Update("update patient_information set is_inhospital = 1,update_by = #{name},update_time = #{localDateTime} where id = #{id}")
+    public int inHospital(patientInformationDTO patientInformationDTO);
 
     //更改床位——更改床位表
     public int changeBed(patientChangeBedDTO patientChangeBedDTO);

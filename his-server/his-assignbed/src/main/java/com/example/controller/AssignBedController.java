@@ -44,13 +44,13 @@ public class AssignBedController {
     /**
      * 患者入院
      *
-     * @param patientInformationDTO the patient information dto
+     * @param patientPreassignbedDTO the patient preassignbed dto
      * @return the json vo
      */
 //患者入院
     @PostMapping("/inHospital")
-    public JsonVO<String> inHospital(@RequestBody patientInformationDTO patientInformationDTO){
-        Result<String> result = assignBedService.inHospital(patientInformationDTO);
+    public JsonVO<String> inHospital(@RequestBody patientPreassignbedDTO patientPreassignbedDTO){
+        Result<String> result = assignBedService.inHospital(patientPreassignbedDTO);
         if(result.isStatus())return JsonVO.success(result.getMessage());
         return JsonVO.fail(result.getMessage());
     }
@@ -58,7 +58,7 @@ public class AssignBedController {
     /**
      * 患者出院
      *
-     * @param patientInformationDTO the patient information dto
+     * @param patientPreassignbedDTO the patient preassignbed dto
      * @return the json vo
      */
 //患者出院
